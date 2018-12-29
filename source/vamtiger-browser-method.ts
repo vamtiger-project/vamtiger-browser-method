@@ -3,14 +3,14 @@ import loadScript from './load-script';
 import { ErrorMessage } from './types';
 
 const { windowPropertyNotSet } = ErrorMessage;
+const VamtigerBrowserMethod = {
+    loadScript
+};
 
 loadTsLib;
 
 try {
-    window.VamtigerBrowserMethod = {
-        loadScript
-    };
+    window.VamtigerBrowserMethod = VamtigerBrowserMethod;
 } catch(error) {
-    console.warn(error);
-    console.warn(`${windowPropertyNotSet}: VamtigerBrowserMethod`);
+    global.VamtigerBrowserMethod = VamtigerBrowserMethod;
 }

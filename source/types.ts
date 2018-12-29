@@ -31,4 +31,10 @@ declare global {
             loadScript: (params: ILoadScript['params']) => Promise<HTMLScriptElement>
         };
     }
+
+    namespace NodeJS {
+        interface  Global {
+            VamtigerBrowserMethod: Window['VamtigerBrowserMethod']
+        }
+    }
 }
