@@ -1,0 +1,51 @@
+{
+    "name": "vamtiger-browser-method",
+    "version": "0.0.0",
+    "description": "Typescript browser methods",
+    "main": "build/vamtiger-browser-method",
+    "scripts": {
+        "test": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source",
+        "mocha": "mocha build/test/node",
+        "build": "tsc",
+        "commit": "npm run bundle && vamtiger-node-typescript-commit --push --publish --buildScript bundle",
+        "clean": "rm -rf build/*",
+        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.(js(\\.map)?|d\\.ts)\"",
+        "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify",
+        "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
+        "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
+        "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
+        "serve": "npm run test && cd build && python -m SimpleHTTPServer",
+        "watch": "npm run bundle -- --watch"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
+    },
+    "keywords": [
+        "vamtiger",
+        "typescript",
+        "browser",
+        "method"
+    ],
+    "author": "Vamtiger Immortalles",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vamtiger-project/vamtiger-typescript-browser-method/issues"
+    },
+    "homepage": "https://github.com/vamtiger-project/vamtiger-typescript-browser-method#readme",
+    "types": "build/vamtiger-browser-method.d.ts",
+    "devDependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/mocha": "^5.2.5",
+        "@types/node": "^10.12.18",
+        "chai": "^4.2.0",
+        "mocha": "^5.2.0",
+        "typescript": "^3.2.2",
+        "vamtiger-bundle-typescript": "0.0.27",
+        "vamtiger-copy-file": "0.0.9",
+        "vamtiger-create-file": "0.0.10",
+        "vamtiger-get-directory-content": "0.0.35",
+        "vamtiger-node-typescript-commit": "0.0.65",
+        "vamtiger-remove": "0.0.5"
+    }
+}
