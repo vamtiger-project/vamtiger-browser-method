@@ -1,13 +1,13 @@
 {
     "name": "vamtiger-browser-method",
-    "version": "0.0.4",
+    "version": "0.1.0",
     "description": "Typescript browser methods",
     "main": "build/vamtiger-browser-method",
     "scripts": {
         "test": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source",
         "mocha": "mocha build/test/node",
         "build": "tsc",
-        "commit": "npm run bundle && vamtiger-node-typescript-commit --push --publish --buildScript bundle",
+        "commit": "npm test && vamtiger-node-typescript-commit --push --publish --publishSource",
         "clean": "rm -rf build/*",
         "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.(js(\\.map)?|d\\.ts)\"",
         "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify",

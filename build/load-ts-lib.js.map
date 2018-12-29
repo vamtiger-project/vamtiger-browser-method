@@ -1,0 +1,1 @@
+{"version":3,"file":"load-ts-lib.js","sourceRoot":"","sources":["../source/load-ts-lib.ts"],"names":[],"mappings":";;AAAA,mDAAqD;AAGrD,IAAM,SAAS,GAAG,MAAM,CAAC,IAAI,CAAC,KAAK,CAAe,CAAC;AAEnD,SAAS,CAAC,OAAO,CAAC,UAAA,GAAG;IACjB,IAAI,CAAC,MAAM,CAAC,GAAG,CAAC,EAAE;QACd,MAAM,CAAC,GAAG,CAAC,GAAG,KAAK,CAAC,GAAG,CAAC,CAAC;KAC5B;AACL,CAAC,CAAC,CAAC"}
