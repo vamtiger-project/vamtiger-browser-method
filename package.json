@@ -16,7 +16,8 @@
         "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
         "serve": "npm run test && cd build && python -m SimpleHTTPServer",
         "watch": "npm run bundle -- --watch",
-        "clean-install": "rm -rf package-lock.json node_modules && npm i"
+        "clean-install": "rm -rf package-lock.json node_modules && npm i",
+        "postinstall": "vamtiger-postinstall --distTag source"
     },
     "repository": {
         "type": "git",
@@ -50,6 +51,7 @@
         "vamtiger-remove": "0.0.5"
     },
     "dependencies": {
-        "tslib": "^1.9.3"
+        "tslib": "^1.9.3",
+        "vamtiger-postinstall": "latest"
     }
 }
