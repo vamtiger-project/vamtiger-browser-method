@@ -47,5 +47,8 @@
         "vamtiger-get-directory-content": "0.0.35",
         "vamtiger-node-typescript-commit": "0.0.65",
         "vamtiger-remove": "0.0.5"
+    },
+    "dependencies": {
+        "tslib": "^1.9.3"
     }
 }
