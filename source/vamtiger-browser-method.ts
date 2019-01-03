@@ -6,6 +6,7 @@ const { windowPropertyNotSet } = ErrorMessage;
 const VamtigerBrowserMethod = {
     loadScript
 };
+import { LocalScriptParams } from './types'
 
 loadTsLib;
 

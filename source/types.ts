@@ -9,11 +9,41 @@ export enum StringConstant {
     slash = '/'
 }
 
+export enum LinkRel {
+    stylesheet = 'stylesheet'
+}
+
+export enum LoadScriptElement {
+    script = 'script',
+    link = 'link',
+    style = 'style'
+}
+
+export interface ILoadRemoteScriptParams {
+    src: string;
+}
+
+export interface ILoadRemoteStylesheetScriptParams {
+    href: string;
+}
+
+export interface ILoadLocalScriptParams {
+    name: string;
+}
+
+export interface ILoadScriptParams {
+    js: string;
+}
+
+export interface ILoadStylesheetScriptParams {
+    css: string;
+}
+
 export interface ILoadScript {
-    params: {
-        src: string;
-    },
-    resolve: (script: HTMLScriptElement) => void;
+    params: LocalScriptParams
+        | LocalStylesheetScriptParams
+        | ILoadRemoteScriptParams
+        | ILoadRemoteStylesheetScriptParams;
     reject: (error: Error) => void
 }
 
@@ -25,10 +55,21 @@ export type TsLib = {
     [K in TsLibKey]: TsLibType[K]
 }
 
+export type LocalScriptParams = ILoadLocalScriptParams & ILoadScriptParams;
+
+export type LocalStylesheetScriptParams = ILoadLocalScriptParams & ILoadStylesheetScriptParams;
+
+export type LoadedScript<P extends ILoadScript['params']> = 
+    P extends ILoadScriptParams ? HTMLScriptElement :
+    P extends ILoadStylesheetScriptParams ? HTMLStyleElement :
+    P extends ILoadRemoteScriptParams ? HTMLScriptElement :
+    P extends ILoadRemoteStylesheetScriptParams ? HTMLLinkElement :
+    never;
+
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: {
-            loadScript: (params: ILoadScript['params']) => Promise<HTMLScriptElement>
+            loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>
         };
     }
 

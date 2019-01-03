@@ -20,6 +20,10 @@ const emptyScript = resolvePath(
     __dirname,
     'empty-script.js'
 );
+const emptyStylesheet = resolvePath(
+    __dirname,
+    'empty-stylesheet.css'
+);
 
 describe('Generate', function () {
     before(async function () {
@@ -28,8 +32,8 @@ describe('Generate', function () {
                 source: testHtmlSource,
                 destination: testHtmlDestination
             }),
-
-            createFile(emptyScript, `console.log('Empty Script');`)
+            createFile(emptyScript, `console.log('Empty Script');`),
+            createFile(emptyStylesheet, '')
         ]);
     });
 
