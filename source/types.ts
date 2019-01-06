@@ -1,5 +1,13 @@
 import * as tslib from '../node_modules/tslib/tslib';
 
+export enum ScriptType {
+    jsonld = 'application/ld+json'
+}
+
+export enum ScriptAttribute {
+    type = 'type'
+}
+
 export enum ErrorMessage {
     failedToLoadScript = 'Failed to load script',
     windowPropertyNotSet = 'Window property not set'
@@ -33,6 +41,7 @@ export interface ILoadLocalScriptParams {
 
 export interface ILoadScriptParams {
     js: string;
+    jsonld?: boolean;
 }
 
 export interface ILoadStylesheetScriptParams {
