@@ -27,6 +27,10 @@ export enum LoadScriptElement {
     style = 'style'
 }
 
+export enum Selector {
+    lastStylesheet = 'style:last-of-type'
+}
+
 export interface ILoadRemoteScriptParams {
     src: string;
 }
@@ -54,6 +58,11 @@ export interface ILoadScript {
         | ILoadRemoteScriptParams
         | ILoadRemoteStylesheetScriptParams;
     reject: (error: Error) => void
+}
+
+export interface ILoadShadowStylesheet {
+    css: string;
+    element: HTMLElement;
 }
 
 export type TsLibType = typeof tslib;
