@@ -1,5 +1,5 @@
-import { 
-    ILoadScript, 
+import {
+    ILoadScript,
     ErrorMessage,
     LocalScriptParams,
     LocalStylesheetScriptParams,
@@ -28,13 +28,13 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
         || href && link;
     const selector = src && `script[src="${src}"]`
         || href && `link[href="${href}"]`
-        || js && scriptName && `script[data-name="${scriptName}"`
-        || css && stylesheetName && `style[data-name="${stylesheetName}"`;
+        || js && scriptName && `script[data-name="${scriptName}"]`
+        || css && stylesheetName && `style[data-name="${stylesheetName}"]`;
     const existingScript = (head.querySelector(selector) || body.querySelector(selector)) as LoadedScript<P>;
-    const script = selector 
+    const script = selector
         && element
         && document.createElement(element) as LoadedScript<P>;
-        
+
     if (script instanceof HTMLScriptElement) {
         if (src) {
             script.src = src;
@@ -81,7 +81,7 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
         }
 
         console.error(event);
-        
+
         reject(new Error(`${failedToLoadScript}`));
     }
 });
