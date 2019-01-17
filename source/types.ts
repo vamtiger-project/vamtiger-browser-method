@@ -31,7 +31,8 @@ export enum LoadScriptElement {
 }
 
 export enum Selector {
-    lastStylesheet = 'style:last-of-type'
+    lastStylesheet = 'style:last-of-type',
+    webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]'
 }
 
 export interface ILoadRemoteScriptParams {
@@ -74,6 +75,7 @@ export interface IDefineCustomElement {
         new (): HTMLElement
         prototype: HTMLElement;
     };
+    ignore?: boolean;
 }
 
 export type TsLibType = typeof tslib;
@@ -100,9 +102,6 @@ declare global {
         VamtigerBrowserMethod: {
             loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>;
             defineCustomElement: (params: IDefineCustomElement) => void;
-        };
-        WebComponents: {
-            waitFor: (main: Function) => void;
         }
     }
 
