@@ -7,7 +7,7 @@ export default function defineCustomElement({ name, constructor }: IDefineCustom
     const define = customElements && customElements.define
     const existingElement = define && customElements.get && customElements.get(name);
 
-    if (define) {
+    if (define && !existingElement) {
         customElements.define(name, constructor);
     } else if (WebComponents) {
         WebComponents.waitFor && WebComponents.waitFor(defineCustomElement);
