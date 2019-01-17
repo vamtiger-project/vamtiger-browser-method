@@ -4,9 +4,10 @@ const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
 
 export default function defineCustomElement({ name, constructor }: IDefineCustomElement) {
     const { customElements, WebComponents } = window;
-    const existingElement = customElements && customElements.define && customElements.get(name);
+    const define = customElements && customElements.define
+    const existingElement = define && customElements.get && customElements.get(name);
 
-    if (!existingElement) {
+    if (define) {
         customElements.define(name, constructor);
     } else if (WebComponents) {
         WebComponents.waitFor && WebComponents.waitFor(defineCustomElement);
