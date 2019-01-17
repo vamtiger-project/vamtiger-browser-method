@@ -102,9 +102,6 @@ declare global {
         VamtigerBrowserMethod: {
             loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>;
             defineCustomElement: (params: IDefineCustomElement) => void;
-        };
-        WebComponents: {
-            waitFor: (main: Function) => void;
         }
     }
 
