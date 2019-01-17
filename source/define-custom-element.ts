@@ -15,9 +15,9 @@ export default function defineCustomElement({ name, constructor, ignore }: IDefi
 
     if (define && !existingElement) {
         customElements.define(name, constructor);
-    } else if (!webComponentsReady && WebComponents) {
-        WebComponents.waitFor && WebComponents.waitFor(defineCustomElement);
-    } else if (webcomponentsjs) {
+    } else if (WebComponents && WebComponents.waitFor) {
+        WebComponents.waitFor(() => defineCustomElement({ name, constructor, ignore }));
+    } else if (!webComponentsReady && webcomponentsjs) {
         !ignore && params.push({ name, constructor });
     } else if (existingElement) {
         throw new Error(`${customElementAreadyDefined}: ${name}`);
