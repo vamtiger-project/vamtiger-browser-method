@@ -1,1 +1,1 @@
-export {};
+export * from './load-ts-lib';
