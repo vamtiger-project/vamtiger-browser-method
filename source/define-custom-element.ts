@@ -12,7 +12,7 @@ export default function defineCustomElement({ name, constructor, ignore }: IDefi
     } else if (existingElement) {
         throw new Error(`${customElementAreadyDefined}: ${name}`);
     } else if (!ignore) {
-        setTimeout(() => defineCustomElement({ name, constructor, ignore: true }), 4000);
+        defineCustomElement({ name, constructor, ignore: true });
     } else {
         throw new Error(`${unsupportedFeature}: Custom Elements - ${name}`);
     }
