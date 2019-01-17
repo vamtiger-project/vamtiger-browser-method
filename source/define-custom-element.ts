@@ -9,11 +9,15 @@ export default function defineCustomElement({ name, constructor }: IDefineCustom
 
     if (define && !existingElement) {
         customElements.define(name, constructor);
-    } else if (WebComponents) {
-        WebComponents.waitFor && WebComponents.waitFor(defineCustomElement);
-    } else if (existingElement) {
-        throw new Error(`${customElementAreadyDefined}: ${name}`);
     } else {
-        throw new Error(`${unsupportedFeature}: Custom Elements - ${name}`);
+        setTimeout(() => {
+            if (WebComponents) {
+                WebComponents.waitFor && WebComponents.waitFor(defineCustomElement);
+            } else if (existingElement) {
+                throw new Error(`${customElementAreadyDefined}: ${name}`);
+            } else {
+                throw new Error(`${unsupportedFeature}: Custom Elements - ${name}`);
+            }
+        }, 2000);
     }
 }
