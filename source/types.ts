@@ -78,6 +78,10 @@ export interface IDefineCustomElement {
     ignore?: boolean;
 }
 
+export interface IPause {
+    milliseconds: number;
+}
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
