@@ -3,7 +3,7 @@ import { IDefineCustomElement, ErrorMessage } from './types';
 const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
 
 export default function defineCustomElement({ name, constructor }: IDefineCustomElement) {
-    const { customElements, WebComponents } = window;
+    const { customElements } = window;
     const define = customElements && customElements.define
     const existingElement = define && customElements.get && customElements.get(name);
 
@@ -11,6 +11,7 @@ export default function defineCustomElement({ name, constructor }: IDefineCustom
         customElements.define(name, constructor);
     } else {
         setTimeout(() => {
+            const { WebComponents } = window;
             if (WebComponents) {
                 WebComponents.waitFor && WebComponents.waitFor(defineCustomElement);
             } else if (existingElement) {
