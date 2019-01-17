@@ -1,17 +1,13 @@
-import * as loadTsLib from './load-ts-lib';
+export * from './load-ts-lib';
 import loadScript from './load-script';
 import loadShadowStylesheet from './load-shadow-stylesheet';
-import { ErrorMessage } from './types';
+import defineCustomElement from './define-custom-element';
 
-const { windowPropertyNotSet } = ErrorMessage;
 const VamtigerBrowserMethod = {
     loadScript,
-    loadTsLib,
-    loadShadowStylesheet
+    loadShadowStylesheet,
+    defineCustomElement
 };
-import { LocalScriptParams } from './types'
-
-loadTsLib;
 
 try {
     window.VamtigerBrowserMethod = VamtigerBrowserMethod;

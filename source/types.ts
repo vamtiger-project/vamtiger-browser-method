@@ -1,4 +1,5 @@
 import * as tslib from '../node_modules/tslib/tslib';
+import defineCustomElement from './define-custom-element';
 
 export enum ScriptType {
     jsonld = 'application/ld+json'
@@ -10,7 +11,9 @@ export enum ScriptAttribute {
 
 export enum ErrorMessage {
     failedToLoadScript = 'Failed to load script',
-    windowPropertyNotSet = 'Window property not set'
+    windowPropertyNotSet = 'Window property not set',
+    unsupportedFeature = 'Unsupported feature',
+    customElementAreadyDefined = 'Custom element already defined'
 }
 
 export enum StringConstant {
@@ -65,6 +68,14 @@ export interface ILoadShadowStylesheet {
     element: HTMLElement;
 }
 
+export interface IDefineCustomElement {
+    name: string;
+    constructor: {
+        new (): HTMLElement
+        prototype: HTMLElement;
+    };
+}
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
@@ -77,7 +88,7 @@ export type LocalScriptParams = ILoadLocalScriptParams & ILoadScriptParams;
 
 export type LocalStylesheetScriptParams = ILoadLocalScriptParams & ILoadStylesheetScriptParams;
 
-export type LoadedScript<P extends ILoadScript['params']> = 
+export type LoadedScript<P extends ILoadScript['params']> =
     P extends ILoadScriptParams ? HTMLScriptElement :
     P extends ILoadStylesheetScriptParams ? HTMLStyleElement :
     P extends ILoadRemoteScriptParams ? HTMLScriptElement :
@@ -87,13 +98,17 @@ export type LoadedScript<P extends ILoadScript['params']> =
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: {
-            loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>
+            loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>;
+            defineCustomElement: (params: IDefineCustomElement) => void;
         };
+        WebComponents: {
+            waitFor: (main: Function) => void;
+        }
     }
 
     namespace NodeJS {
         interface  Global {
-            VamtigerBrowserMethod: Window['VamtigerBrowserMethod']
+            VamtigerBrowserMethod: Window['VamtigerBrowserMethod'];
         }
     }
 }
