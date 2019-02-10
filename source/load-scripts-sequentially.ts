@@ -1,9 +1,17 @@
-import { LoadScriptsSequentiallyParams, LoadedScriptsSequentially } from './types';
-import loadScript from './load-script';
+import { LoadScriptsSequentiallyParams, LoadedScriptsSequentially, LoadScriptParams, LoadedScript } from './types';
+import loadScripts from './load-scripts';
 
-export default async function <P extends LoadScriptsSequentiallyParams>(params: P) {
-    const scriptGroups = await Promise.all(params.map(async currentParams => await Promise.all(currentParams.map(loadScript))));
-    const scripts = scriptGroups.reduce((scripts = [], scriptGroup) => scripts.concat(scriptGroup)) as LoadedScriptsSequentially<P>;
+export default <P extends LoadScriptsSequentiallyParams>(params: P) => new Promise((resolve: (scripts: LoadedScriptsSequentially<P>) => void, reject) => {
+    let scripts = [] as any;
+    let load = Promise.resolve();
 
-    return scripts;
-}
+    params.forEach(scriptParams => {
+        load = load
+            .then(() => loadScripts(scriptParams))
+            .then(loadedScripts => loadedScripts.forEach(script =>scripts.push(script)))
+    });
+
+    load = load.then(() => resolve(scripts));
+
+    return load;
+});

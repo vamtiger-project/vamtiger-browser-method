@@ -94,9 +94,14 @@ export type LocalScriptParams = ILoadLocalScriptParams & ILoadScriptParams;
 
 export type LocalStylesheetScriptParams = ILoadLocalScriptParams & ILoadStylesheetScriptParams;
 
+export type LoadScriptParams = LocalScriptParams
+    | LocalStylesheetScriptParams
+    | ILoadRemoteScriptParams
+    | ILoadRemoteStylesheetScriptParams;
+
 export type LoadScriptsParams = ILoadScript['params'][];
 
-export type LoadScriptsSequentiallyParams = LoadScriptsParams[];
+export type LoadScriptsSequentiallyParams = LocalScriptParams[][];
 
 export type LoadedScript<P extends ILoadScript['params']> =
     P extends ILoadScriptParams ? HTMLScriptElement :
