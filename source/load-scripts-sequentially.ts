@@ -1,17 +1,17 @@
 import { LoadScriptsSequentiallyParams, LoadedScriptsSequentially, LoadScriptParams, LoadedScript } from './types';
-import loadScripts from './load-scripts';
+import loadScript from './load-script';
 
-export default <P extends LoadScriptsSequentiallyParams>(params: P) => new Promise((resolve: (scripts: LoadedScriptsSequentially<P>) => void, reject) => {
-    let scripts = [] as any;
+export default <P extends LoadScriptParams[][]>(params: P) => new Promise((resolve: (scripts: LoadedScriptsSequentially<P>) => void, reject) => {
+    let scripts = new Set();
     let load = Promise.resolve();
 
     params.forEach(scriptParams => {
         load = load
-            .then(() => loadScripts(scriptParams))
-            .then(loadedScripts => loadedScripts.forEach(script =>scripts.push(script)))
+            .then(() => Promise.all(scriptParams.map(loadScript)))
+            .then(loadedScripts => loadedScripts.forEach(script => scripts.add(script)))
     });
 
-    load = load.then(() => resolve(scripts));
+    load = load.then(() => resolve(Array.from(scripts) as LoadedScriptsSequentially<P>));
 
     return load;
 });
