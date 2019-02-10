@@ -1,4 +1,4 @@
-import { LoadScriptsSequentiallyParams, LoadedScriptsSequentially, LoadScriptParams, LoadedScript } from './types';
+import { LoadScriptsSequentiallyParams, LoadedScriptsSequentially, LoadScriptParams } from './types';
 import loadScript from './load-script';
 
 export default <P extends LoadScriptParams[][]>(params: P) => new Promise((resolve: (scripts: LoadedScriptsSequentially<P>) => void, reject) => {
@@ -7,7 +7,7 @@ export default <P extends LoadScriptParams[][]>(params: P) => new Promise((resol
 
     params.forEach(scriptParams => {
         load = load
-            .then(() => Promise.all(scriptParams.map(loadScript)))
+            .then(async () => await Promise.all(scriptParams.map(loadScript)))
             .then(loadedScripts => loadedScripts.forEach(script => scripts.add(script)))
     });
 
