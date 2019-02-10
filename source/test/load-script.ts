@@ -28,7 +28,7 @@ export default () => describe('loadScript', function () {
             emptyStylesheetHrefs.map(href => loadScript({ href }))
         );
     });
-    
+
     it('Append to Document Head', async function () {
         const script = head.querySelector(scriptSelector);
         const link = head.querySelector(linkSelector);

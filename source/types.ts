@@ -94,6 +94,10 @@ export type LocalScriptParams = ILoadLocalScriptParams & ILoadScriptParams;
 
 export type LocalStylesheetScriptParams = ILoadLocalScriptParams & ILoadStylesheetScriptParams;
 
+export type LoadScriptsParams = ILoadScript['params'][];
+
+export type LoadScriptsSequentiallyParams = LoadScriptsParams[];
+
 export type LoadedScript<P extends ILoadScript['params']> =
     P extends ILoadScriptParams ? HTMLScriptElement :
     P extends ILoadStylesheetScriptParams ? HTMLStyleElement :
@@ -101,11 +105,29 @@ export type LoadedScript<P extends ILoadScript['params']> =
     P extends ILoadRemoteStylesheetScriptParams ? HTMLLinkElement :
     never;
 
+export type LoadedScripts<P extends LoadScriptsParams> =
+    P extends ILoadScriptParams[] ? HTMLScriptElement[] :
+    P extends ILoadStylesheetScriptParams[] ? HTMLStyleElement[] :
+    P extends ILoadRemoteScriptParams[] ? HTMLScriptElement[] :
+    P extends ILoadRemoteStylesheetScriptParams[] ? HTMLLinkElement[] :
+    never;
+
+export type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> =
+    P extends ILoadScriptParams[][] ? HTMLScriptElement[] :
+    P extends ILoadStylesheetScriptParams[][] ? HTMLStyleElement[] :
+    P extends ILoadRemoteScriptParams[][] ? HTMLScriptElement[] :
+    P extends ILoadRemoteStylesheetScriptParams[][] ? HTMLLinkElement[] :
+    never;
+
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: {
             loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>;
+            loadScripts: <P extends LoadScriptsParams>(params: P) => Promise<LoadedScripts<P>>;
+            loadScriptsSequentially: <P extends LoadScriptsSequentiallyParams>(params: P) => Promise<LoadedScriptsSequentially<P>>;
+            loadShadowStylesheet: (params: ILoadShadowStylesheet) => void;
             defineCustomElement: (params: IDefineCustomElement) => void;
+            pause: (params: IPause) => Promise<{}>;
         }
     }
 
