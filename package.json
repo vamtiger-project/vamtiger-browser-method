@@ -1,6 +1,6 @@
 {
     "name": "vamtiger-browser-method",
-    "version": "0.29.0",
+    "version": "0.29.1",
     "description": "Typescript browser methods",
     "main": "build/vamtiger-browser-method",
     "scripts": {
