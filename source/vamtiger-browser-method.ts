@@ -5,6 +5,7 @@ import loadScriptsSequentially from './load-scripts-sequentially';
 import loadShadowStylesheet from './load-shadow-stylesheet';
 import defineCustomElement from './define-custom-element';
 import pause from './pause';
+import getElement from './get-element';
 
 const { VamtigerBrowserMethod } = window;
 const vamtigerBrowserMethod = {
@@ -13,7 +14,8 @@ const vamtigerBrowserMethod = {
     loadScriptsSequentially,
     loadShadowStylesheet,
     defineCustomElement,
-    pause
+    pause,
+    getElement
 };
 
 try {

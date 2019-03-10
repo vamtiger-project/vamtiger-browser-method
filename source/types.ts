@@ -13,11 +13,21 @@ export enum ErrorMessage {
     failedToLoadScript = 'Failed to load script',
     windowPropertyNotSet = 'Window property not set',
     unsupportedFeature = 'Unsupported feature',
-    customElementAreadyDefined = 'Custom element already defined'
+    customElementAreadyDefined = 'Custom element already defined',
+    noElementName = 'No Element Name',
+    noTemplateUrl = 'No Template URL',
+    noElementSelector = 'No Template Selector',
+    noTemplateForUrl = 'No Template for URL',
+    noTemplate = 'No Template',
+    noElementForSelector = 'No Element for Selector'
 }
 
 export enum StringConstant {
     slash = '/'
+}
+
+export enum TagName {
+    div = 'div'
 }
 
 export enum LinkRel {
@@ -82,6 +92,19 @@ export interface IPause {
     milliseconds: number;
 }
 
+export interface IGetElementBase {
+    name: string;
+}
+
+export interface IGetElementTemplate extends IGetElementBase {
+    template: string;
+}
+
+export interface IGetElementUrl extends IGetElementBase {
+    url: string;
+    selector:  string;
+}
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
@@ -124,6 +147,8 @@ export type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> =
     P extends ILoadRemoteStylesheetScriptParams[][] ? HTMLLinkElement[] :
     never;
 
+export type GetElementParams = IGetElementTemplate | IGetElementUrl;
+
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: {
@@ -132,6 +157,7 @@ declare global {
             loadScriptsSequentially: <P extends LoadScriptsSequentiallyParams>(params: P) => Promise<LoadedScriptsSequentially<P>>;
             loadShadowStylesheet: (params: ILoadShadowStylesheet) => void;
             defineCustomElement: (params: IDefineCustomElement) => void;
+            getElement: (params: GetElementParams) => Promise<HTMLElement>;
             pause: (params: IPause) => Promise<{}>;
         }
     }

@@ -16,6 +16,14 @@ const testHtmlDestination = resolvePath(
     __dirname,
     '../index.html'
 );
+const testTemplateSource = resolvePath(
+    __dirname,
+    '../../source/test/html/template.html'
+);
+const testTemplateDestination = resolvePath(
+    __dirname,
+    '../template.html'
+);
 const emptyScript = resolvePath(
     __dirname,
     'empty-script.js'
@@ -32,6 +40,10 @@ describe('Generate', function () {
                 source: testHtmlSource,
                 destination: testHtmlDestination
             }),
+            copyFile({
+                source: testTemplateSource,
+                destination: testTemplateDestination
+            }),
             createFile(emptyScript, `console.log('Empty Script');`),
             createFile(emptyStylesheet, '')
         ]);
@@ -46,10 +58,10 @@ describe('Generate', function () {
                 console.log();
             }
         }
-        
+
         const test = new Test();
         test.test();
-        
+
         expect(folderContent.has(basename(testHtmlDestination))).to.be.true;
     })
 });
