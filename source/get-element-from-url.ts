@@ -40,7 +40,7 @@ export default async function ({ name, url, selector }: IGetElementUrl) {
         throw new Error(noElementForSelector);
     }
 
-    element.dataset.name = name;
+    element.setAttribute('dataset-name', name);
 
     return element;
 }
