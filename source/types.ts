@@ -105,6 +105,10 @@ export interface IGetElementUrl extends IGetElementBase {
     selector:  string;
 }
 
+export interface IAnyObject {
+    [key: string]: any;
+}
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
@@ -160,6 +164,7 @@ declare global {
             getElement: (params: GetElementParams) => Promise<HTMLElement>;
             pause: (params: IPause) => Promise<{}>;
         }
+        EQCSS: IAnyObject;
     }
 
     namespace NodeJS {
