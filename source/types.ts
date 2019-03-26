@@ -49,6 +49,7 @@ export enum LoadScriptElement {
 
 export enum Selector {
     lastStylesheet = 'style:last-of-type',
+    lastMetaElement = 'meta:last-of-type',
     webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]'
 }
 

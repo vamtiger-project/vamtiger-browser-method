@@ -17,7 +17,6 @@ export default function({ css, stylesheetName: currentStylesheetName = nothing, 
         }
     });
     const stylesheetName = getCamelCase(currentStylesheetName);
-    console.log(currentStylesheetName, stylesheetName);
     const { dataset } = metaElement;
     const elementQueryCss = !dataset.hasOwnProperty(hostName) && (hostName && css.replace(showRootHost, hostName)) || css;
     const { EQCSS } = window;
@@ -30,5 +29,8 @@ export default function({ css, stylesheetName: currentStylesheetName = nothing, 
         } else if (hostName) {
             dataset[hostName] = nothing;
         }
+
+        console.log({ stylesheetName });
+        console.log({ hostName })
     }
 }

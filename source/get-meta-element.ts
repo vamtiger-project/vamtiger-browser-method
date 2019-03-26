@@ -1,7 +1,7 @@
 import {
     IGetMetaElement,
     StringConstant,
-    regex
+    Selector
 } from './types';
 
 const { nothing } = StringConstant;
@@ -9,6 +9,7 @@ const { nothing } = StringConstant;
 export default function ({ selector = nothing, properties = {}, dataset = {}, attributes = {}}: IGetMetaElement) {
     const { id } = properties;
     const { head } = document;
+    const lastMetaElement = head.querySelector<HTMLMetaElement>(Selector.lastMetaElement);
     const attributeKeys = Object.keys(attributes);
     const existingMetaElement = id && ((window as any)[id]
         || selector && head.querySelector(selector)) as HTMLMetaElement;
@@ -21,7 +22,14 @@ export default function ({ selector = nothing, properties = {}, dataset = {}, at
         Object.assign(newMetaElment, properties);
         Object.assign(newMetaElment.dataset, dataset);
 
-        head.appendChild(newMetaElment);
+        if (lastMetaElement && lastMetaElement.nextElementSibling) {
+            head.insertBefore(
+                newMetaElment,
+                lastMetaElement.nextElementSibling
+            );
+        } else {
+            head.appendChild(newMetaElment);
+        }
     }
 
     attributeKeys.forEach(key => !metaElement.hasAttribute(key) && metaElement.setAttribute(dataKey, attributes[key]));
