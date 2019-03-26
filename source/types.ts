@@ -9,6 +9,11 @@ export enum ScriptAttribute {
     type = 'type'
 }
 
+export enum DataAttribute {
+    vamtigerElementQuery = 'vamtigerLoadElementQueryCss',
+    elementQueryCssLoaded = 'elementQueryCssLoaded'
+}
+
 export enum ErrorMessage {
     failedToLoadScript = 'Failed to load script',
     windowPropertyNotSet = 'Window property not set',
@@ -23,7 +28,9 @@ export enum ErrorMessage {
 }
 
 export enum StringConstant {
-    slash = '/'
+    nothing = '',
+    slash = '/',
+    dash = '-'
 }
 
 export enum TagName {
@@ -43,6 +50,10 @@ export enum LoadScriptElement {
 export enum Selector {
     lastStylesheet = 'style:last-of-type',
     webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]'
+}
+
+export enum  MetaElementName {
+    loadElementQueryCss = 'vamtiger-load-element-query-css'
 }
 
 export interface ILoadRemoteScriptParams {
@@ -109,6 +120,23 @@ export interface IAnyObject {
     [key: string]: any;
 }
 
+export interface ILoadElementQueryCss {
+    css: string;
+    stylesheetName?: string;
+    hostName?: string;
+}
+
+export interface IGetMetaElement {
+    selector?: string;
+    properties?: {
+        id?: string;
+    };
+    attributes?: {
+        [key: string]: string;
+    };
+    dataset?: DOMStringMap;
+}
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
@@ -172,4 +200,11 @@ declare global {
             VamtigerBrowserMethod: Window['VamtigerBrowserMethod'];
         }
     }
+}
+
+export const regex = {
+    showRootHost: /:{1,2}host/gm,
+    dash: new RegExp(StringConstant.dash, 'g'),
+    space: /\s/g,
+    nonWord: /\W+/g
 }

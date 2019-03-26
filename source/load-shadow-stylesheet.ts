@@ -1,8 +1,14 @@
-import { ILoadShadowStylesheet, Selector } from './types';
+import {
+    ILoadShadowStylesheet,
+    Selector
+} from './types';
+import loadElementQueryCss from './load-element-query-css';
 
 export default function ({ css, element }: ILoadShadowStylesheet) {
-    const { EQCSS } = window;
-    const { shadowRoot } = element;
+    const {
+        shadowRoot,
+        localName: hostName
+    } = element;
     const lastStylesheet = shadowRoot && shadowRoot.querySelector(Selector.lastStylesheet);
     const stylesheet = shadowRoot && document.createElement('style');
 
@@ -14,7 +20,5 @@ export default function ({ css, element }: ILoadShadowStylesheet) {
         } else {
             shadowRoot.appendChild(stylesheet);
         }
-
-        EQCSS && EQCSS.register(EQCSS.parse(css));
     }
 }

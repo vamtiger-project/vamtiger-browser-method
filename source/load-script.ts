@@ -11,13 +11,13 @@ import {
     ScriptAttribute,
     ScriptType
 } from './types';
+import loadElementQueryCss from './load-element-query-css';
 
 const { failedToLoadScript } = ErrorMessage;
 const { stylesheet } = LinkRel;
 const { script: scriptElement, link, style } = LoadScriptElement;
 
 export default <P extends ILoadScript['params']>(params: P) => new Promise((resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
-    const { EQCSS } = window;
     const { head, body } = document;
     const { js, name: scriptName, jsonld } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
@@ -54,7 +54,10 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
         script.innerHTML = css;
         script.dataset.name = stylesheetName;
 
-        EQCSS && EQCSS.register(EQCSS.parse(css));
+        loadElementQueryCss({
+            css,
+            stylesheetName
+        });
     }
 
     if (existingScript) {
