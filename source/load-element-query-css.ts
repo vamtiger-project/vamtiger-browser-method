@@ -29,8 +29,5 @@ export default function({ css, stylesheetName: currentStylesheetName = nothing, 
         } else if (hostName) {
             dataset[hostName] = nothing;
         }
-
-        console.log({ stylesheetName });
-        console.log({ hostName })
     }
 }
