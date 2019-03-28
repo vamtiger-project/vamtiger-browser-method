@@ -63,12 +63,20 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
     if (existingScript) {
         resolve(existingScript);
     } else if (script) {
+        script.addEventListener('load', handleLoad);
+        script.addEventListener('error', handleLoadError);
+
         head.appendChild(script);
 
-        if (remoteScript) {
-            script.addEventListener('load', handleLoad);
-            script.addEventListener('error', handleLoadError);
-        } else {
+        if (!remoteScript) {
+            handleLoad();
+        }
+    }
+
+    function handleLoad() {
+        if (script) {
+            removeEventListeners();
+
             if (removeFromDom) {
                 head.removeChild(script);
             }
@@ -77,21 +85,18 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
         }
     }
 
-    function handleLoad(event: Event) {
-        if (script) {
-            script.removeEventListener('load', handleLoad);
-
-            resolve(script);
-        }
-    }
-
     function handleLoadError(event: Event) {
-        if (script) {
-            script.removeEventListener('error', handleLoadError);
-        }
+        removeEventListeners();
 
         console.error(event);
 
         reject(new Error(`${failedToLoadScript}`));
+    }
+
+    function removeEventListeners() {
+        if (script) {
+            script.removeEventListener('load', handleLoad);
+            script.removeEventListener('error', handleLoadError);
+        }
     }
 });
