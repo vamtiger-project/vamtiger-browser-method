@@ -19,7 +19,7 @@ const { script: scriptElement, link, style } = LoadScriptElement;
 
 export default <P extends ILoadScript['params']>(params: P) => new Promise((resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
     const { head, body } = document;
-    const { js, name: scriptName, jsonld } = params as LocalScriptParams;
+    const { js, name: scriptName, jsonld, removeFromDom } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
     const { css, name: stylesheetName } = params as LocalStylesheetScriptParams;
     const { href } = params as ILoadRemoteStylesheetScriptParams;
@@ -69,6 +69,10 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
             script.addEventListener('load', handleLoad);
             script.addEventListener('error', handleLoadError);
         } else {
+            if (removeFromDom) {
+                head.removeChild(script);
+            }
+
             resolve(script);
         }
     }

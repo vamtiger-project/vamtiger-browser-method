@@ -67,6 +67,7 @@ export interface ILoadRemoteStylesheetScriptParams {
 
 export interface ILoadLocalScriptParams {
     name: string;
+    removeFromDom?: boolean;
 }
 
 export interface ILoadScriptParams {
