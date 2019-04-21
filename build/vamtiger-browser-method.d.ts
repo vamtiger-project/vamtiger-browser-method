@@ -1,4 +1,4 @@
-import * as tslib from '../node_modules/tslib/tslib';
+import * as tslib from 'tslib/tslib';
 import loadScripts from './load-scripts';
 import loadShadowStylesheet from './load-shadow-stylesheet';
 import defineCustomElement from './define-custom-element';
