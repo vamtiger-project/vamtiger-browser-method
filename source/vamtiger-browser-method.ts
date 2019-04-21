@@ -1,4 +1,4 @@
-import * as tslib from '../node_modules/tslib/tslib';
+import * as tslib from 'tslib/tslib';
 import loadScript from './load-script';
 import loadScripts from './load-scripts';
 import loadScriptsSequentially from './load-scripts-sequentially';
