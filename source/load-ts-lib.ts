@@ -1,4 +1,4 @@
-import * as tslib from '../node_modules/tslib/tslib';
+import * as tslib from 'tslib/tslib';
 import { TsLibKey } from './types';
 
 const tsLibKeys = Object.keys(tslib) as TsLibKey[];
