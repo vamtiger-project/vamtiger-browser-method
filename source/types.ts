@@ -1,5 +1,4 @@
-import * as tslib from '../node_modules/tslib/tslib';
-import defineCustomElement from './define-custom-element';
+import * as tslib from 'tslib/tslib';
 
 export enum ScriptType {
     jsonld = 'application/ld+json'
