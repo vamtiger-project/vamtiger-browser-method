@@ -1,12 +1,15 @@
 import {
     regex,
     StringConstant
-} from './types';
+} from './vamtiger-browser-method';
 
-const { nothing } = StringConstant;
-const { nonWord } = regex;
+export default function (input: string) {
+    const { nothing } = StringConstant;
+    const { nonWord } = regex;
+    const camelCase = input
+        .split(nonWord)
+        .map((word, index) => !index && word.toLowerCase() || word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase())
+        .join(nothing);
 
-export default (input: string) => input
-    .split(nonWord)
-    .map((word, index) => !index && word.toLowerCase() || word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase())
-    .join(nothing);
+    return camelCase
+}

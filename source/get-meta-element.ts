@@ -2,11 +2,10 @@ import {
     IGetMetaElement,
     StringConstant,
     Selector
-} from './types';
+} from './vamtiger-browser-method';
 
-const { nothing } = StringConstant;
-
-export default function ({ selector = nothing, properties = {}, dataset = {}, attributes = {}}: IGetMetaElement) {
+export default function ({ selector = '', properties = {}, dataset = {}, attributes = {}}: IGetMetaElement) {
+    const { nothing } = StringConstant;
     const { id } = properties;
     const { head } = document;
     const lastMetaElement = head.querySelector<HTMLMetaElement>(Selector.lastMetaElement);

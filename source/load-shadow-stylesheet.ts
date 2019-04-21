@@ -1,7 +1,7 @@
 import {
     ILoadShadowStylesheet,
     Selector
-} from './types';
+} from './vamtiger-browser-method';
 import loadElementQueryCss from './load-element-query-css';
 
 export default function ({ css, element }: ILoadShadowStylesheet) {

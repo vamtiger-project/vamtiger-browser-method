@@ -1,4 +1,4 @@
-import { LoadScriptsParams, LoadedScripts } from './types';
+import { LoadScriptsParams, LoadedScripts } from './vamtiger-browser-method';
 import loadScript from './load-script';
 
 export default function <P extends LoadScriptsParams>(params: P) {

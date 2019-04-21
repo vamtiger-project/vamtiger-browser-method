@@ -1,8 +1,7 @@
-import { IDefineCustomElement, ErrorMessage } from './types';
-
-const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
+import { IDefineCustomElement, ErrorMessage } from './vamtiger-browser-method';
 
 export default function defineCustomElement({ name, constructor, ignore }: IDefineCustomElement) {
+    const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
     const { customElements } = window;
     const define = customElements && customElements.define;
     const existingElement = define && customElements.get && customElements.get(name);

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { StringConstant } from '../types';
+import { StringConstant } from '../vamtiger-browser-method';
 
 const { slash } = StringConstant;
 const emptyScriptSrc = [

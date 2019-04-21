@@ -1,8 +1,5 @@
 import { expect } from 'chai';
 
-const { VamtigerBrowserMethod } = window;
-const { getElement  } = VamtigerBrowserMethod;
-
 export default () => describe('getTemplate', function () {
     it('template', templateTest);
 
@@ -10,6 +7,8 @@ export default () => describe('getTemplate', function () {
 });
 
 async function templateTest() {
+    const { VamtigerBrowserMethod } = window;
+    const { getElement  } = VamtigerBrowserMethod;
     const element = await getElement({
         name: 'templateTest',
         template: `<div>/div>`
@@ -19,6 +18,8 @@ async function templateTest() {
 }
 
 async function urlTest(){
+    const { VamtigerBrowserMethod } = window;
+    const { getElement  } = VamtigerBrowserMethod;
     const element = await getElement({
         name: 'urlTemplateTest',
         url: 'template.html',

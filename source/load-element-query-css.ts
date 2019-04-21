@@ -3,14 +3,13 @@ import {
     MetaElementName,
     StringConstant,
     regex
-} from './types';
+} from './vamtiger-browser-method';
 import getMetaElment from './get-meta-element';
 import getCamelCase from './get-camel-case';
 
-const { showRootHost } = regex;
-const { nothing } = StringConstant;
-
-export default function({ css, stylesheetName: currentStylesheetName = nothing, hostName = nothing }: ILoadElementQueryCss) {
+export default function({ css, stylesheetName: currentStylesheetName = '', hostName = '' }: ILoadElementQueryCss) {
+    const { showRootHost } = regex;
+    const { nothing } = StringConstant;
     const metaElement = getMetaElment({
         properties: {
             id: MetaElementName.loadElementQueryCss

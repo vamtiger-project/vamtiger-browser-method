@@ -2,18 +2,17 @@ import {
     IGetElementUrl,
     TagName,
     ErrorMessage
-} from './types';
-
-const { div } = TagName;
-const {
-    noElementName,
-    noElementSelector,
-    noTemplateUrl,
-    noTemplateForUrl,
-    noElementForSelector
-} = ErrorMessage;
+} from './vamtiger-browser-method';
 
 export default async function ({ name, url, selector }: IGetElementUrl) {
+    const { div } = TagName;
+    const {
+        noElementName,
+        noElementSelector,
+        noTemplateUrl,
+        noTemplateForUrl,
+        noElementForSelector
+    } = ErrorMessage;
     const template = name && selector && url && await fetch(url)
         .then(response => response.text());
     const container = template && document.createElement(div);

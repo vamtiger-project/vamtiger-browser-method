@@ -2,16 +2,15 @@ import {
     IGetElementTemplate,
     TagName,
     ErrorMessage
-} from './types';
-
-const { div } = TagName;
-const {
-    noElementName,
-    noTemplate,
-    noElementForSelector
-} = ErrorMessage;
+} from './vamtiger-browser-method';
 
 export default function ({ name, template }: IGetElementTemplate) {
+    const { div } = TagName;
+    const {
+        noElementName,
+        noTemplate,
+        noElementForSelector
+    } = ErrorMessage;
     const container = name && template && document.createElement(div);
 
     let element: HTMLElement | null = null;
