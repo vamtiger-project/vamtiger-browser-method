@@ -1,4 +1,4 @@
-import * as tslib from '../node_modules/tslib/tslib';
+import * as tslib from 'tslib/tslib';
 export declare enum ScriptType {
     jsonld = "application/ld+json"
 }
