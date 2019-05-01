@@ -1,6 +1,6 @@
 {
     "name": "vamtiger-browser-method",
-    "version": "0.69.1",
+    "version": "0.70.0",
     "description": "Typescript browser methods",
     "main": "build/vamtiger-browser-method",
     "scripts": {
@@ -40,6 +40,7 @@
         "@types/chai": "^4.1.7",
         "@types/mocha": "^5.2.5",
         "@types/node": "^10.12.18",
+        "@types/requestidlecallback": "^0.1.1",
         "chai": "^4.2.0",
         "mocha": "^5.2.0",
         "typescript": "^3.2.2",
