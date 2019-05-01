@@ -1,4 +1,5 @@
 import * as tslib from 'tslib/tslib';
+import { requestIdleCallback } from 'requestidlecallback';
 
 export enum ScriptType {
     jsonld = 'application/ld+json'
@@ -49,11 +50,18 @@ export enum LoadScriptElement {
 export enum Selector {
     lastStylesheet = 'style:last-of-type',
     lastMetaElement = 'head > meta:last-of-type',
-    webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]'
+    webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]',
+    style = 'style',
+    stylesheet = ' link[rel="stylesheet"]'
 }
 
 export enum  MetaElementName {
     loadElementQueryCss = 'vamtiger-load-element-query-css'
+}
+
+export enum ScriptNameSuffix {
+    style = 'style',
+    stylesheet = 'stylesheet'
 }
 
 export interface ILoadRemoteScriptParams {
@@ -106,6 +114,7 @@ export interface IPause {
 
 export interface IGetElementBase {
     name: string;
+    loadStylesheets?: boolean;
 }
 
 export interface IGetElementTemplate extends IGetElementBase {
@@ -136,6 +145,11 @@ export interface IGetMetaElement {
         [key: string]: string;
     };
     dataset?: DOMStringMap;
+}
+
+export interface ILoadContainerStylesheets {
+    name: string;
+    element: HTMLElement;
 }
 
 export type TsLibType = typeof tslib;
@@ -194,6 +208,7 @@ declare global {
             pause: (params: IPause) => Promise<{}>;
         }
         EQCSS: IAnyObject;
+        requestIdleCallback?: typeof requestIdleCallback
     }
 
     namespace NodeJS {

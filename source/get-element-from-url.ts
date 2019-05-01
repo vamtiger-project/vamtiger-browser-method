@@ -1,7 +1,8 @@
 import {
     IGetElementUrl,
     TagName,
-    ErrorMessage
+    ErrorMessage,
+    Selector
 } from './types';
 
 const { div } = TagName;
@@ -13,12 +14,14 @@ const {
     noElementForSelector
 } = ErrorMessage;
 
-export default async function ({ name, url, selector }: IGetElementUrl) {
+export default async function ({ name, url, selector, loadStylesheets }: IGetElementUrl) {
+    const { head } = document;
     const template = name && selector && url && await fetch(url)
         .then(response => response.text());
     const container = template && document.createElement(div);
 
     let element: HTMLElement | null = null;
+    let stylesheets: HTMLStyleElement[]
 
     if (!name) {
         throw new Error(noElementName);

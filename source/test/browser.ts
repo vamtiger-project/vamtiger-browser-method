@@ -4,6 +4,8 @@ import loadScript from './load-script';
 import defineCustomElement from './define-custom-element';
 import getElement from './get-element';
 
+tslib;
+
 setup('bdd');
 
 addEventListener('load', test);
