@@ -25,6 +25,8 @@ export async function getElement<P extends GetElementParams> (params: P, resolve
 
      let element: HTMLElement;
 
+     console.log(params);
+
     if ((params as IGetElementUrl).url) {
         element = await getElementFromUrl(params as IGetElementUrl);
     } else {
