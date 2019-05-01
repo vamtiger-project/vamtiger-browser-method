@@ -27,7 +27,7 @@ async function loadStylesheets(params: ILoadContainerStylesheets, resolve: (styl
             name: [
                 name,
                 ScriptNameSuffix.style,
-                index
+                index++
             ].join(dash),
             css: style.innerHTML
         }));
@@ -37,7 +37,7 @@ async function loadStylesheets(params: ILoadContainerStylesheets, resolve: (styl
             name: [
                 name,
                 ScriptNameSuffix.stylesheet,
-                index
+                index++
             ].join(dash),
             href: stylesheet.href
         }));
