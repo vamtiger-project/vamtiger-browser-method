@@ -1,8 +1,6 @@
 
 import {
     ILoadContainerStylesheets,
-    LocalStylesheetScriptParams,
-    ILoadRemoteStylesheetScriptParams,
     ScriptNameSuffix,
     StringConstant,
     Selector
@@ -22,9 +20,9 @@ export default function(params: ILoadContainerStylesheets) { return new Promise(
 })};
 
 async function loadStylesheets(params: ILoadContainerStylesheets, resolve: (styleElements: HTMLStyleElement[]) => void) {
-    const { element, name } = params;
+    const { container, name } = params;
     const styles = Array
-        .from(element.querySelectorAll<HTMLStyleElement>(Selector.style))
+        .from(container.content.querySelectorAll<HTMLStyleElement>(Selector.style))
         .map((style, index) => ({
             name: [
                 name,
@@ -34,7 +32,7 @@ async function loadStylesheets(params: ILoadContainerStylesheets, resolve: (styl
             css: style.innerHTML
         }));
     const stylesheets = Array
-        .from(element.querySelectorAll<HTMLLinkElement>(Selector.stylesheet))
+        .from(container.content.querySelectorAll<HTMLLinkElement>(Selector.stylesheet))
         .map((stylesheet, index) => ({
             name: [
                 name,

@@ -34,7 +34,8 @@ export enum StringConstant {
 }
 
 export enum TagName {
-    div = 'div'
+    div = 'div',
+    template = 'template'
 }
 
 export enum LinkRel {
@@ -149,7 +150,7 @@ export interface IGetMetaElement {
 
 export interface ILoadContainerStylesheets {
     name: string;
-    element: HTMLElement;
+    container: HTMLTemplateElement;
 }
 
 export type TsLibType = typeof tslib;

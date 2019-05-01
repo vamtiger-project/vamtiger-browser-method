@@ -3,16 +3,17 @@ import {
     TagName,
     ErrorMessage
 } from './types';
+import loadContainerStylesheets from './load-container-stylesheets';
 
-const { div } = TagName;
 const {
     noElementName,
     noTemplate,
     noElementForSelector
 } = ErrorMessage;
 
-export default function ({ name, template }: IGetElementTemplate) {
-    const container = name && template && document.createElement(div);
+export default async function (params: IGetElementTemplate) {
+    const { name, template, loadStylesheets } = params;
+    const container = name && template && document.createElement(TagName.template);
 
     let element: HTMLElement | null = null;
 
@@ -25,7 +26,12 @@ export default function ({ name, template }: IGetElementTemplate) {
     if (container) {
         container.innerHTML = template;
 
-        element = container.firstElementChild as HTMLElement;
+        element = container.content.firstElementChild as HTMLElement;
+
+        loadStylesheets && element && await loadContainerStylesheets({
+            ...params,
+            container
+        });
     }
 
     if (!element) {

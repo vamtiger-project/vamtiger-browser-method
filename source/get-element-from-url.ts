@@ -1,11 +1,10 @@
 import {
     IGetElementUrl,
     TagName,
-    ErrorMessage,
-    Selector
+    ErrorMessage
 } from './types';
+import loadContainerStylesheets from './load-container-stylesheets';
 
-const { div } = TagName;
 const {
     noElementName,
     noElementSelector,
@@ -14,14 +13,14 @@ const {
     noElementForSelector
 } = ErrorMessage;
 
-export default async function ({ name, url, selector, loadStylesheets }: IGetElementUrl) {
+export default async function (params: IGetElementUrl) {
+    const { name, url, selector, loadStylesheets } = params;
     const { head } = document;
     const template = name && selector && url && await fetch(url)
         .then(response => response.text());
-    const container = template && document.createElement(div);
+    const container = template && document.createElement(TagName.template);
 
     let element: HTMLElement | null = null;
-    let stylesheets: HTMLStyleElement[]
 
     if (!name) {
         throw new Error(noElementName);
@@ -36,7 +35,12 @@ export default async function ({ name, url, selector, loadStylesheets }: IGetEle
     if (container) {
         container.innerHTML = template;
 
-        element = container.querySelector<HTMLElement>(selector);
+        element = container.content.querySelector<HTMLElement>(selector);
+
+        loadStylesheets && element && await loadContainerStylesheets({
+            ...params,
+            container
+        });
     }
 
     if (!element) {
