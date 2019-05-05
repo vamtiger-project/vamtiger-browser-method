@@ -9,7 +9,7 @@
     "build": "tsc",
     "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish --publishSource",
     "clean": "rm -rf build/*",
-    "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.js(\\.map)?|(vamtiger-browser-method|types)\\.d\\.ts\"",
+    "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.js(\\.map)?|(vamtiger-browser-method|types|load-scripts|load-shadow-stylesheet|define-custom-element|get-element|get-data)\\.d\\.ts\"",
     "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify",
     "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
     "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
