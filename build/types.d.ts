@@ -70,6 +70,9 @@ export interface ILoadScriptParams {
 export interface ILoadStylesheetScriptParams {
     css: string;
 }
+export interface IAnyObject {
+    [key: string]: any;
+}
 export interface ILoadScript {
     params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams;
     reject: (error: Error) => void;
@@ -100,9 +103,6 @@ export interface IGetElementUrl extends IGetElementBase {
     url: string;
     selector: string;
 }
-export interface IAnyObject {
-    [key: string]: any;
-}
 export interface ILoadElementQueryCss {
     css: string;
     stylesheetName?: string;
@@ -122,6 +122,12 @@ export interface ILoadContainerStylesheets {
     name: string;
     container: HTMLTemplateElement;
 }
+export interface IGetData {
+    jsonLd?: string;
+}
+export interface IGetJsonLd {
+    jsonLd: string;
+}
 export declare type TsLibType = typeof tslib;
 export declare type TsLibKey = keyof TsLibType;
 export declare type TsLib = {
@@ -138,15 +144,6 @@ export declare type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyP
 export declare type GetElementParams = IGetElementTemplate | IGetElementUrl;
 declare global {
     interface Window extends TsLib {
-        VamtigerBrowserMethod: {
-            loadScript: <P extends ILoadScript['params']>(params: P) => Promise<LoadedScript<P>>;
-            loadScripts: <P extends LoadScriptsParams>(params: P) => Promise<LoadedScripts<P>>;
-            loadScriptsSequentially: <P extends LoadScriptsSequentiallyParams>(params: P) => Promise<LoadedScriptsSequentially<P>>;
-            loadShadowStylesheet: (params: ILoadShadowStylesheet) => void;
-            defineCustomElement: (params: IDefineCustomElement) => void;
-            getElement: (params: GetElementParams) => Promise<HTMLElement>;
-            pause: (params: IPause) => Promise<{}>;
-        };
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
     }
