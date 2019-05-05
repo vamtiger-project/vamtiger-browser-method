@@ -5,6 +5,7 @@ import loadShadowStylesheet from './load-shadow-stylesheet';
 import defineCustomElement from './define-custom-element';
 import pause from './pause';
 import getElement from './get-element';
+import getData from './get-data';
 
 const { VamtigerBrowserMethod } = window;
 const vamtigerBrowserMethod = {
@@ -14,7 +15,8 @@ const vamtigerBrowserMethod = {
     loadShadowStylesheet,
     defineCustomElement,
     pause,
-    getElement
+    getElement,
+    getData
 };
 
 try {
@@ -23,4 +25,10 @@ try {
     }
 } catch(error) {
     global.VamtigerBrowserMethod = VamtigerBrowserMethod;
+}
+
+declare global {
+    interface Window {
+        VamtigerBrowserMethod: typeof vamtigerBrowserMethod
+    }
 }
