@@ -205,8 +205,20 @@ export type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> =
 
 export type GetElementParams = IGetElementTemplate | IGetElementUrl;
 
+export type VamtigerBrowserMethod = {
+    loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
+    loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;
+    loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
+    loadShadowStylesheet: ({ css, element }: ILoadShadowStylesheet) => void;
+    defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
+    pause: ({ milliseconds }: IPause) => Promise<{}>;
+    getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
+    getData: <D extends IAnyObject>({ jsonLd }: IGetData) => Promise<D>;
+};
+
 declare global {
     interface Window extends TsLib {
+        VamtigerBrowserMethod: VamtigerBrowserMethod;
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback
     }

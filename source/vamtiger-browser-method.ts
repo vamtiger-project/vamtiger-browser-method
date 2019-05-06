@@ -26,9 +26,3 @@ try {
 } catch(error) {
     global.VamtigerBrowserMethod = VamtigerBrowserMethod;
 }
-
-declare global {
-    interface Window {
-        VamtigerBrowserMethod: typeof vamtigerBrowserMethod
-    }
-}
