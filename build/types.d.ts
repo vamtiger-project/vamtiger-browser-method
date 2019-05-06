@@ -142,8 +142,19 @@ export declare type LoadedScript<P extends ILoadScript['params']> = P extends IL
 export declare type LoadedScripts<P extends LoadScriptsParams> = P extends ILoadScriptParams[] ? HTMLScriptElement[] : P extends ILoadStylesheetScriptParams[] ? HTMLStyleElement[] : P extends ILoadRemoteScriptParams[] ? HTMLScriptElement[] : P extends ILoadRemoteStylesheetScriptParams[] ? HTMLLinkElement[] : never;
 export declare type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> = P extends ILoadScriptParams[][] ? HTMLScriptElement[] : P extends ILoadStylesheetScriptParams[][] ? HTMLStyleElement[] : P extends ILoadRemoteScriptParams[][] ? HTMLScriptElement[] : P extends ILoadRemoteStylesheetScriptParams[][] ? HTMLLinkElement[] : never;
 export declare type GetElementParams = IGetElementTemplate | IGetElementUrl;
+export declare type VamtigerBrowserMethod = {
+    loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
+    loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;
+    loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
+    loadShadowStylesheet: ({ css, element }: ILoadShadowStylesheet) => void;
+    defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
+    pause: ({ milliseconds }: IPause) => Promise<{}>;
+    getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
+    getData: <D extends IAnyObject>({ jsonLd }: IGetData) => Promise<D>;
+};
 declare global {
     interface Window extends TsLib {
+        VamtigerBrowserMethod: VamtigerBrowserMethod;
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
     }
