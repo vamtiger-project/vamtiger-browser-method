@@ -20,12 +20,15 @@ export declare enum ErrorMessage {
     noElementSelector = "No Template Selector",
     noTemplateForUrl = "No Template for URL",
     noTemplate = "No Template",
-    noElementForSelector = "No Element for Selector"
+    noElementForSelector = "No Element for Selector",
+    noJsonLdParameter = "No \"jsonLd\" property set"
 }
 export declare enum StringConstant {
     nothing = "",
     slash = "/",
-    dash = "-"
+    dash = "-",
+    pipe = "|",
+    comma = ","
 }
 export declare enum TagName {
     div = "div",
@@ -72,6 +75,10 @@ export interface ILoadStylesheetScriptParams {
 }
 export interface IAnyObject {
     [key: string]: any;
+}
+export interface IJsonData {
+    jsonLd: IAnyObject[];
+    json?: IAnyObject;
 }
 export interface ILoadScript {
     params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams;
@@ -123,7 +130,7 @@ export interface ILoadContainerStylesheets {
     container: HTMLTemplateElement;
 }
 export interface IGetData {
-    jsonLd?: string;
+    jsonLd: string;
 }
 export interface IGetJsonLd {
     jsonLd: string;
@@ -150,7 +157,7 @@ export declare type VamtigerBrowserMethod = {
     defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
     pause: ({ milliseconds }: IPause) => Promise<{}>;
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
-    getData: <D extends IAnyObject>({ jsonLd }: IGetData) => Promise<D>;
+    getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
 };
 declare global {
     interface Window extends TsLib {
