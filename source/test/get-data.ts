@@ -1,7 +1,12 @@
 import { expect } from 'chai';
 
 interface IJsonLd {
-    test: 'test'
+    '@context': 'http://schema.org/',
+    '@type': 'Painting'
+}
+
+interface IData {
+    jsonLd: IJsonLd[];
 }
 
 const { VamtigerBrowserMethod } = window;
@@ -12,10 +17,13 @@ export default () => describe('getData', function () {
 });
 
 async function jsonLdTest() {
-    const jsonLd = await getData<IJsonLd>({
-        jsonLd: 'test/json-ld.js'
-    });
+    const data = await getData({
+        jsonLd: 'https://unpkg.com/test-json-ld'
+    }) as IData;
+    const { jsonLd: currentJsonLd } = data;
+    const [ jsonLd ] = currentJsonLd;
 
     expect(jsonLd).to.be.ok;
-    expect(jsonLd.test).to.equal('test');
+    expect(jsonLd['@context']).to.equal('http://schema.org/');
+    expect(jsonLd['@type']).to.equal('Painting');
 }
