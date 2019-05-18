@@ -135,6 +135,20 @@ export interface IGetData {
 export interface IGetJsonLd {
     jsonLd: string;
 }
+export interface IJosnLdImageObject {
+    "@context": string;
+    '@type': string;
+    name: string;
+    description: string;
+    author: {
+        '@type': string;
+        givenName: string;
+        familyName: string;
+        email: string;
+    };
+    datePublished: string;
+    contentUrl: string;
+}
 export declare type TsLibType = typeof tslib;
 export declare type TsLibKey = keyof TsLibType;
 export declare type TsLib = {
