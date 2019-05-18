@@ -169,6 +169,21 @@ export interface IGetJsonLd {
     jsonLd: string;
 }
 
+export interface IJosnLdImageObject {
+    "@context": string;
+    '@type': string;
+    name: string;
+    description: string;
+    author: {
+        '@type': string;
+        givenName: string;
+        familyName: string;
+        email: string;
+    };
+    datePublished: string;
+    contentUrl: string;
+}
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
