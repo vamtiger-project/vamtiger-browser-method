@@ -6,7 +6,7 @@ import loadScript from './load-script';
 
 const { parse } = JSON;
 
-export default async function({ jsonLd: url }: IGetJsonLd) {
+export default function({ jsonLd: url }: IGetJsonLd) {return new Promise(async (resolve: (data: IJsonData) => void, reject) => {
     const { head } = document;
     const script = await loadScript({
         src: url
@@ -28,5 +28,5 @@ export default async function({ jsonLd: url }: IGetJsonLd) {
         data.json = json;
     }
 
-    return data;
-}
+    resolve(data);
+})}
