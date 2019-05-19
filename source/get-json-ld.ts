@@ -37,7 +37,7 @@ export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async 
 
     jsonDataResolve = dataQueue.get(url);
 
-    if (jsonDataResolve && jsonLd) {
+    if (jsonDataResolve && jsonLd.length) {
         Array.from(jsonDataResolve).forEach(currentResolve => {
             currentResolve(data);
 
