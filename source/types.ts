@@ -240,6 +240,8 @@ export type VamtigerBrowserMethod = {
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
 };
 
+export type JsonDataResolve = (data: IJsonData) => void;
+
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: VamtigerBrowserMethod;

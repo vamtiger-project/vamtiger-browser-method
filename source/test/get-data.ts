@@ -20,9 +20,6 @@ async function jsonLdTest() {
     const data = await getData({
         jsonLd: 'https://unpkg.com/test-json-ld'
     }) as IData;
-    const data2 = await getData({
-        jsonLd: 'https://unpkg.com/test-json-ld'
-    }) as IData;
     const { jsonLd: currentJsonLd } = data;
     const [ jsonLd ] = currentJsonLd;
 

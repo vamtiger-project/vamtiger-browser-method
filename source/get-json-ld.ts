@@ -1,12 +1,14 @@
 import {
     IGetJsonLd,
-    IJsonData
+    IJsonData,
+    JsonDataResolve
 } from './types';
 import loadScript from './load-script';
 
 const { parse } = JSON;
+const dataQueue = new Map<string, Set<JsonDataResolve>>();
 
-export default function({ jsonLd: url }: IGetJsonLd) {return new Promise(async (resolve: (data: IJsonData) => void, reject) => {
+export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async (resolve: JsonDataResolve, reject) => {
     const { head } = document;
     const script = await loadScript({
         src: url
@@ -19,14 +21,31 @@ export default function({ jsonLd: url }: IGetJsonLd) {return new Promise(async (
             .map(({ innerHTML }) => parse(innerHTML)),
         head.querySelector<HTMLScriptElement>(jsonSelector)
     ])
-    const json = jsonScript && parse(jsonScript.innerHTML);
+    const json = jsonScript && parse(jsonScript.innerHTML) || {};
     const data: IJsonData = {
-        jsonLd
+        jsonLd,
+        json
     };
 
-    if (json) {
-        data.json = json;
+    let jsonDataResolve = dataQueue.get(url);
+
+    if (jsonDataResolve) {
+        jsonDataResolve.add(resolve);
+    } else {
+        dataQueue.set(url, new Set([resolve]));
     }
 
-    resolve(data);
+    jsonDataResolve = dataQueue.get(url);
+
+    if (jsonDataResolve && jsonLd) {
+        Array.from(jsonDataResolve).forEach(currentResolve => {
+            currentResolve(data);
+
+            (jsonDataResolve as  Set<JsonDataResolve>).delete(currentResolve);
+        });
+
+        if (!jsonDataResolve.size) {
+            dataQueue.delete(url);
+        }
+    };
 })}
