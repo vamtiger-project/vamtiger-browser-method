@@ -105,6 +105,7 @@ export interface IGetElementBase {
 }
 export interface IGetElementTemplate extends IGetElementBase {
     template: string;
+    selector?: string;
 }
 export interface IGetElementUrl extends IGetElementBase {
     url: string;
