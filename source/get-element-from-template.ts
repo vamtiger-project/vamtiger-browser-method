@@ -12,7 +12,7 @@ const {
 } = ErrorMessage;
 
 export default async function (params: IGetElementTemplate) {
-    const { name, template, loadStylesheets } = params;
+    const { name, template, loadStylesheets, selector } = params;
     const container = name && template && document.createElement(TagName.template);
 
     let element: HTMLElement | null = null;
@@ -26,7 +26,8 @@ export default async function (params: IGetElementTemplate) {
     if (container) {
         container.innerHTML = template;
 
-        element = container.content.firstElementChild as HTMLElement;
+        element = selector && container.content.firstElementChild && container.content.firstElementChild.querySelector(selector)
+            || container.content.firstElementChild as HTMLElement;
 
         loadStylesheets && element && await loadContainerStylesheets({
             ...params,
