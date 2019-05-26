@@ -6,8 +6,11 @@ import defineCustomElement from './define-custom-element';
 import pause from './pause';
 import getElement from './get-element';
 import getData from './get-data';
+import getEnvironment from './get-environment';
+import setupWindow from './setup-window';
+import setupWorker from './setup-worker';
 
-const { VamtigerBrowserMethod } = window;
+const envrironment = getEnvironment();
 const vamtigerBrowserMethod = {
     loadScript,
     loadScripts,
@@ -16,13 +19,29 @@ const vamtigerBrowserMethod = {
     defineCustomElement,
     pause,
     getElement,
-    getData
+    getData,
+    getEnvironment,
+    envrironment
 };
+main();
 
-try {
-    if (!VamtigerBrowserMethod) {
-        window.VamtigerBrowserMethod = vamtigerBrowserMethod;
+function main() {
+    try {
+        const { VamtigerBrowserMethod } = self;
+
+        if (!VamtigerBrowserMethod) {
+            self.VamtigerBrowserMethod = vamtigerBrowserMethod;
+
+            setupWindow();
+
+            setupWorker();
+        }
+    } catch(error) {
+        handleError(error);
     }
-} catch(error) {
-    global.VamtigerBrowserMethod = VamtigerBrowserMethod;
+}
+
+function handleError(error: Error) {
+    console.error(error);
+    throw error;
 }

@@ -14,14 +14,9 @@ const emptyScriptsSrcs = new Array(10).fill(emptyScriptSrc) as string[];
 const emptyStylesheetHrefs = new Array(10).fill(emptyStylesheetHref) as string[];
 
 export default () => describe('loadScript', function () {
-    const { VamtigerBrowserMethod, location } = window;
-    const { head } = document;
-    const { loadScript } = VamtigerBrowserMethod;
-    const scriptSelector = `script[src="${emptyScriptSrc}"]`;
-    const linkSelector = `link[href="${emptyStylesheetHref}"]`;
-
     before(async function () {
-        await Promise.all(
+        const { VamtigerBrowserMethod } = window;
+        const { loadScript } = VamtigerBrowserMethod;await Promise.all(
             emptyScriptsSrcs.map(src => loadScript({ src }))
         );
         await Promise.all(
@@ -30,6 +25,9 @@ export default () => describe('loadScript', function () {
     });
 
     it('Append to Document Head', async function () {
+        const { head } = document;
+        const scriptSelector = `script[src="${emptyScriptSrc}"]`;
+        const linkSelector = `link[href="${emptyStylesheetHref}"]`;
         const script = head.querySelector(scriptSelector);
         const link = head.querySelector(linkSelector);
 
@@ -38,6 +36,9 @@ export default () => describe('loadScript', function () {
     });
 
     it('Append once per script', async function () {
+        const { head } = document;
+        const scriptSelector = `script[src="${emptyScriptSrc}"]`;
+        const linkSelector = `link[href="${emptyStylesheetHref}"]`;
         const scripts = Array.from(head.querySelectorAll(scriptSelector));
         const links = Array.from(head.querySelectorAll(linkSelector));
 
@@ -46,6 +47,8 @@ export default () => describe('loadScript', function () {
     });
 
     it('remote script', async function () {
+        const { VamtigerBrowserMethod } = window;
+        const { loadScript } = VamtigerBrowserMethod;
         const script = await loadScript({
             src: emptyScriptSrc
         });
@@ -54,6 +57,8 @@ export default () => describe('loadScript', function () {
     });
 
     it('remote stylesheet', async function () {
+        const { VamtigerBrowserMethod } = window;
+        const { loadScript } = VamtigerBrowserMethod;
         const script = await loadScript({
             href: emptyStylesheetHref
         });
@@ -62,6 +67,8 @@ export default () => describe('loadScript', function () {
     });
 
     it('inline script', async function () {
+        const { VamtigerBrowserMethod } = window;
+        const { loadScript } = VamtigerBrowserMethod;
         const script = await loadScript({
             js: 'console.log("inline script");',
             name: 'inline-script'
@@ -72,6 +79,8 @@ export default () => describe('loadScript', function () {
     });
 
     it('inline stylesheet', async function () {
+        const { VamtigerBrowserMethod } = window;
+        const { loadScript } = VamtigerBrowserMethod;
         const script = await loadScript({
             css: '/** Inline Stylesheet **/',
             name: 'inline-stylesheet'

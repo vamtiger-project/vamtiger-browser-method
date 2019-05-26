@@ -1,7 +1,19 @@
 import * as tslib from 'tslib/tslib';
 import { requestIdleCallback } from 'requestidlecallback';
 
+export enum Environment {
+    window = 'window',
+    worker = 'worker'
+}
+
+export enum Origin {
+    nowhere = '',
+    everyWhere = '*'
+}
+
 export enum ScriptType {
+    js = 'text/javascript',
+    json = 'application/json',
     jsonld = 'application/ld+json'
 }
 
@@ -33,7 +45,9 @@ export enum StringConstant {
     slash = '/',
     dash = '-',
     pipe = '|',
-    comma = ','
+    comma = ',',
+    backTick = '`',
+    doubleQuote = '"'
 }
 
 export enum TagName {
@@ -56,7 +70,10 @@ export enum Selector {
     lastMetaElement = 'head > meta:last-of-type',
     webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]',
     style = 'style',
-    stylesheet = ' link[rel="stylesheet"]'
+    stylesheet = ' link[rel="stylesheet"]',
+    vamtigerBrowserMethodJsonJs = '[src$="vamtiger-browser-method.js.json.js"]',
+    vamtigerBrowserMethodJson = '[data-name$="vamtiger-browser-method.js.json"]',
+    vamtigerBrowserMethod = '[data-name$="vamtiger-browser-method.js"]'
 }
 
 export enum  MetaElementName {
@@ -66,6 +83,11 @@ export enum  MetaElementName {
 export enum ScriptNameSuffix {
     style = 'style',
     stylesheet = 'stylesheet'
+}
+
+export enum MessageAction {
+    ignore = 'ignore',
+    removeRedundantScripts = 'removeRedundantScripts'
 }
 
 export interface ILoadRemoteScriptParams {
@@ -86,6 +108,10 @@ export interface ILoadScriptParams {
     jsonld?: boolean;
 }
 
+export interface ILoadJsonScriptParams {
+    json: string;
+}
+
 export interface ILoadStylesheetScriptParams {
     css: string;
 }
@@ -103,13 +129,19 @@ export interface ILoadScript {
     params: LocalScriptParams
         | LocalStylesheetScriptParams
         | ILoadRemoteScriptParams
-        | ILoadRemoteStylesheetScriptParams;
+        | ILoadRemoteStylesheetScriptParams
+        | ILoadJsonScriptParams;
     reject: (error: Error) => void
 }
 
 export interface ILoadShadowStylesheet {
     css: string;
     element: HTMLElement;
+}
+
+export interface IJsonScriptData {
+    name: string;
+    text: string;
 }
 
 export interface IDefineCustomElement {
@@ -185,6 +217,21 @@ export interface IJosnLdImageObject {
     contentUrl: string;
 }
 
+export interface IMessageAction {
+    action: MessageAction;
+    data: IMessageActionData;
+}
+
+export interface IMessageActionData {
+    messageId?: string;
+}
+
+export interface IMessageResponse {
+    data: IMessageAction;
+}
+
+export type MessageResponse = IMessageResponse | undefined;
+
 export type TsLibType = typeof tslib;
 
 export type TsLibKey = keyof TsLibType;
@@ -238,9 +285,14 @@ export type VamtigerBrowserMethod = {
     pause: ({ milliseconds }: IPause) => Promise<{}>;
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
+    getEnvironment: () => Environment;
+    envrironment: Environment;
+    worker?: Worker;
 };
 
 export type JsonDataResolve = (data: IJsonData) => void;
+
+export type WorkerPostMessage = (message: IAnyObject) => void;
 
 declare global {
     interface Window extends TsLib {
@@ -260,5 +312,21 @@ export const regex = {
     showRootHost: /:{1,2}host/gm,
     dash: new RegExp(StringConstant.dash, 'g'),
     space: /\s/g,
-    nonWord: /\W+/g
+    nonWord: /\W+/g,
+    backTicks: /`/gm
 }
+
+export const selector = {
+    worker: [
+        Selector.vamtigerBrowserMethod
+    ].join(StringConstant.comma),
+    redundantScripts: [
+        Selector.vamtigerBrowserMethodJsonJs,
+        Selector.vamtigerBrowserMethodJson,
+        Selector.vamtigerBrowserMethod
+    ].join(StringConstant.comma)
+}
+
+export const sendMessageFromWorker = postMessage as WorkerPostMessage;
+
+export function ignore(params?: any) {}

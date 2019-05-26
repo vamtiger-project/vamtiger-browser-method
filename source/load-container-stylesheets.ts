@@ -10,7 +10,7 @@ import loadScript from './load-script'
 const { dash } = StringConstant;
 
 export default function(params: ILoadContainerStylesheets) { return new Promise((resolve: (styleElements: HTMLStyleElement[]) => void, reject) => {
-    const { requestIdleCallback } = window;
+    const { requestIdleCallback } = self;
 
     if (requestIdleCallback) {
         requestIdleCallback(() => loadStylesheets(params, resolve));

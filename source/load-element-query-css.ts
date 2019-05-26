@@ -19,7 +19,7 @@ export default function({ css, stylesheetName: currentStylesheetName = nothing, 
     const stylesheetName = getCamelCase(currentStylesheetName);
     const { dataset } = metaElement;
     const elementQueryCss = !dataset.hasOwnProperty(hostName) && (hostName && css.replace(showRootHost, hostName)) || css;
-    const { EQCSS } = window;
+    const { EQCSS } = self;
 
     if (elementQueryCss && EQCSS) {
         EQCSS.register(EQCSS.parse(elementQueryCss));

@@ -3,7 +3,7 @@ import { IDefineCustomElement, ErrorMessage } from './types';
 const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
 
 export default function defineCustomElement({ name, constructor, ignore }: IDefineCustomElement) {
-    const { customElements } = window;
+    const { customElements } = self;
     const define = customElements && customElements.define;
     const existingElement = define && customElements.get && customElements.get(name);
 

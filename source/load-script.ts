@@ -5,6 +5,7 @@ import {
     LocalStylesheetScriptParams,
     ILoadRemoteStylesheetScriptParams,
     ILoadRemoteScriptParams,
+    ILoadJsonScriptParams,
     LoadScriptElement,
     LoadedScript,
     LinkRel,
@@ -23,6 +24,7 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
     const { src } = params as ILoadRemoteScriptParams;
     const { css, name: stylesheetName } = params as LocalStylesheetScriptParams;
     const { href } = params as ILoadRemoteStylesheetScriptParams;
+    const { json } = params as ILoadJsonScriptParams;
     const remoteScript = params.hasOwnProperty('src') || params.hasOwnProperty('href');
     const element = (js || src) && scriptElement
         || css && style
@@ -39,12 +41,14 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
     if (script instanceof HTMLScriptElement) {
         if (src) {
             script.src = src;
-        } else if (js) {
-            script.innerHTML = js;
+        } else if (json || js) {
+            script.innerHTML = json || js;
             script.dataset.name = scriptName;
 
             if (jsonld) {
                 script.setAttribute(ScriptAttribute.type, ScriptType.jsonld);
+            } else if (json) {
+                script.setAttribute(ScriptAttribute.type, ScriptType.json);
             }
         }
     } else if (script instanceof HTMLLinkElement) {

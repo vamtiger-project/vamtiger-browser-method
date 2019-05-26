@@ -7,7 +7,7 @@ import getElementFromTemplate from './get-element-from-template';
 import getElementFromUrl from './get-element-from-url';
 
 export default async function<P extends GetElementParams>(params: P) { return new Promise((resolve: (element: HTMLElement) => void, reject) => {
-    const { requestIdleCallback } = window;
+    const { requestIdleCallback } = self;
 
     if (requestIdleCallback) {
         requestIdleCallback(() => getElement(params, resolve));

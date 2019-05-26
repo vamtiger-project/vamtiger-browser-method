@@ -8,7 +8,7 @@ import getJsonLd from './get-json-ld';
 const { noJsonLdParameter } = ErrorMessage;
 
 export default function({ jsonLd }: IGetData) { return new Promise((resolve: (data: IJsonData) => void, reject) => {
-    const { requestIdleCallback } = window;
+    const { requestIdleCallback } = self;
 
     if (jsonLd) {
         if (requestIdleCallback) {

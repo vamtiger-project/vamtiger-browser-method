@@ -9,14 +9,13 @@ interface IData {
     jsonLd: IJsonLd[];
 }
 
-const { VamtigerBrowserMethod } = window;
-const { getData  } = VamtigerBrowserMethod;
-
 export default () => describe('getData', function () {
     it('json-ld', jsonLdTest);
 });
 
 async function jsonLdTest() {
+    const { VamtigerBrowserMethod } = window;
+    const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
         jsonLd: 'https://unpkg.com/test-json-ld'
     }) as IData;
