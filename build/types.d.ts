@@ -1,6 +1,16 @@
 import * as tslib from 'tslib/tslib';
 import { requestIdleCallback } from 'requestidlecallback';
+export declare enum Environment {
+    window = "window",
+    worker = "worker"
+}
+export declare enum Origin {
+    nowhere = "",
+    everyWhere = "*"
+}
 export declare enum ScriptType {
+    js = "text/javascript",
+    json = "application/json",
     jsonld = "application/ld+json"
 }
 export declare enum ScriptAttribute {
@@ -28,7 +38,9 @@ export declare enum StringConstant {
     slash = "/",
     dash = "-",
     pipe = "|",
-    comma = ","
+    comma = ",",
+    backTick = "`",
+    doubleQuote = "\""
 }
 export declare enum TagName {
     div = "div",
@@ -47,7 +59,10 @@ export declare enum Selector {
     lastMetaElement = "head > meta:last-of-type",
     webcomponentsjs = "script[src*=\"@webcomponents/webcomponentsjs\"]",
     style = "style",
-    stylesheet = " link[rel=\"stylesheet\"]"
+    stylesheet = " link[rel=\"stylesheet\"]",
+    vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
+    vamtigerBrowserMethodJson = "[data-name$=\"vamtiger-browser-method.js.json\"]",
+    vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
@@ -55,6 +70,10 @@ export declare enum MetaElementName {
 export declare enum ScriptNameSuffix {
     style = "style",
     stylesheet = "stylesheet"
+}
+export declare enum MessageAction {
+    ignore = "ignore",
+    removeRedundantScripts = "removeRedundantScripts"
 }
 export interface ILoadRemoteScriptParams {
     src: string;
@@ -70,6 +89,9 @@ export interface ILoadScriptParams {
     js: string;
     jsonld?: boolean;
 }
+export interface ILoadJsonScriptParams {
+    json: string;
+}
 export interface ILoadStylesheetScriptParams {
     css: string;
 }
@@ -81,12 +103,16 @@ export interface IJsonData {
     json?: IAnyObject;
 }
 export interface ILoadScript {
-    params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams;
+    params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams | ILoadJsonScriptParams;
     reject: (error: Error) => void;
 }
 export interface ILoadShadowStylesheet {
     css: string;
     element: HTMLElement;
+}
+export interface IJsonScriptData {
+    name: string;
+    text: string;
 }
 export interface IDefineCustomElement {
     name: string;
@@ -150,6 +176,17 @@ export interface IJosnLdImageObject {
     datePublished: string;
     contentUrl: string;
 }
+export interface IMessageAction {
+    action: MessageAction;
+    data: IMessageActionData;
+}
+export interface IMessageActionData {
+    messageId?: string;
+}
+export interface IMessageResponse {
+    data: IMessageAction;
+}
+export declare type MessageResponse = IMessageResponse | undefined;
 export declare type TsLibType = typeof tslib;
 export declare type TsLibKey = keyof TsLibType;
 export declare type TsLib = {
@@ -173,8 +210,12 @@ export declare type VamtigerBrowserMethod = {
     pause: ({ milliseconds }: IPause) => Promise<{}>;
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
+    getEnvironment: () => Environment;
+    envrironment: Environment;
+    worker?: Worker;
 };
 export declare type JsonDataResolve = (data: IJsonData) => void;
+export declare type WorkerPostMessage = (message: IAnyObject) => void;
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: VamtigerBrowserMethod;
@@ -192,4 +233,11 @@ export declare const regex: {
     dash: RegExp;
     space: RegExp;
     nonWord: RegExp;
+    backTicks: RegExp;
 };
+export declare const selector: {
+    worker: string;
+    redundantScripts: string;
+};
+export declare const sendMessageFromWorker: WorkerPostMessage;
+export declare function ignore(params?: any): void;
