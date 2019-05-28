@@ -219,15 +219,15 @@ export interface IJosnLdImageObject {
 
 export interface IMessageAction {
     action: MessageAction;
-    data: IMessageActionData;
-}
-
-export interface IMessageActionData {
-    messageId?: string;
+    params: any;
 }
 
 export interface IMessageResponse {
     data: IMessageAction;
+}
+
+export interface IRemoveRedundantScripts {
+    selector: string;
 }
 
 export type MessageResponse = IMessageResponse | undefined;

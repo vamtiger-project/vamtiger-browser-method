@@ -15,7 +15,7 @@
     "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
     "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
     "serve": "npm run test && cd build && python -m SimpleHTTPServer",
-    "watch": "npm run bundle -- --watch",
+    "watch": "vamtiger-watch --folder source --extension ts --script test",
     "clean-install": "rm -rf package-lock.json node_modules && npm i",
     "postinstall": "vamtiger-postinstall --distTag source"
   },
@@ -48,7 +48,8 @@
     "vamtiger-create-file": "0.0.10",
     "vamtiger-get-directory-content": "0.0.35",
     "vamtiger-node-typescript-commit": "latest",
-    "vamtiger-remove": "0.0.5"
+    "vamtiger-remove": "0.0.5",
+    "vamtiger-watch": "^1.3.1"
   },
   "dependencies": {
     "@types/requestidlecallback": "^0.1.1",

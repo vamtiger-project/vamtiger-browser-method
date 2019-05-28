@@ -1,20 +1,31 @@
 import {
-    selector as Selector
+    sendMessageFromWorker,
+    MessageAction,
+    IRemoveRedundantScripts
 } from './types';
 import isWindow from './is-window';
+import isWorker from './is-worker';
 
-const { redundantScripts: selector } = Selector;
+export default function (params: IRemoveRedundantScripts) {
+    isWindow() && removeRedundantScripts(params);
 
-export default function () {
-    isWindow() && removeRedundantScripts();
+    isWorker() && sendRemoveRedundantScriptsMessage(params);
 }
 
-function removeRedundantScripts() {
+function removeRedundantScripts({ selector }: IRemoveRedundantScripts) {
     const { head } = document;
     const scripts = Array.from(head.querySelectorAll<HTMLScriptElement>(selector));
-    const result = undefined;
 
     scripts.forEach(script => head.removeChild(script));
+}
 
-    return result;
+export function sendRemoveRedundantScriptsMessage({ selector }: IRemoveRedundantScripts) {
+    const massage = {
+        action: MessageAction.removeRedundantScripts,
+        params: {
+            selector
+        }
+    };
+
+    sendMessageFromWorker(massage);
 }

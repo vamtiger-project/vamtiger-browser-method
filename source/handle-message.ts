@@ -17,7 +17,7 @@ const action = {
 export default async function (event: MessageEvent) {
     const { VamtigerBrowserMethod } = self;
     const { worker } = VamtigerBrowserMethod;
-    const { action: actionName, data: params } = getMessageData(event);
+    const { action: actionName, params } = getMessageData(event);
     const currentAction = action[actionName] || ignore;
     const response = currentAction(params) as MessageResponse;
 

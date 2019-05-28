@@ -1,21 +1,20 @@
 import {
     MessageAction,
-    sendMessageFromWorker
+    sendMessageFromWorker,
+    selector as Selector
 } from './types'
 import handleMessage from './handle-message';
 import isWorker from './is-worker';
+import removeRedundantScripts from './remove-redundant-scripts';
 
 export default function () {
     isWorker() && setupWorker();
 }
 
 function setupWorker() {
-    const data = {
-        action: MessageAction.removeRedundantScripts
-    };
-    const message = { data };
-
     addEventListener('message', handleMessage);
 
-    sendMessageFromWorker(message);
+    removeRedundantScripts({
+        selector: Selector.redundantScripts
+    });
 }
