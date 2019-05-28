@@ -8,8 +8,8 @@ export default function () {
     isWindow() && setupWindow();
 }
 
-function setupWindow() {
+async function setupWindow() {
     const { VamtigerBrowserMethod } = self;
 
-    VamtigerBrowserMethod.worker = getWorker();
+    VamtigerBrowserMethod.worker = await getWorker();
 }

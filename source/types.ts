@@ -11,6 +11,14 @@ export enum Origin {
     everyWhere = '*'
 }
 
+export enum HostName {
+    localHost = 'localhost'
+}
+
+export enum LocalHostRelativePath {
+    vamtigerBrowserMethod = 'vamtiger-browser-method.js'
+}
+
 export enum ScriptType {
     js = 'text/javascript',
     json = 'application/json',

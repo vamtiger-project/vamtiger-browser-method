@@ -1,8 +1,10 @@
 import {
     selector,
-    ScriptType
+    ScriptType,
+    LocalHostRelativePath
 } from './types';
 import handleMessage from './handle-message';
+import getLocalHostWorkerUrl from './get-local-host-worker-url';
 
 const params = {
     type: ScriptType.js
@@ -10,7 +12,8 @@ const params = {
 
 let worker: Worker;
 
-export default function () {
+export default async function () {
+    const localHostWorkerUrl = await getLocalHostWorkerUrl();
     const { head } = document;
     const { createObjectURL } = URL;
     const workerSelector = !worker && selector.worker;
@@ -19,7 +22,7 @@ export default function () {
         .filter(script => script);
     const workerBlob = workerScripts && workerScripts.length && new Blob(workerScripts, params);
     const workerUrl = workerBlob && createObjectURL && createObjectURL(workerBlob);
-    const currentWorker = workerUrl && new Worker(workerUrl);
+    const currentWorker = workerUrl && new Worker(localHostWorkerUrl || workerUrl);
 
     if (currentWorker) {
         currentWorker.addEventListener('message', handleMessage);
