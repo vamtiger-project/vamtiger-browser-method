@@ -8,6 +8,12 @@ export declare enum Origin {
     nowhere = "",
     everyWhere = "*"
 }
+export declare enum HostName {
+    localHost = "localhost"
+}
+export declare enum LocalHostRelativePath {
+    vamtigerBrowserMethod = "vamtiger-browser-method.js"
+}
 export declare enum ScriptType {
     js = "text/javascript",
     json = "application/json",
