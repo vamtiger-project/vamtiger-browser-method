@@ -4,8 +4,8 @@ import {
 
 export default function () {
     const { VamtigerBrowserMethod } = self;
-    const { envrironment } = VamtigerBrowserMethod;
-    const isWindow = envrironment === Environment.window;
+    const { environment } = VamtigerBrowserMethod;
+    const isWindow = environment === Environment.window;
 
     return isWindow;
 }

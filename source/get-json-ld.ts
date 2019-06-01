@@ -1,51 +1,25 @@
 import {
     IGetJsonLd,
-    IJsonData,
-    JsonDataResolve
+    WebComponentDataResolve,
+    ErrorResolve
 } from './types';
-import loadScript from './load-script';
+import queue from './queue';
+import loadWebComponentData from './load-web-component-data';
+import getWebComponentData from './get-web-component-data';
 
-const { parse } = JSON;
-const dataQueue = new Map<string, Set<JsonDataResolve>>();
-
-export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async (resolve: JsonDataResolve, reject) => {
-    const { head } = document;
-    const script = await loadScript({
-        src: url
-    });
-    const jsonLdSelector = `script[type="application/ld+json"][data-json-ld="${url}"]`;
-    const jsonSelector = `script[type="application/json"][data-json-ld="${url}"]`;
-    const [ jsonLd, jsonScript ] = await Promise.all([
-        Array
-            .from(head.querySelectorAll<HTMLScriptElement>(jsonLdSelector))
-            .map(({ innerHTML }) => parse(innerHTML)),
-        head.querySelector<HTMLScriptElement>(jsonSelector)
-    ])
-    const json = jsonScript && parse(jsonScript.innerHTML) || {};
-    const data: IJsonData = {
-        jsonLd,
-        json
+export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async (resolve: WebComponentDataResolve, reject: ErrorResolve) => {
+    const queueParams = {
+        key: url,
+        resolve,
+        reject
     };
 
-    let jsonDataResolve = dataQueue.get(url);
+    queue(queueParams);
 
-    if (jsonDataResolve) {
-        jsonDataResolve.add(resolve);
-    } else {
-        dataQueue.set(url, new Set([resolve]));
+    try {
+        await getWebComponentData({ key: url });
+        await loadWebComponentData({ url });
+    } catch(error) {
+        console.error(error);
     }
-
-    jsonDataResolve = dataQueue.get(url);
-
-    if (jsonDataResolve && jsonLd.length) {
-        Array.from(jsonDataResolve).forEach(currentResolve => {
-            currentResolve(data);
-
-            (jsonDataResolve as  Set<JsonDataResolve>).delete(currentResolve);
-        });
-
-        if (!jsonDataResolve.size) {
-            dataQueue.delete(url);
-        }
-    };
 })}

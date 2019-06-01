@@ -6,6 +6,7 @@ import {
 import handleMessage from './handle-message';
 import getLocalHostWorkerUrl from './get-local-host-worker-url';
 
+const { stringify } = JSON;
 const params = {
     type: ScriptType.js
 }
@@ -26,9 +27,16 @@ export default async function () {
 
     if (currentWorker) {
         currentWorker.addEventListener('message', handleMessage);
+        currentWorker.addEventListener('error', handleError);
     }
 
     worker = worker || currentWorker;
 
     return worker;
+}
+
+export function handleError(event: ErrorEvent) {
+    const keys = Object.keys(event) as (keyof ErrorEvent)[];
+
+    keys.forEach(key => console.error(typeof event[key] === 'string' || stringify(event[key])));
 }

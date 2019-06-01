@@ -6,6 +6,21 @@ export enum Environment {
     worker = 'worker'
 }
 
+export enum TimeoutDuration {
+    webComponent = 60000,
+    indexDbIsAccessible = 100
+}
+
+export enum MessageQueueName {
+    webComponent = 'webComponent'
+}
+
+export enum Prefix {
+    db = 'vamtiger-browser-method',
+    messageIdWindow = 'vamtiger-browser-method-window',
+    messageIdWorker = 'vamtiger-browser-method-worker'
+}
+
 export enum Origin {
     nowhere = '',
     everyWhere = '*'
@@ -95,7 +110,52 @@ export enum ScriptNameSuffix {
 
 export enum MessageAction {
     ignore = 'ignore',
-    removeRedundantScripts = 'removeRedundantScripts'
+    removeRedundantScripts = 'removeRedundantScripts',
+    setWorkerSupport = 'setWorkerSupport',
+    saveWebComponentData = 'saveWebComponentData',
+    getWebComponentData = 'getWebComponentData',
+    dequeue = 'dequeue',
+    loadWebComponentData = 'loadWebComponentData',
+    saveSupport = 'saveSupport'
+}
+
+export enum DbName {
+    vamtigerBrowserSupport = 'vamtiger-browser-support'
+}
+
+export enum DbStoreName {
+    support = 'support',
+    webComponent = 'web-component'
+}
+
+export enum DbMode {
+    readonly = 'readonly',
+    readwrite = 'readwrite',
+    versionchange = 'versionchange'
+}
+
+export enum DbKeyPath {
+    webComponent = 'url',
+    support = 'environment'
+}
+
+export interface IDequeue {
+    key: string;
+    data: IAnyObject;
+}
+
+export interface IGetDbParams {
+    storeName: DbStoreName;
+    keyPath: DbKeyPath;
+    mode: DbMode;
+}
+
+export interface IGetDbParamsHandleUpgradeNeeded extends Pick<IDbParams, 'db'>{}
+
+export interface IDbParams {
+    db: IDBDatabase;
+    transaction: IDBTransaction;
+    store: IDBObjectStore;
 }
 
 export interface ILoadRemoteScriptParams {
@@ -227,18 +287,91 @@ export interface IJosnLdImageObject {
 
 export interface IMessageAction {
     action: MessageAction;
-    params: any;
-}
-
-export interface IMessageResponse {
-    data: IMessageAction;
+    params: IAnyObject & {
+        messageId?: string;
+    };
 }
 
 export interface IRemoveRedundantScripts {
     selector: string;
 }
 
-export type MessageResponse = IMessageResponse | undefined;
+export interface ISupport {
+    localStorage: boolean;
+    indexedDb: boolean;
+    indexedDbIsAccessible: boolean;
+    worker: boolean;
+    sharedWorker: boolean;
+    textEncoder: boolean;
+    textDecoder: boolean;
+}
+
+export interface ISaveSupport extends ISupport {
+    environment: Environment;
+}
+
+export interface ISaveWebComponentData extends IWebComponentData {}
+
+export interface IGetWebComponentData {
+    key: string;
+}
+
+export interface IGetDbName {
+    dbName: DbName
+}
+
+export interface ISaveIndexedDbData {
+    storeName: DbStoreName;
+    keyPath: DbKeyPath;
+    messageId?: string;
+    data: IWebComponentData | ISupport;
+}
+
+export interface IGetIndexedDbData {
+    storeName: DbStoreName;
+    keyPath: DbKeyPath;
+    key: string;
+    messageId?: string;
+}
+
+export interface ISaveIndexedDbDataHandleSuccess {
+    messageId?: string;
+    key: string;
+}
+
+export interface IWebComponentData {
+    url: string;
+    created?: number;
+    messageId?: string;
+    jsonLd: IAnyObject[];
+    json: IAnyObject;
+}
+
+export interface ISaveWebComponentDataWorker extends ISaveWebComponentData {}
+
+export interface IMessageQueueEntry {
+    resolve: (result: any) => void;
+    reject: (reason: Error) => void;
+}
+
+export interface IQueue extends NonNullable<Pick<IMessageQueueEntry, 'resolve' | 'reject'>> {
+    key: string;
+}
+
+export interface IQueueHandleExpiredQueueEntry {
+    key: string;
+    queueEntry: IMessageQueueEntry;
+}
+
+export interface ILoadData {
+    url: string;
+}
+
+export type WebComponentDataResolve = (webComponent: IJsonData) => void;
+
+export type ErrorResolve = (error: Error) => void;
+
+export type MessageResponse = IMessageAction | undefined | null | false;
 
 export type TsLibType = typeof tslib;
 
@@ -294,13 +427,25 @@ export type VamtigerBrowserMethod = {
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
     getEnvironment: () => Environment;
-    envrironment: Environment;
+    environment: Environment;
     worker?: Worker;
+    messageQueue: Map<string, Set<IMessageQueueEntry>>;
+    support?: ISupport;
+    workerSupport?: ISupport;
 };
 
 export type JsonDataResolve = (data: IJsonData) => void;
 
-export type WorkerPostMessage = (message: IAnyObject) => void;
+export type WorkerPostMessage = (message: string | Uint8Array) => void;
+
+export type GetIndexedDbData<P extends IGetIndexedDbData> =
+    P['keyPath'] extends DbKeyPath.webComponent ? IWebComponentData | undefined :
+    P['keyPath'] extends DbKeyPath.support ? ISaveSupport :
+    never;
+
+export type DbKeyPathName = keyof typeof DbKeyPath;
+
+export type DbStoreNameKey = keyof typeof DbStoreName;
 
 declare global {
     interface Window extends TsLib {
@@ -336,5 +481,3 @@ export const selector = {
 }
 
 export const sendMessageFromWorker = postMessage as WorkerPostMessage;
-
-export function ignore(params?: any) {}

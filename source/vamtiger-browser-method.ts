@@ -1,3 +1,4 @@
+export * from './load-ts-lib';
 import loadScript from './load-script';
 import loadScripts from './load-scripts';
 import loadScriptsSequentially from './load-scripts-sequentially';
@@ -9,8 +10,9 @@ import getData from './get-data';
 import getEnvironment from './get-environment';
 import setupWindow from './setup-window';
 import setupWorker from './setup-worker';
+import setSupport from './set-support';
 
-const envrironment = getEnvironment();
+const environment = getEnvironment();
 const vamtigerBrowserMethod = {
     loadScript,
     loadScripts,
@@ -21,7 +23,8 @@ const vamtigerBrowserMethod = {
     getElement,
     getData,
     getEnvironment,
-    envrironment
+    environment,
+    messageQueue: new Map()
 };
 main();
 
@@ -31,6 +34,8 @@ function main() {
 
         if (!VamtigerBrowserMethod) {
             self.VamtigerBrowserMethod = vamtigerBrowserMethod;
+
+            setSupport();
 
             setupWindow();
 

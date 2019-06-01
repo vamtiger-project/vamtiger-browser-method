@@ -1,10 +1,10 @@
 import {
-    sendMessageFromWorker,
     MessageAction,
     IRemoveRedundantScripts
 } from './types';
 import isWindow from './is-window';
 import isWorker from './is-worker';
+import sendMessage from './send-message';
 
 export default function (params: IRemoveRedundantScripts) {
     isWindow() && removeRedundantScripts(params);
@@ -27,5 +27,5 @@ export function sendRemoveRedundantScriptsMessage({ selector }: IRemoveRedundant
         }
     };
 
-    sendMessageFromWorker(massage);
+    sendMessage(massage);
 }
