@@ -4,6 +4,18 @@ export declare enum Environment {
     window = "window",
     worker = "worker"
 }
+export declare enum TimeoutDuration {
+    webComponent = 60000,
+    indexDbIsAccessible = 100
+}
+export declare enum MessageQueueName {
+    webComponent = "webComponent"
+}
+export declare enum Prefix {
+    db = "vamtiger-browser-method",
+    messageIdWindow = "vamtiger-browser-method-window",
+    messageIdWorker = "vamtiger-browser-method-worker"
+}
 export declare enum Origin {
     nowhere = "",
     everyWhere = "*"
@@ -79,7 +91,45 @@ export declare enum ScriptNameSuffix {
 }
 export declare enum MessageAction {
     ignore = "ignore",
-    removeRedundantScripts = "removeRedundantScripts"
+    removeRedundantScripts = "removeRedundantScripts",
+    setWorkerSupport = "setWorkerSupport",
+    saveWebComponentData = "saveWebComponentData",
+    getWebComponentData = "getWebComponentData",
+    dequeue = "dequeue",
+    loadWebComponentData = "loadWebComponentData",
+    saveSupport = "saveSupport"
+}
+export declare enum DbName {
+    vamtigerBrowserSupport = "vamtiger-browser-support"
+}
+export declare enum DbStoreName {
+    support = "support",
+    webComponent = "web-component"
+}
+export declare enum DbMode {
+    readonly = "readonly",
+    readwrite = "readwrite",
+    versionchange = "versionchange"
+}
+export declare enum DbKeyPath {
+    webComponent = "url",
+    support = "environment"
+}
+export interface IDequeue {
+    key: string;
+    data: IAnyObject;
+}
+export interface IGetDbParams {
+    storeName: DbStoreName;
+    keyPath: DbKeyPath;
+    mode: DbMode;
+}
+export interface IGetDbParamsHandleUpgradeNeeded extends Pick<IDbParams, 'db'> {
+}
+export interface IDbParams {
+    db: IDBDatabase;
+    transaction: IDBTransaction;
+    store: IDBObjectStore;
 }
 export interface ILoadRemoteScriptParams {
     src: string;
@@ -184,15 +234,75 @@ export interface IJosnLdImageObject {
 }
 export interface IMessageAction {
     action: MessageAction;
-    params: any;
-}
-export interface IMessageResponse {
-    data: IMessageAction;
+    params: IAnyObject & {
+        messageId?: string;
+    };
 }
 export interface IRemoveRedundantScripts {
     selector: string;
 }
-export declare type MessageResponse = IMessageResponse | undefined;
+export interface ISupport {
+    localStorage: boolean;
+    indexedDb: boolean;
+    indexedDbIsAccessible: boolean;
+    worker: boolean;
+    sharedWorker: boolean;
+    textEncoder: boolean;
+    textDecoder: boolean;
+}
+export interface ISaveSupport extends ISupport {
+    environment: Environment;
+}
+export interface ISaveWebComponentData extends IWebComponentData {
+}
+export interface IGetWebComponentData {
+    key: string;
+}
+export interface IGetDbName {
+    dbName: DbName;
+}
+export interface ISaveIndexedDbData {
+    storeName: DbStoreName;
+    keyPath: DbKeyPath;
+    messageId?: string;
+    data: IWebComponentData | ISupport;
+}
+export interface IGetIndexedDbData {
+    storeName: DbStoreName;
+    keyPath: DbKeyPath;
+    key: string;
+    messageId?: string;
+}
+export interface ISaveIndexedDbDataHandleSuccess {
+    messageId?: string;
+    key: string;
+}
+export interface IWebComponentData {
+    url: string;
+    created?: number;
+    messageId?: string;
+    jsonLd: IAnyObject[];
+    json: IAnyObject;
+}
+export interface ISaveWebComponentDataWorker extends ISaveWebComponentData {
+}
+export interface IMessageQueueEntry {
+    resolve: (result: any) => void;
+    reject: (reason: Error) => void;
+}
+export interface IQueue extends NonNullable<Pick<IMessageQueueEntry, 'resolve' | 'reject'>> {
+    key: string;
+}
+export interface IQueueHandleExpiredQueueEntry {
+    key: string;
+    queueEntry: IMessageQueueEntry;
+}
+export interface ILoadData {
+    url: string;
+}
+export declare type WebComponentDataResolve = (webComponent: IJsonData) => void;
+export declare type ErrorResolve = (error: Error) => void;
+export declare type MessageResponse = IMessageAction | undefined | null | false;
 export declare type TsLibType = typeof tslib;
 export declare type TsLibKey = keyof TsLibType;
 export declare type TsLib = {
@@ -217,11 +327,17 @@ export declare type VamtigerBrowserMethod = {
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
     getEnvironment: () => Environment;
-    envrironment: Environment;
+    environment: Environment;
     worker?: Worker;
+    messageQueue: Map<string, Set<IMessageQueueEntry>>;
+    support?: ISupport;
+    workerSupport?: ISupport;
 };
 export declare type JsonDataResolve = (data: IJsonData) => void;
-export declare type WorkerPostMessage = (message: IAnyObject) => void;
+export declare type WorkerPostMessage = (message: string | Uint8Array) => void;
+export declare type GetIndexedDbData<P extends IGetIndexedDbData> = P['keyPath'] extends DbKeyPath.webComponent ? IWebComponentData | undefined : P['keyPath'] extends DbKeyPath.support ? ISaveSupport : never;
+export declare type DbKeyPathName = keyof typeof DbKeyPath;
+export declare type DbStoreNameKey = keyof typeof DbStoreName;
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: VamtigerBrowserMethod;
@@ -246,4 +362,3 @@ export declare const selector: {
     redundantScripts: string;
 };
 export declare const sendMessageFromWorker: WorkerPostMessage;
-export declare function ignore(params?: any): void;
