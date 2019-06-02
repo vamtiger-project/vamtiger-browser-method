@@ -52,7 +52,7 @@ async function getWebComponentDataWindowWorker({ key }: IGetWebComponentData) {
 
 export async function getWebComponentDataWorker({ key }: IGetWebComponentData) {
     const webComponent = await getWebComponentData({ key });
-    const message = webComponent && {
+    const message = webComponent && webComponent.jsonLd.length && {
         action: MessageAction.dequeue,
         params: {
             key,

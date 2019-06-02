@@ -17,9 +17,9 @@ export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async 
     queue(queueParams);
 
     try {
-        await getWebComponentData({ key: url });
-        await loadWebComponentData({ url });
+        loadWebComponentData({ url });
     } catch(error) {
         console.error(error);
+        getWebComponentData({ key: url });
     }
 })}
