@@ -367,7 +367,7 @@ export interface ILoadData {
     url: string;
 }
 
-export type WebComponentDataResolve = (webComponent: IJsonData) => void;
+export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 
 export type ErrorResolve = (error: Error) => void;
 
