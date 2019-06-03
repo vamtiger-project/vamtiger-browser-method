@@ -300,7 +300,7 @@ export interface IQueueHandleExpiredQueueEntry {
 export interface ILoadData {
     url: string;
 }
-export declare type WebComponentDataResolve = (webComponent: IJsonData) => void;
+export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
 export declare type MessageResponse = IMessageAction | undefined | null | false;
 export declare type TsLibType = typeof tslib;
