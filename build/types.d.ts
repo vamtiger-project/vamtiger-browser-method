@@ -12,6 +12,7 @@ export declare enum MessageQueueName {
     webComponent = "webComponent"
 }
 export declare enum Prefix {
+    vamtigerBrowserMethod = "vamtiger-browser-method",
     db = "vamtiger-browser-method",
     messageIdWindow = "vamtiger-browser-method-window",
     messageIdWorker = "vamtiger-browser-method-worker"
@@ -58,7 +59,8 @@ export declare enum StringConstant {
     pipe = "|",
     comma = ",",
     backTick = "`",
-    doubleQuote = "\""
+    doubleQuote = "\"",
+    commaSpace = ", "
 }
 export declare enum TagName {
     div = "div",
@@ -80,7 +82,10 @@ export declare enum Selector {
     stylesheet = " link[rel=\"stylesheet\"]",
     vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
     vamtigerBrowserMethodJson = "[data-name$=\"vamtiger-browser-method.js.json\"]",
-    vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]"
+    vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]",
+    script = "script",
+    jsonScript = "script[type=\"application/json\"]",
+    jsonLdScript = "script[type=\"application/ld+json\"]"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
@@ -136,6 +141,9 @@ export interface ILoadRemoteScriptParams {
 }
 export interface ILoadRemoteStylesheetScriptParams {
     href: string;
+}
+export interface IIsJsonScript {
+    script: HTMLScriptElement;
 }
 export interface ILoadLocalScriptParams {
     name: string;
@@ -240,6 +248,13 @@ export interface IMessageAction {
 }
 export interface IRemoveRedundantScripts {
     selector: string;
+}
+export interface IRemoveRedundantScriptsRemoveScripts extends IRemoveRedundantScripts {
+    parent: HTMLElement;
+}
+export interface IRemoveRedundantScriptsRemoveScriptsFromParent extends IRemoveRedundantScriptsRemoveScripts {
+    resolve?: () => void;
+    reject?: (error: Error) => void;
 }
 export interface ISupport {
     localStorage: boolean;
