@@ -16,8 +16,8 @@ const { requestIdleCallback } = self;
 const { dash } = StringConstant;
 const { vamtigerBrowserMethod: prefix } = Prefix;
 
-export default function (params: IRemoveRedundantScripts) {
-    isWindow() && removeRedundantScripts(params);
+export default async function (params: IRemoveRedundantScripts) {
+    isWindow() && await removeRedundantScripts(params);
 
     isWorker() && sendRemoveRedundantScriptsMessage(params);
 }
@@ -25,7 +25,7 @@ export default function (params: IRemoveRedundantScripts) {
 async function removeRedundantScripts(params: IRemoveRedundantScripts) {
     const { head: parent } = document;
 
-    removeScripts({...params, parent});
+    await removeScripts({...params, parent});
 }
 
 export function removeScripts(params: IRemoveRedundantScriptsRemoveScripts) {return new Promise((resolve, reject) => {
