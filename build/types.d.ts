@@ -85,7 +85,10 @@ export declare enum Selector {
     vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]",
     script = "script",
     jsonScript = "script[type=\"application/json\"]",
-    jsonLdScript = "script[type=\"application/ld+json\"]"
+    jsonLdScript = "script[type=\"application/ld+json\"]",
+    a = "a",
+    linkedDataCaption = "[data-linked-data-caption]",
+    linkedDataCaptionElement = "[data-linked-data-caption-element]"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
@@ -315,6 +318,21 @@ export interface IQueueHandleExpiredQueueEntry {
 export interface ILoadData {
     url: string;
 }
+export interface IGetMicrodataCaption {
+    imageData: IAnyObject;
+    fieldKey: string;
+}
+export interface IGetTemplate {
+    selector: Selector;
+    attributes?: IAttributes;
+    properties?: IProperties;
+}
+export interface IProperties {
+    name?: string;
+    src?: string;
+    alt?: string;
+    innerHTML?: string;
+}
 export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
 export declare type MessageResponse = IMessageAction | undefined | null | false;
@@ -338,21 +356,32 @@ export declare type VamtigerBrowserMethod = {
     loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
     loadShadowStylesheet: ({ css, element }: ILoadShadowStylesheet) => void;
     defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
-    pause: ({ milliseconds }: IPause) => Promise<{}>;
+    pause: ({ milliseconds }: IPause) => Promise<unknown>;
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
     getEnvironment: () => Environment;
     environment: Environment;
-    worker?: Worker;
+    getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined;
     messageQueue: Map<string, Set<IMessageQueueEntry>>;
+    worker?: Worker;
     support?: ISupport;
     workerSupport?: ISupport;
 };
+export interface IAttributes {
+    id?: string;
+    for?: string;
+    slot?: string;
+    'data-image-figure'?: string;
+    'data-json-ld'?: string;
+    itemprop?: string;
+}
 export declare type JsonDataResolve = (data: IJsonData) => void;
 export declare type WorkerPostMessage = (message: string | Uint8Array) => void;
 export declare type GetIndexedDbData<P extends IGetIndexedDbData> = P['keyPath'] extends DbKeyPath.webComponent ? IWebComponentData | undefined : P['keyPath'] extends DbKeyPath.support ? ISaveSupport : never;
 export declare type DbKeyPathName = keyof typeof DbKeyPath;
 export declare type DbStoreNameKey = keyof typeof DbStoreName;
+export declare type AttributesKey = keyof IAttributes;
+export declare type GetTemplate<P extends IGetTemplate> = P['selector'] extends Selector.a ? HTMLAnchorElement : P['selector'] extends Selector.linkedDataCaptionElement ? HTMLSpanElement : P['selector'] extends Selector.linkedDataCaption ? HTMLElement : null;
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: VamtigerBrowserMethod;
