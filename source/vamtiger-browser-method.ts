@@ -11,6 +11,7 @@ import getEnvironment from './get-environment';
 import setupWindow from './setup-window';
 import setupWorker from './setup-worker';
 import setSupport from './set-support';
+import getMicrodataCaption from './get-microdata-caption';
 
 const environment = getEnvironment();
 const vamtigerBrowserMethod = {
@@ -24,7 +25,8 @@ const vamtigerBrowserMethod = {
     getData,
     getEnvironment,
     environment,
-    messageQueue: new Map()
+    messageQueue: new Map(),
+    getMicrodataCaption
 };
 main();
 

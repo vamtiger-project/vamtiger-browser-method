@@ -101,7 +101,10 @@ export enum Selector {
     vamtigerBrowserMethod = '[data-name$="vamtiger-browser-method.js"]',
     script = 'script',
     jsonScript = 'script[type="application/json"]',
-    jsonLdScript = 'script[type="application/ld+json"]'
+    jsonLdScript = 'script[type="application/ld+json"]',
+    a = 'a',
+    linkedDataCaption = '[data-linked-data-caption]',
+    linkedDataCaptionElement = '[data-linked-data-caption-element]',
 }
 
 export enum  MetaElementName {
@@ -385,6 +388,24 @@ export interface ILoadData {
     url: string;
 }
 
+export interface IGetMicrodataCaption {
+    imageData: IAnyObject;
+    fieldKey: string;
+}
+
+export interface IGetTemplate {
+    selector: Selector;
+    attributes?: IAttributes;
+    properties?: IProperties;
+}
+
+export interface IProperties {
+    name?: string;
+    src?: string;
+    alt?: string;
+    innerHTML?: string;
+}
+
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 
 export type ErrorResolve = (error: Error) => void;
@@ -441,16 +462,26 @@ export type VamtigerBrowserMethod = {
     loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
     loadShadowStylesheet: ({ css, element }: ILoadShadowStylesheet) => void;
     defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
-    pause: ({ milliseconds }: IPause) => Promise<{}>;
+    pause: ({ milliseconds }: IPause) => Promise<unknown>;
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
     getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
     getEnvironment: () => Environment;
     environment: Environment;
-    worker?: Worker;
+    getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined
     messageQueue: Map<string, Set<IMessageQueueEntry>>;
+    worker?: Worker;
     support?: ISupport;
     workerSupport?: ISupport;
 };
+
+export interface IAttributes {
+    id?: string;
+    for?: string;
+    slot?: string;
+    'data-image-figure'?: string;
+    'data-json-ld'?: string;
+    itemprop?: string;
+}
 
 export type JsonDataResolve = (data: IJsonData) => void;
 
@@ -464,6 +495,14 @@ export type GetIndexedDbData<P extends IGetIndexedDbData> =
 export type DbKeyPathName = keyof typeof DbKeyPath;
 
 export type DbStoreNameKey = keyof typeof DbStoreName;
+
+export type AttributesKey = keyof IAttributes;
+
+export type GetTemplate<P extends IGetTemplate> =
+    P['selector'] extends Selector.a ? HTMLAnchorElement :
+    P['selector'] extends  Selector.linkedDataCaptionElement ? HTMLSpanElement :
+    P['selector'] extends Selector.linkedDataCaption ? HTMLElement :
+    null;
 
 declare global {
     interface Window extends TsLib {
