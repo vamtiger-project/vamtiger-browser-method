@@ -5,14 +5,22 @@ import {
     AttributesKey
 } from './types';
 import html from './html';
+import isWindow from './is-window';
+
+let template: HTMLTemplateElement;
+let templateHtml: string;
 
 const { nothing } = StringConstant;
-const template = document.createElement('template');
-const templateHtml = [
-    html
-].join(nothing);
 
-template.innerHTML = templateHtml;
+if (isWindow()) {
+    template = document.createElement('template');
+
+    templateHtml = [
+        html
+    ].join(nothing);
+
+    template.innerHTML = templateHtml;
+}
 
 export default <P extends IGetTemplate>(params: P) => {
     const {
