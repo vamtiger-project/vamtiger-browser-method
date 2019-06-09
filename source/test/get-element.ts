@@ -1,6 +1,8 @@
 import { expect } from 'chai';
 
 export default () => describe('getTemplate', function () {
+    this.timeout(5000);
+
     it('template', templateTest);
 
     it('url', urlTest);

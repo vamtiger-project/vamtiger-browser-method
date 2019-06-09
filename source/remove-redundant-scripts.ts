@@ -36,6 +36,24 @@ export function removeScripts(params: IRemoveRedundantScriptsRemoveScripts) {ret
     }
 })}
 
+export function removeDuplicateScripts(params: IRemoveRedundantScriptsRemoveScripts) {return new Promise((resolve, reject) => {
+    if (requestIdleCallback) {
+        requestIdleCallback(() => removeDuplicateScriptsFromParent({...params, resolve, reject }));
+    } else {
+        removeDuplicateScriptsFromParent({...params, resolve, reject });
+    }
+})}
+
+function removeDuplicateScriptsFromParent({resolve, reject, selector, parent}: IRemoveRedundantScriptsRemoveScriptsFromParent) {
+    const duplicateScripts = Array.from(parent.querySelectorAll<HTMLScriptElement>(selector));
+
+    duplicateScripts.pop();
+
+    duplicateScripts.forEach(duplicateScript => parent.removeChild(duplicateScript));
+
+    resolve && resolve();
+}
+
 function removeScriptsFromParent({ selector, parent, resolve, reject }: IRemoveRedundantScriptsRemoveScriptsFromParent) {
     const { head } = document;
     const scripts = Array.from(parent.querySelectorAll<HTMLScriptElement>(selector));

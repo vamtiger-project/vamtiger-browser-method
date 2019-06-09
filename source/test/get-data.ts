@@ -18,12 +18,12 @@ async function jsonLdTest() {
     const { VamtigerBrowserMethod } = window;
     const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
-        jsonLd: 'https://unpkg.com/vamtiger-facebook-icon-json-ld@latest'
+        jsonLd: 'https://unpkg.com/vamtiger-mental-health-botswana-json-ld@latest'
     }) as IData;
     const { jsonLd: currentJsonLd } = data;
     const [ jsonLd ] = currentJsonLd;
 
     expect(jsonLd).to.be.ok;
     expect(jsonLd['@context']).to.equal('http://schema.org');
-    expect(jsonLd['@type']).to.equal('ImageObject');
+    expect(jsonLd['@type']).to.equal('VisualArtwork');
 }
