@@ -67,10 +67,10 @@ async function getFieldData({ urls: currentUrls, key }: ILoadDataGetFeldData) {
     const webComponentData = await Promise.all(urls.map(url => getWebComponentData({ url, reload })));
     const fieldData = {
         key,
-        jsonLd: webComponentData
-            .map(({jsonLd}) => jsonLd)
-            .filter(jsonLd => jsonLd) as IJsonData['json']
+        jsonLd: [] as IJsonData['jsonLd']
     };
+
+    webComponentData.forEach(({jsonLd}) => jsonLd && jsonLd.forEach(currentJsonLd => currentJsonLd && fieldData.jsonLd.push(currentJsonLd)));
 
     return fieldData;
 }
