@@ -169,6 +169,12 @@ export interface IJsonData {
     jsonLd: IAnyObject[];
     json?: IAnyObject;
 }
+export interface IJsonJsonLd {
+    index: number;
+    fields: {
+        [key: string]: string[];
+    };
+}
 export interface ILoadScript {
     params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams | ILoadJsonScriptParams;
     reject: (error: Error) => void;
@@ -317,6 +323,13 @@ export interface IQueueHandleExpiredQueueEntry {
 }
 export interface ILoadData {
     url: string;
+    reload?: boolean;
+}
+export interface ILoadDataGetFeldData {
+    key: string;
+    urls: string[];
+}
+export interface ILoadDataGetJsonJsonLd extends IJsonJsonLd {
 }
 export interface IGetMicrodataCaption {
     imageData: IAnyObject;
