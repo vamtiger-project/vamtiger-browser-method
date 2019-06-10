@@ -7,7 +7,7 @@
     "test": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source",
     "mocha": "mocha build/test/node",
     "build": "tsc",
-    "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish --publishSource",
+    "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish",
     "clean": "rm -rf build/*",
     "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.js(\\.map)?|(vamtiger-browser-method|types)\\.d\\.ts\"",
     "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
