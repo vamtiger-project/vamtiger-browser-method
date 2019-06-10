@@ -10,7 +10,6 @@ import loadScript from './load-script';
 import saveWebComponentData from './save-web-component-data';
 import isWindow from './is-window';
 import getJsonLd from './get-json-ld';
-import { removeScripts, removeDuplicateScripts } from './remove-redundant-scripts';
 
 const { parse, stringify } = JSON;
 const { comma } = StringConstant;
@@ -46,9 +45,11 @@ async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
         if (jsonLdScript && jsonLd) {
             head.removeChild(jsonLdScript);
 
-            jsonLdScript.innerHTML = stringify(jsonLd);
-
-            head.appendChild(jsonLdScript);
+            await Promise.all(jsonLd.map(currentJsonLd => loadScript({
+                name: url,
+                json: stringify(currentJsonLd),
+                jsonld: true
+            })));
         }
     }
 
@@ -82,21 +83,8 @@ async function getWebComponentData({ url }: ILoadData) {
         const selector = `${Selector.script}[src="${url}"]`;
         const jsonLdSelector = `script[type="application/ld+json"][data-json-ld="${url}"]`;
         const jsonSelector = `script[type="application/json"][data-json-ld="${url}"]`;
-        // const removeScriptsSelector = reload && [
-        //     selector,
-        //     jsonLdSelector,
-        //     jsonSelector
-        // ].join(comma);
-        // const remove = removeScriptsSelector && await removeScripts({
-        //     selector: removeScriptsSelector,
-        //     parent: head
-        // });
         const existingScript = head.querySelector(selector);
         const script = !existingScript && await loadScript({ src: url });
-        // const removeDuplicates = reload && await removeDuplicateScripts({
-        //     selector: jsonLdSelector,
-        //     parent: head
-        // });
         const scripts = script && await Promise.all([
             Array
                 .from(head.querySelectorAll<HTMLScriptElement>(jsonLdSelector))

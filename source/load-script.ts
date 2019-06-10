@@ -26,12 +26,13 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
     const { href } = params as ILoadRemoteStylesheetScriptParams;
     const { json } = params as ILoadJsonScriptParams;
     const remoteScript = params.hasOwnProperty('src') || params.hasOwnProperty('href');
-    const element = (js || src) && scriptElement
+    const element = (js || json|| src) && scriptElement
         || css && style
         || href && link;
     const selector = src && `script[src="${src}"]`
         || href && `link[href="${href}"]`
         || js && scriptName && `script[data-name="${scriptName}"]`
+        || jsonld && scriptName && `script[data-name="${scriptName}"][type="${ScriptType.jsonld}"]`
         || css && stylesheetName && `style[data-name="${stylesheetName}"]`;
     const existingScript = (head.querySelector(selector) || body.querySelector(selector)) as LoadedScript<P>;
     const script = selector
