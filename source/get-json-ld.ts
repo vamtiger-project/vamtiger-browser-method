@@ -7,7 +7,7 @@ import queue from './queue';
 import loadWebComponentData from './load-web-component-data';
 import getWebComponentData from './get-web-component-data';
 
-export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async (resolve: WebComponentDataResolve, reject: ErrorResolve) => {
+export default function ({ jsonLd: url, loadJsonJsonLd = true }: IGetJsonLd) {return new Promise(async (resolve: WebComponentDataResolve, reject: ErrorResolve) => {
     const queueParams = {
         key: url,
         resolve,
@@ -17,7 +17,7 @@ export default function ({ jsonLd: url }: IGetJsonLd) {return new Promise(async 
     queue(queueParams);
 
     try {
-        await loadWebComponentData({ url });
+        await loadWebComponentData({ url, loadJsonJsonLd });
     } catch(error) {
         console.error(error);
     }

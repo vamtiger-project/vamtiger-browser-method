@@ -287,6 +287,7 @@ export interface IGetData {
 
 export interface IGetJsonLd {
     jsonLd: string;
+    loadJsonJsonLd?: boolean;
 }
 
 export interface IJosnLdImageObject {
@@ -393,7 +394,7 @@ export interface IQueueHandleExpiredQueueEntry {
 
 export interface ILoadData {
     url: string;
-    reload?: boolean;
+    loadJsonJsonLd?: boolean;
 }
 
 export interface ILoadDataGetFeldData {

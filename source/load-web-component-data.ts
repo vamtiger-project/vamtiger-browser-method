@@ -9,6 +9,7 @@ import {
 import loadScript from './load-script';
 import saveWebComponentData from './save-web-component-data';
 import isWindow from './is-window';
+import getJsonLd from './get-json-ld';
 import { removeScripts, removeDuplicateScripts } from './remove-redundant-scripts';
 
 const { parse, stringify } = JSON;
@@ -22,11 +23,11 @@ export default async function (params: ILoadData) {
     return await (isWindow() && loadWebComponentData(params));
 }
 
-async function loadWebComponentData({ url }: ILoadData) {
+async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
     const { head } = document;
     const jsonLdSelector = `script[type="application/ld+json"][data-json-ld="${url}"]`;
     const { jsonLd, json } = await getWebComponentData({ url });
-    const jsonJsonLdData = json && Array.isArray(json.jsonLd) && await Promise.all((json.jsonLd as ILoadDataGetJsonJsonLd[]).map(getJsonJsonLd));
+    const jsonJsonLdData = loadJsonJsonLd && json && Array.isArray(json.jsonLd) && await Promise.all((json.jsonLd as ILoadDataGetJsonJsonLd[]).map(getJsonJsonLd));
     const params = jsonLd && {
         url,
         created: new Date().getTime(),
@@ -62,40 +63,40 @@ async function getJsonJsonLd({ index, fields }: ILoadDataGetJsonJsonLd) {
 }
 
 async function getFieldData({ urls: currentUrls, key }: ILoadDataGetFeldData) {
-    const reload = true;
+    const loadJsonJsonLd = false;
     const urls = Array.isArray(currentUrls) && currentUrls.filter(url => typeof url === 'string') || [];
-    const webComponentData = await Promise.all(urls.map(url => getWebComponentData({ url, reload })));
-    const fieldData = {
+    const fieldData = await Promise.all(urls.map(url => getJsonLd({ jsonLd: url, loadJsonJsonLd })));
+    const data = {
         key,
         jsonLd: [] as IJsonData['jsonLd']
     };
 
-    webComponentData.forEach(({jsonLd}) => jsonLd && jsonLd.forEach(currentJsonLd => currentJsonLd && fieldData.jsonLd.push(currentJsonLd)));
+    fieldData.forEach(({jsonLd}) => jsonLd && jsonLd.forEach(currentJsonLd => currentJsonLd && data.jsonLd.push(currentJsonLd)));
 
-    return fieldData;
+    return data;
 }
 
-async function getWebComponentData({ url, reload = false }: ILoadData) {
+async function getWebComponentData({ url }: ILoadData) {
     try {
         const { head } = document;
         const selector = `${Selector.script}[src="${url}"]`;
         const jsonLdSelector = `script[type="application/ld+json"][data-json-ld="${url}"]`;
         const jsonSelector = `script[type="application/json"][data-json-ld="${url}"]`;
-        const removeScriptsSelector = reload && [
-            selector,
-            jsonLdSelector,
-            jsonSelector
-        ].join(comma);
-        const remove = removeScriptsSelector && await removeScripts({
-            selector: removeScriptsSelector,
-            parent: head
-        });
+        // const removeScriptsSelector = reload && [
+        //     selector,
+        //     jsonLdSelector,
+        //     jsonSelector
+        // ].join(comma);
+        // const remove = removeScriptsSelector && await removeScripts({
+        //     selector: removeScriptsSelector,
+        //     parent: head
+        // });
         const existingScript = head.querySelector(selector);
         const script = !existingScript && await loadScript({ src: url });
-        const removeDuplicates = reload && await removeDuplicateScripts({
-            selector: jsonLdSelector,
-            parent: head
-        });
+        // const removeDuplicates = reload && await removeDuplicateScripts({
+        //     selector: jsonLdSelector,
+        //     parent: head
+        // });
         const scripts = script && await Promise.all([
             Array
                 .from(head.querySelectorAll<HTMLScriptElement>(jsonLdSelector))
