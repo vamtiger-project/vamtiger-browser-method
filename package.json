@@ -1,6 +1,6 @@
 {
   "name": "vamtiger-browser-method",
-  "version": "0.107.2",
+  "version": "0.107.3-0",
   "description": "Typescript browser methods",
   "main": "build/vamtiger-browser-method",
   "scripts": {
@@ -15,7 +15,7 @@
     "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
     "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
     "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
-    "serve": "npm run test && cd build && python -m SimpleHTTPServer",
+    "serve": "npm run test && cd build && python -m SimpleHTTPServer 8887",
     "watch": "vamtiger-watch --folder source --extension ts --script test --extension html --script bundle-html",
     "clean-install": "rm -rf package-lock.json node_modules && npm i",
     "postinstall": "vamtiger-postinstall --distTag source"
@@ -56,7 +56,7 @@
     "@types/requestidlecallback": "^0.1.1",
     "tslib": "^1.9.3",
     "vamtiger-bundle-html": "^0.2.8",
-    "vamtiger-export-to-browser-json": "0.0.3",
+    "vamtiger-export-to-browser-json": "0.0.4",
     "vamtiger-postinstall": "^0.18.1"
   }
 }
