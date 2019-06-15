@@ -3,16 +3,15 @@ import {
     IJsonData,
     ILoadDataGetJsonJsonLd,
     Selector,
-    ILoadDataGetFeldData,
-    StringConstant
+    ILoadDataGetFeldData
 } from './types';
 import loadScript from './load-script';
 import saveWebComponentData from './save-web-component-data';
 import isWindow from './is-window';
 import getJsonLd from './get-json-ld';
+import dequeue from './dequeue';
 
 const { parse, stringify } = JSON;
-const { comma } = StringConstant;
 const emptyJsonLd = {
     jsonLd: [],
     json: {}
@@ -23,6 +22,8 @@ export default async function (params: ILoadData) {
 }
 
 async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
+    const { VamtigerBrowserMethod } = self;
+    const { worker } = VamtigerBrowserMethod;
     const { head } = document;
     const jsonLdSelector = `script[type="application/ld+json"][data-json-ld="${url}"]`;
     const { jsonLd, json } = await getWebComponentData({ url });
@@ -53,7 +54,9 @@ async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
         }
     }
 
-    params && saveWebComponentData(params);
+    if (worker && params) {
+        saveWebComponentData(params);
+    }
 }
 
 async function getJsonJsonLd({ index, fields }: ILoadDataGetJsonJsonLd) {

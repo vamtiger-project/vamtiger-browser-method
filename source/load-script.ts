@@ -48,6 +48,8 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
 
             if (jsonld) {
                 script.setAttribute(ScriptAttribute.type, ScriptType.jsonld);
+
+                script.dataset.jsonLd = script.dataset.name;
             } else if (json) {
                 script.setAttribute(ScriptAttribute.type, ScriptType.json);
             }
