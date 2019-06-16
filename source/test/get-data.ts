@@ -18,7 +18,7 @@ async function jsonLdTest() {
     const { VamtigerBrowserMethod } = window;
     const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
-        jsonLd: 'https://cdn.jsdelivr.net/npm/vamtiger-mental-health-botswana-json-ld@latest/build/vamtiger-mental-health-botswana-2018-json-ld.js'
+        jsonLd: 'https://vamtiger-project.github.io/vamtiger-mental-health-botswana-json-ld/build/vamtiger-mental-health-botswana-2018-json-ld.js'
     }) as IData;
     const { jsonLd: currentJsonLd } = data;
     const [ jsonLd ] = currentJsonLd;
