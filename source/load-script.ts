@@ -24,7 +24,6 @@ const { remoteUrl } = regex;
 const { nothing } = StringConstant
 
 export default <P extends ILoadScript['params']>(params: P) => new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
-    console.log(params);
     const { head, body } = document;
     const { js, name: scriptName, jsonld, removeFromDom, transpileJs } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
@@ -51,7 +50,7 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise(async
             script.src = src;
         } else if (json || transpiledJs || js) {
             script.innerHTML = json || transpiledJs || js;
-            script.dataset.name = scriptName;
+            script.dataset.name = scriptName || src;
 
             if (jsonld) {
                 script.setAttribute(ScriptAttribute.type, ScriptType.jsonld);
@@ -61,6 +60,7 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise(async
                 script.setAttribute(ScriptAttribute.type, ScriptType.json);
             } else if (transpiledJs) {
                 script.dataset.transpiledJs = nothing;
+                console.log(transpiledJs)
             }
         }
     } else if (script instanceof HTMLLinkElement) {

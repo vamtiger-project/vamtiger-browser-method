@@ -69,7 +69,6 @@ exports.default = (function (params) { return new Promise(function (resolve, rej
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
-                console.log(params);
                 head = document.head, body = document.body;
                 _a = params, js = _a.js, scriptName = _a.name, jsonld = _a.jsonld, removeFromDom = _a.removeFromDom, transpileJs = _a.transpileJs;
                 src = params.src;
@@ -103,7 +102,7 @@ exports.default = (function (params) { return new Promise(function (resolve, rej
                     }
                     else if (json || transpiledJs || js) {
                         script.innerHTML = json || transpiledJs || js;
-                        script.dataset.name = scriptName;
+                        script.dataset.name = scriptName || src;
                         if (jsonld) {
                             script.setAttribute(types_1.ScriptAttribute.type, types_1.ScriptType.jsonld);
                             script.dataset.jsonLd = script.dataset.name;
@@ -113,6 +112,7 @@ exports.default = (function (params) { return new Promise(function (resolve, rej
                         }
                         else if (transpiledJs) {
                             script.dataset.transpiledJs = nothing;
+                            console.log(transpiledJs);
                         }
                     }
                 }
