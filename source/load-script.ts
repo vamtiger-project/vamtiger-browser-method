@@ -24,6 +24,7 @@ const { remoteUrl } = regex;
 const { nothing } = StringConstant
 
 export default <P extends ILoadScript['params']>(params: P) => new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
+    console.log(params);
     const { head, body } = document;
     const { js, name: scriptName, jsonld, removeFromDom, transpileJs } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;

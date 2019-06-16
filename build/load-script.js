@@ -69,6 +69,7 @@ exports.default = (function (params) { return new Promise(function (resolve, rej
     return __generator(this, function (_d) {
         switch (_d.label) {
             case 0:
+                console.log(params);
                 head = document.head, body = document.body;
                 _a = params, js = _a.js, scriptName = _a.name, jsonld = _a.jsonld, removeFromDom = _a.removeFromDom, transpileJs = _a.transpileJs;
                 src = params.src;
