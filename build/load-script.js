@@ -112,7 +112,6 @@ exports.default = (function (params) { return new Promise(function (resolve, rej
                         }
                         else if (transpiledJs) {
                             script.dataset.transpiledJs = nothing;
-                            console.log(transpiledJs);
                         }
                     }
                 }

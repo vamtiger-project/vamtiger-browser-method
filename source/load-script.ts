@@ -60,7 +60,6 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise(async
                 script.setAttribute(ScriptAttribute.type, ScriptType.json);
             } else if (transpiledJs) {
                 script.dataset.transpiledJs = nothing;
-                console.log(transpiledJs)
             }
         }
     } else if (script instanceof HTMLLinkElement) {
