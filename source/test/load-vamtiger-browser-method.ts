@@ -20,7 +20,9 @@ export default () => describe('load vamtiger-browser-method', function () {
 function loadScriptTest() {
     const params = {
         src,
-        name: src
+        name: src,
+        transpileJs: true,
+        removeFromDom: true
     };
 
     return loadScript(params);

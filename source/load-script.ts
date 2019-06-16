@@ -10,18 +10,24 @@ import {
     LoadedScript,
     LinkRel,
     ScriptAttribute,
-    ScriptType
+    ScriptType,
+    StringConstant,
+    regex
 } from './types';
 import loadElementQueryCss from './load-element-query-css';
+import getTranspiledJs from './get-transpiled-js';
 
 const { failedToLoadScript } = ErrorMessage;
 const { stylesheet } = LinkRel;
 const { script: scriptElement, link, style } = LoadScriptElement;
+const { remoteUrl } = regex;
+const { nothing } = StringConstant
 
-export default <P extends ILoadScript['params']>(params: P) => new Promise((resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
+export default <P extends ILoadScript['params']>(params: P) => new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
     const { head, body } = document;
-    const { js, name: scriptName, jsonld, removeFromDom } = params as LocalScriptParams;
+    const { js, name: scriptName, jsonld, removeFromDom, transpileJs } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
+    const transpiledJs = transpileJs && (js || src && !src.match(remoteUrl)) && await getTranspiledJs({ js, url: src}) || '';
     const { css, name: stylesheetName } = params as LocalStylesheetScriptParams;
     const { href } = params as ILoadRemoteStylesheetScriptParams;
     const { json } = params as ILoadJsonScriptParams;
@@ -40,10 +46,10 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
         && document.createElement(element) as LoadedScript<P>;
 
     if (script instanceof HTMLScriptElement) {
-        if (src) {
+        if (!transpiledJs && src) {
             script.src = src;
-        } else if (json || js) {
-            script.innerHTML = json || js;
+        } else if (json || transpiledJs || js) {
+            script.innerHTML = json || transpiledJs || js;
             script.dataset.name = scriptName;
 
             if (jsonld) {
@@ -52,6 +58,8 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
                 script.dataset.jsonLd = script.dataset.name;
             } else if (json) {
                 script.setAttribute(ScriptAttribute.type, ScriptType.json);
+            } else if (transpiledJs) {
+                script.dataset.transpiledJs = nothing;
             }
         }
     } else if (script instanceof HTMLLinkElement) {
@@ -75,7 +83,7 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise((reso
 
         head.appendChild(script);
 
-        if (!remoteScript) {
+        if (transpileJs || !remoteScript) {
             handleLoad();
         }
     }

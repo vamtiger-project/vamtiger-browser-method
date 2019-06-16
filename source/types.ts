@@ -37,6 +37,7 @@ export enum LocalHostRelativePath {
 
 export enum ScriptType {
     js = 'text/javascript',
+    babel = 'text/babel',
     json = 'application/json',
     jsonld = 'application/ld+json'
 }
@@ -181,6 +182,7 @@ export interface IIsJsonScript {
 export interface ILoadLocalScriptParams {
     name: string;
     removeFromDom?: boolean;
+    transpileJs?: boolean;
 }
 
 export interface ILoadScriptParams {
@@ -274,6 +276,11 @@ export interface IGetMetaElement {
         [key: string]: string;
     };
     dataset?: DOMStringMap;
+}
+
+export interface IGetBabelJs {
+    url?: string;
+    js?: string;
 }
 
 export interface ILoadContainerStylesheets {
@@ -523,6 +530,7 @@ export type GetTemplate<P extends IGetTemplate> =
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: VamtigerBrowserMethod;
+        Babel: any;
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback
     }
@@ -539,7 +547,8 @@ export const regex = {
     dash: new RegExp(StringConstant.dash, 'g'),
     space: /\s/g,
     nonWord: /\W+/g,
-    backTicks: /`/gm
+    backTicks: /`/gm,
+    remoteUrl: /http(s)?/i
 }
 
 export const selector = {
