@@ -19,7 +19,7 @@
     "watch": "vamtiger-watch --folder source --extension ts --script test --extension html --script bundle-html",
     "clean-install": "rm -rf package-lock.json node_modules && npm i",
     "postinstall": "vamtiger-postinstall --distTag source",
-    "publish-preview": "git add -A; git commit -m test -a; git push origin"
+    "publish-preview": "git add -A; git commit -m test -a; git push -u origin gh-pages"
   },
   "repository": {
     "type": "git",
