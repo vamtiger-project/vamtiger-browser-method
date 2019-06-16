@@ -39,7 +39,7 @@ var chai_1 = require("chai");
 exports.default = (function () { return describe('getTemplate', function () {
     this.timeout(5000);
     it('template', templateTest);
-    it('url', urlTest);
+    it.skip('url', urlTest);
 }); });
 function templateTest() {
     return __awaiter(this, void 0, void 0, function () {
