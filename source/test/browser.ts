@@ -10,14 +10,10 @@ tslib;
 
 setup('bdd');
 
-addEventListener('load', test);
+loadVamtigerBrowserMethod();
+loadScript();
+defineCustomElement();
+getElement();
+getData();
 
-function test() {
-    loadVamtigerBrowserMethod();
-    loadScript();
-    defineCustomElement();
-    getElement();
-    getData();
-
-    run();
-}
+run();

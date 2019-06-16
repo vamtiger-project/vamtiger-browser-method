@@ -7,8 +7,8 @@ var src = 'vamtiger-browser-method.js.json.js';
 var selector = "[data-name='vamtiger-browser-method.js.json']";
 var name = 'vamtiger-browser-method.js';
 exports.default = (function () { return describe('load vamtiger-browser-method', function () {
-    it('load json script', loadScriptTest);
-    it('load javascript', loadJavascriptTest);
+    it.skip('load json script', loadScriptTest);
+    it.skip('load javascript', loadJavascriptTest);
     it('window.VamtigerBrowserMethod', vamtigerBrowserMethodTest);
 }); });
 function loadScriptTest() {

@@ -10,9 +10,9 @@ const selector = `[data-name='vamtiger-browser-method.js.json']`;
 const name = 'vamtiger-browser-method.js';
 
 export default () => describe('load vamtiger-browser-method', function () {
-    it('load json script', loadScriptTest);
+    it.skip('load json script', loadScriptTest);
 
-    it('load javascript', loadJavascriptTest);
+    it.skip('load javascript', loadJavascriptTest);
 
     it('window.VamtigerBrowserMethod', vamtigerBrowserMethodTest);
 });
