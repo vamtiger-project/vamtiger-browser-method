@@ -153,7 +153,9 @@ exports.regex = {
     space: /\s/g,
     nonWord: /\W+/g,
     backTicks: /`/gm,
-    remoteUrl: /http(s)?/i
+    remoteUrl: /http(s)?/i,
+    jsJsonJs: /\.js\.json\.js$/,
+    jsonJs: /\.json\.js$/
 };
 exports.selector = {
     worker: [

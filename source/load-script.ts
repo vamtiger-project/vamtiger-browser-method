@@ -1,5 +1,6 @@
 import {
     ILoadScript,
+    ILoadScriptLoadJsJsonJs,
     ErrorMessage,
     LocalScriptParams,
     LocalStylesheetScriptParams,
@@ -17,13 +18,18 @@ import {
 import loadElementQueryCss from './load-element-query-css';
 import getTranspiledJs from './get-transpiled-js';
 
+const { parse } = JSON;
 const { failedToLoadScript } = ErrorMessage;
 const { stylesheet } = LinkRel;
 const { script: scriptElement, link, style } = LoadScriptElement;
-const { remoteUrl } = regex;
-const { nothing } = StringConstant
+const { remoteUrl, jsJsonJs, jsonJs } = regex;
+const { nothing } = StringConstant;
 
-export default <P extends ILoadScript['params']>(params: P) => new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
+export default function<P extends ILoadScript['params']>(params: P) {
+    return loadScript(params);
+}
+
+function loadScript<P extends ILoadScript['params']>(params: P) {return new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
     const { head, body } = document;
     const { js, name: scriptName, jsonld, removeFromDom, transpileJs } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
@@ -88,12 +94,16 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise(async
         }
     }
 
-    function handleLoad() {
+    async function handleLoad() {
         if (script) {
             removeEventListeners();
 
             if (removeFromDom) {
                 head.removeChild(script);
+            }
+
+            if(src && src.match(jsJsonJs)){
+                await loadJsJsonJs({ src });
             }
 
             resolve(script);
@@ -114,4 +124,22 @@ export default <P extends ILoadScript['params']>(params: P) => new Promise(async
             script.removeEventListener('error', handleLoadError);
         }
     }
-});
+})};
+
+async function loadJsJsonJs({ src }: ILoadScriptLoadJsJsonJs) {
+    const { head } = document;
+    const selector = src && `script[type="${ScriptType.json}"][data-name="${src}"];`;
+    const jsJsonJsScript = selector && head.querySelector<HTMLScriptElement>(selector);
+    const json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
+    const js: string = json && json.text;
+    const name = src.replace(jsonJs, nothing);
+    const loadedScript = name && js && await loadScript({ name, js }).catch(handleError);
+
+    return loadedScript;
+}
+
+function handleError(error: Error) {
+    console.warn(error.name);
+    console.warn(error.message);
+    console.warn(error.stack);
+}

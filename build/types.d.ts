@@ -181,6 +181,9 @@ export interface ILoadScript {
     params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams | ILoadJsonScriptParams;
     reject: (error: Error) => void;
 }
+export interface ILoadScriptLoadJsJsonJs {
+    src: string;
+}
 export interface ILoadShadowStylesheet {
     css: string;
     element: HTMLElement;
@@ -422,6 +425,8 @@ export declare const regex: {
     nonWord: RegExp;
     backTicks: RegExp;
     remoteUrl: RegExp;
+    jsJsonJs: RegExp;
+    jsonJs: RegExp;
 };
 export declare const selector: {
     worker: string;

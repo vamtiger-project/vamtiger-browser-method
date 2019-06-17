@@ -223,6 +223,10 @@ export interface ILoadScript {
     reject: (error: Error) => void
 }
 
+export interface ILoadScriptLoadJsJsonJs {
+    src: string;
+}
+
 export interface ILoadShadowStylesheet {
     css: string;
     element: HTMLElement;
@@ -548,7 +552,9 @@ export const regex = {
     space: /\s/g,
     nonWord: /\W+/g,
     backTicks: /`/gm,
-    remoteUrl: /http(s)?/i
+    remoteUrl: /http(s)?/i,
+    jsJsonJs: /\.js\.json\.js$/,
+    jsonJs: /\.json\.js$/
 }
 
 export const selector = {
