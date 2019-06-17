@@ -43,7 +43,7 @@ var failedToLoadScript = types_1.ErrorMessage.failedToLoadScript;
 var stylesheet = types_1.LinkRel.stylesheet;
 var scriptElement = types_1.LoadScriptElement.script, link = types_1.LoadScriptElement.link, style = types_1.LoadScriptElement.style;
 var remoteUrl = types_1.regex.remoteUrl, jsJsonJs = types_1.regex.jsJsonJs, jsonJs = types_1.regex.jsonJs, trailingJs = types_1.regex.trailingJs;
-var nothing = types_1.StringConstant.nothing;
+var nothing = types_1.StringConstant.nothing, slash = types_1.StringConstant.slash;
 function default_1(params) {
     return loadScript(params);
 }
@@ -167,13 +167,16 @@ function loadScript(params) {
 function loadJsJsonJs(_a) {
     var src = _a.src;
     return __awaiter(this, void 0, void 0, function () {
-        var head, scriptName, selector, jsJsonJsScript, json, js, name, loadedScript, _b, removeScripts;
+        var head, paths, scriptName, selector, jsJsonJsScript, json, js, name, loadedScript, _b, removeScripts;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     head = document.head;
-                    scriptName = src.replace(trailingJs, nothing);
-                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + scriptName + "\"]";
+                    paths = src
+                        .replace(trailingJs, nothing)
+                        .split(slash);
+                    scriptName = paths[paths.length - 1];
+                    selector = src && scriptName && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + scriptName + "\"]";
                     jsJsonJsScript = selector && head.querySelector(selector);
                     json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
                     js = json && json.text;
