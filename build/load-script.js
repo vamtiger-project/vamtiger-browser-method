@@ -172,7 +172,7 @@ function loadJsJsonJs(_a) {
             switch (_c.label) {
                 case 0:
                     head = document.head;
-                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + src.replace(trailingJs, nothing) + "\"];";
+                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + src.replace(trailingJs, nothing) + "\"]";
                     console.log(selector);
                     jsJsonJsScript = selector && head.querySelector(selector);
                     json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
