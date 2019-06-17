@@ -22,7 +22,7 @@ const { parse } = JSON;
 const { failedToLoadScript } = ErrorMessage;
 const { stylesheet } = LinkRel;
 const { script: scriptElement, link, style } = LoadScriptElement;
-const { remoteUrl, jsJsonJs, jsonJs } = regex;
+const { remoteUrl, jsJsonJs, jsonJs, trailingJs } = regex;
 const { nothing } = StringConstant;
 
 export default function<P extends ILoadScript['params']>(params: P) {
@@ -128,7 +128,8 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
 
 async function loadJsJsonJs({ src }: ILoadScriptLoadJsJsonJs) {
     const { head } = document;
-    const selector = src && `script[type="${ScriptType.json}"][data-name="${src}"];`;
+    const selector = src && `script[type="${ScriptType.json}"][data-name="${src.replace(trailingJs, nothing)}"];`;
+    console.log(selector)
     const jsJsonJsScript = selector && head.querySelector<HTMLScriptElement>(selector);
     const json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
     const js: string = json && json.text;

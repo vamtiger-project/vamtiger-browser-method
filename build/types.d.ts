@@ -427,6 +427,7 @@ export declare const regex: {
     remoteUrl: RegExp;
     jsJsonJs: RegExp;
     jsonJs: RegExp;
+    trailingJs: RegExp;
 };
 export declare const selector: {
     worker: string;

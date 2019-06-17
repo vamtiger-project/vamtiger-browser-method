@@ -155,7 +155,8 @@ exports.regex = {
     backTicks: /`/gm,
     remoteUrl: /http(s)?/i,
     jsJsonJs: /\.js\.json\.js$/,
-    jsonJs: /\.json\.js$/
+    jsonJs: /\.json\.js$/,
+    trailingJs: /\.js$/
 };
 exports.selector = {
     worker: [

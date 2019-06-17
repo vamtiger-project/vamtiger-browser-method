@@ -42,7 +42,7 @@ var parse = JSON.parse;
 var failedToLoadScript = types_1.ErrorMessage.failedToLoadScript;
 var stylesheet = types_1.LinkRel.stylesheet;
 var scriptElement = types_1.LoadScriptElement.script, link = types_1.LoadScriptElement.link, style = types_1.LoadScriptElement.style;
-var remoteUrl = types_1.regex.remoteUrl, jsJsonJs = types_1.regex.jsJsonJs, jsonJs = types_1.regex.jsonJs;
+var remoteUrl = types_1.regex.remoteUrl, jsJsonJs = types_1.regex.jsJsonJs, jsonJs = types_1.regex.jsonJs, trailingJs = types_1.regex.trailingJs;
 var nothing = types_1.StringConstant.nothing;
 function default_1(params) {
     return loadScript(params);
@@ -172,7 +172,8 @@ function loadJsJsonJs(_a) {
             switch (_c.label) {
                 case 0:
                     head = document.head;
-                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + src + "\"];";
+                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + src.replace(trailingJs, nothing) + "\"];";
+                    console.log(selector);
                     jsJsonJsScript = selector && head.querySelector(selector);
                     json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
                     js = json && json.text;
