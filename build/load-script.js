@@ -167,13 +167,13 @@ function loadScript(params) {
 function loadJsJsonJs(_a) {
     var src = _a.src;
     return __awaiter(this, void 0, void 0, function () {
-        var head, selector, jsJsonJsScript, json, js, name, loadedScript, _b;
+        var head, scriptName, selector, jsJsonJsScript, json, js, name, loadedScript, _b, removeScripts;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     head = document.head;
-                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + src.replace(trailingJs, nothing) + "\"]";
-                    console.log(selector);
+                    scriptName = src.replace(trailingJs, nothing);
+                    selector = src && "script[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + scriptName + "\"]";
                     jsJsonJsScript = selector && head.querySelector(selector);
                     json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
                     js = json && json.text;
@@ -186,7 +186,15 @@ function loadJsJsonJs(_a) {
                     _c.label = 2;
                 case 2:
                     loadedScript = _b;
-                    return [2 /*return*/, loadedScript];
+                    removeScripts = [
+                        jsJsonJsScript,
+                        loadedScript
+                    ];
+                    console.log(src);
+                    console.log(scriptName);
+                    console.log(selector);
+                    removeScripts.forEach(function (currentScript) { return currentScript && head.removeChild(currentScript); });
+                    return [2 /*return*/];
             }
         });
     });
