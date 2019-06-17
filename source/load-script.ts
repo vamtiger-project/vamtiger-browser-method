@@ -143,11 +143,12 @@ async function loadJsJsonJs({ src }: ILoadScriptLoadJsJsonJs) {
         loadedScript
     ];
 
-    console.log(src);
-    console.log(scriptName);
-    console.log(selector);
 
-    removeScripts.forEach(currentScript => currentScript && head.removeChild(currentScript));
+    console.log({src});
+    console.log({scriptName});
+    console.log({selector});
+
+    // removeScripts.forEach(currentScript => currentScript && head.removeChild(currentScript));
 }
 
 function handleError(error: Error) {

@@ -193,10 +193,9 @@ function loadJsJsonJs(_a) {
                         jsJsonJsScript,
                         loadedScript
                     ];
-                    console.log(src);
-                    console.log(scriptName);
-                    console.log(selector);
-                    removeScripts.forEach(function (currentScript) { return currentScript && head.removeChild(currentScript); });
+                    console.log({ src: src });
+                    console.log({ scriptName: scriptName });
+                    console.log({ selector: selector });
                     return [2 /*return*/];
             }
         });
