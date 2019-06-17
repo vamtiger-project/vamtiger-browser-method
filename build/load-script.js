@@ -193,9 +193,12 @@ function loadJsJsonJs(_a) {
                         jsJsonJsScript,
                         loadedScript
                     ];
-                    console.log({ src: src });
-                    console.log({ scriptName: scriptName });
-                    console.log({ selector: selector });
+                    console.log('src');
+                    console.log(src);
+                    console.log('scriptName');
+                    console.log(scriptName);
+                    console.log('selector');
+                    console.log(selector);
                     return [2 /*return*/];
             }
         });
