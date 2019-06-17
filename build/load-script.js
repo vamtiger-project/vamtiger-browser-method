@@ -85,14 +85,14 @@ function loadScript(params) {
                 script.removeEventListener('error', handleLoadError);
             }
         }
-        var head, body, _a, js, scriptName, jsonld, removeFromDom, transpileJs, src, transpiledJs, _b, _c, css, stylesheetName, href, json, remoteScript, element, selector, existingScript, script;
+        var head, body, _a, js, scriptName, jsonld, removeFromDom, src, transpiledJs, _b, _c, css, stylesheetName, href, json, remoteScript, element, selector, existingScript, script;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
                     head = document.head, body = document.body;
-                    _a = params, js = _a.js, scriptName = _a.name, jsonld = _a.jsonld, removeFromDom = _a.removeFromDom, transpileJs = _a.transpileJs;
+                    _a = params, js = _a.js, scriptName = _a.name, jsonld = _a.jsonld, removeFromDom = _a.removeFromDom;
                     src = params.src;
-                    _b = transpileJs && (js || src && !src.match(remoteUrl));
+                    _b = (js || src && !src.match(remoteUrl));
                     if (!_b) return [3 /*break*/, 2];
                     return [4 /*yield*/, get_transpiled_js_1.default({ js: js, url: src })];
                 case 1:
@@ -154,7 +154,7 @@ function loadScript(params) {
                         script.addEventListener('load', handleLoad);
                         script.addEventListener('error', handleLoadError);
                         head.appendChild(script);
-                        if (transpileJs || !remoteScript) {
+                        if (transpiledJs || !remoteScript) {
                             handleLoad();
                         }
                     }

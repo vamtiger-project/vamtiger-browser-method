@@ -31,9 +31,9 @@ export default function<P extends ILoadScript['params']>(params: P) {
 
 function loadScript<P extends ILoadScript['params']>(params: P) {return new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
     const { head, body } = document;
-    const { js, name: scriptName, jsonld, removeFromDom, transpileJs } = params as LocalScriptParams;
+    const { js, name: scriptName, jsonld, removeFromDom } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
-    const transpiledJs = transpileJs && (js || src && !src.match(remoteUrl)) && await getTranspiledJs({ js, url: src}) || '';
+    const transpiledJs = (js || src && !src.match(remoteUrl)) && await getTranspiledJs({ js, url: src}) || '';
     const { css, name: stylesheetName } = params as LocalStylesheetScriptParams;
     const { href } = params as ILoadRemoteStylesheetScriptParams;
     const { json } = params as ILoadJsonScriptParams;
@@ -89,7 +89,7 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
 
         head.appendChild(script);
 
-        if (transpileJs || !remoteScript) {
+        if (transpiledJs || !remoteScript) {
             handleLoad();
         }
     }
