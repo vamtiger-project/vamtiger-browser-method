@@ -220,6 +220,13 @@ export interface ILoadElementQueryCss {
     stylesheetName?: string;
     hostName?: string;
 }
+export interface IGetJsonLdArray {
+    jsonLd: IAnyObject;
+}
+export interface IGetJsonLdArrayGetEntry {
+    key: string;
+    value: string | IAnyObject | IAnyObject[];
+}
 export interface IGetMetaElement {
     selector?: string;
     properties?: {

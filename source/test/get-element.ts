@@ -5,7 +5,7 @@ export default () => describe('getTemplate', function () {
 
     it('template', templateTest);
 
-    it.skip('url', urlTest);
+    it('url', urlTest);
 });
 
 async function templateTest() {
