@@ -12,7 +12,10 @@ function default_1(_a) {
             id: types_1.MetaElementName.loadElementQueryCss
         }
     });
-    var stylesheetName = get_camel_case_1.default(currentStylesheetName);
+    var stylesheetName = get_camel_case_1.default({
+        input: currentStylesheetName,
+        from: 'kebabCase'
+    });
     var dataset = metaElement.dataset;
     var elementQueryCss = !dataset.hasOwnProperty(hostName) && (hostName && css.replace(showRootHost, hostName)) || css;
     var EQCSS = self.EQCSS;

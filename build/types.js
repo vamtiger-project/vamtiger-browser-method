@@ -74,6 +74,7 @@ var StringConstant;
     StringConstant["backTick"] = "`";
     StringConstant["doubleQuote"] = "\"";
     StringConstant["commaSpace"] = ", ";
+    StringConstant["space"] = " ";
 })(StringConstant = exports.StringConstant || (exports.StringConstant = {}));
 var TagName;
 (function (TagName) {
@@ -156,7 +157,9 @@ exports.regex = {
     remoteUrl: /http(s)?/i,
     jsJsonJs: /\.js\.json\.js$/,
     jsonJs: /\.json\.js$/,
-    trailingJs: /\.js$/
+    trailingJs: /\.js$/,
+    uppercase: /[A-Z]/,
+    leadingAt: /^@/
 };
 exports.selector = {
     worker: [

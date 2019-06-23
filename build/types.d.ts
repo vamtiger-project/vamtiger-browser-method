@@ -61,7 +61,8 @@ export declare enum StringConstant {
     comma = ",",
     backTick = "`",
     doubleQuote = "\"",
-    commaSpace = ", "
+    commaSpace = ", ",
+    space = " "
 }
 export declare enum TagName {
     div = "div",
@@ -219,6 +220,14 @@ export interface ILoadElementQueryCss {
     css: string;
     stylesheetName?: string;
     hostName?: string;
+}
+export interface IGetCamelCase {
+    input: string;
+    from: 'kebabCase';
+}
+export interface IGetStartCase {
+    input: string;
+    from: 'camelCase';
 }
 export interface IGetJsonLdArray {
     jsonLd: IAnyObject;
@@ -396,6 +405,7 @@ export declare type VamtigerBrowserMethod = {
     worker?: Worker;
     support?: ISupport;
     workerSupport?: ISupport;
+    getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => string[][];
 };
 export interface IAttributes {
     id?: string;
@@ -435,6 +445,8 @@ export declare const regex: {
     jsJsonJs: RegExp;
     jsonJs: RegExp;
     trailingJs: RegExp;
+    uppercase: RegExp;
+    leadingAt: RegExp;
 };
 export declare const selector: {
     worker: string;

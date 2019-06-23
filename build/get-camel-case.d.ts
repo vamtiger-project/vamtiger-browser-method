@@ -1,2 +1,2 @@
-declare const _default: (input: string) => string;
-export default _default;
+import { IGetCamelCase } from './types';
+export default function ({ input, from }: IGetCamelCase): string;

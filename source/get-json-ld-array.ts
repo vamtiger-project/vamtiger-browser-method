@@ -1,10 +1,16 @@
 import {
     IGetJsonLdArray,
     IGetJsonLdArrayGetEntry,
-    StringConstant
+    StringConstant,
+    regex
 } from './types';
+import {
+    jsonLdEntryValueType
+} from './config';
+import getStartCase from './get-start-case';
 
-const { nothing } = StringConstant
+const { nothing } = StringConstant;
+const { leadingAt } = regex;
 
 export default function getJsonLdArray({ jsonLd }: IGetJsonLdArray) {
     const keys = Object.keys(jsonLd);
@@ -17,10 +23,10 @@ export default function getJsonLdArray({ jsonLd }: IGetJsonLdArray) {
 }
 
 function getEntry({key, value}: IGetJsonLdArrayGetEntry) {
-    const valueString = typeof value === 'string' && value;
+    const entryValue = jsonLdEntryValueType.has(typeof value) && value;
     const valueArray = Array.isArray(value) && value || typeof value === 'object' && [value];
     const nestedEntries = valueArray && valueArray.map(jsonLd => getJsonLdArray({ jsonLd }));
-    const entry = [[key, valueString ? valueString.toString().trim() : nothing]];
+    const entry = [[getStartCase({input: key.replace(leadingAt, nothing), from: 'camelCase'}), entryValue ? entryValue.toString().trim() : nothing]];
 
     nestedEntries && nestedEntries.forEach(nestedEntry => nestedEntry.forEach(currentNestedEntry => entry.push(currentNestedEntry)));
 

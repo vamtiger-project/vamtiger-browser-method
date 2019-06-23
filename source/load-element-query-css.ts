@@ -16,7 +16,10 @@ export default function({ css, stylesheetName: currentStylesheetName = nothing, 
             id: MetaElementName.loadElementQueryCss
         }
     });
-    const stylesheetName = getCamelCase(currentStylesheetName);
+    const stylesheetName = getCamelCase({
+        input: currentStylesheetName,
+        from: 'kebabCase'
+    });
     const { dataset } = metaElement;
     const elementQueryCss = !dataset.hasOwnProperty(hostName) && (hostName && css.replace(showRootHost, hostName)) || css;
     const { EQCSS } = self;
