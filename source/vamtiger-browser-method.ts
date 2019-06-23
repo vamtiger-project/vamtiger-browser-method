@@ -12,6 +12,7 @@ import setupWindow from './setup-window';
 import setupWorker from './setup-worker';
 import setSupport from './set-support';
 import getMicrodataCaption from './get-microdata-caption';
+import getJsonLdArray from './get-json-ld-array';
 
 const environment = getEnvironment();
 const vamtigerBrowserMethod = {
@@ -26,7 +27,8 @@ const vamtigerBrowserMethod = {
     getEnvironment,
     environment,
     messageQueue: new Map(),
-    getMicrodataCaption
+    getMicrodataCaption,
+    getJsonLdArray
 };
 main();
 
