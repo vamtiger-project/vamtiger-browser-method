@@ -1,5 +1,6 @@
 import * as tslib from 'tslib/tslib';
 import { requestIdleCallback } from 'requestidlecallback';
+import * as lodash from 'lodash';
 export declare enum Environment {
     window = "window",
     worker = "worker"
@@ -62,7 +63,8 @@ export declare enum StringConstant {
     backTick = "`",
     doubleQuote = "\"",
     commaSpace = ", ",
-    space = " "
+    space = " ",
+    period = "."
 }
 export declare enum TagName {
     div = "div",
@@ -83,6 +85,7 @@ export declare enum Selector {
     style = "style",
     stylesheet = " link[rel=\"stylesheet\"]",
     vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
+    worker = "[src$=\"js.json.js\"][data-worker]",
     vamtigerBrowserMethodJson = "[data-name$=\"vamtiger-browser-method.js.json\"]",
     vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]",
     script = "script",
@@ -124,6 +127,9 @@ export declare enum DbMode {
 export declare enum DbKeyPath {
     webComponent = "url",
     support = "environment"
+}
+export declare enum Dependency {
+    lodash = "lodash.min.js.json.js"
 }
 export interface IDequeue {
     key: string;
@@ -220,10 +226,6 @@ export interface ILoadElementQueryCss {
     css: string;
     stylesheetName?: string;
     hostName?: string;
-}
-export interface IGetCamelCase {
-    input: string;
-    from: 'kebabCase';
 }
 export interface IGetStartCase {
     input: string;
@@ -372,6 +374,10 @@ export interface IProperties {
     alt?: string;
     innerHTML?: string;
 }
+export interface IGetTabLink {
+    href: string;
+    text: string;
+}
 export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
 export declare type MessageResponse = IMessageAction | undefined | null | false;
@@ -385,6 +391,7 @@ export declare type LocalStylesheetScriptParams = ILoadLocalScriptParams & ILoad
 export declare type LoadScriptParams = LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams;
 export declare type LoadScriptsParams = LoadScriptParams[];
 export declare type LoadScriptsSequentiallyParams = LoadScriptsParams[];
+export declare type DependencyKey = keyof typeof Dependency;
 export declare type LoadedScript<P extends ILoadScript['params']> = P extends ILoadScriptParams ? HTMLScriptElement : P extends ILoadStylesheetScriptParams ? HTMLStyleElement : P extends ILoadRemoteScriptParams ? HTMLScriptElement : P extends ILoadRemoteStylesheetScriptParams ? HTMLLinkElement : never;
 export declare type LoadedScripts<P extends LoadScriptsParams> = P extends ILoadScriptParams[] ? HTMLScriptElement[] : P extends ILoadStylesheetScriptParams[] ? HTMLStyleElement[] : P extends ILoadRemoteScriptParams[] ? HTMLScriptElement[] : P extends ILoadRemoteStylesheetScriptParams[] ? HTMLLinkElement[] : never;
 export declare type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> = P extends ILoadScriptParams[][] ? HTMLScriptElement[] : P extends ILoadStylesheetScriptParams[][] ? HTMLStyleElement[] : P extends ILoadRemoteScriptParams[][] ? HTMLScriptElement[] : P extends ILoadRemoteStylesheetScriptParams[][] ? HTMLLinkElement[] : never;
@@ -405,7 +412,7 @@ export declare type VamtigerBrowserMethod = {
     worker?: Worker;
     support?: ISupport;
     workerSupport?: ISupport;
-    getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => string[][];
+    getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
 };
 export interface IAttributes {
     id?: string;
@@ -428,6 +435,7 @@ declare global {
         Babel: any;
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
+        _: typeof lodash;
     }
     namespace NodeJS {
         interface Global {
