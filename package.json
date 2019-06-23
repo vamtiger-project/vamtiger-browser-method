@@ -1,6 +1,6 @@
 {
   "name": "vamtiger-browser-method",
-  "version": "0.107.4",
+  "version": "0.107.5-0",
   "description": "Typescript browser methods",
   "main": "build/vamtiger-browser-method",
   "scripts": {
@@ -15,10 +15,11 @@
     "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
     "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
     "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
-    "serve": "npm run test && cd build && python -m SimpleHTTPServer 8887",
+    "serve": "npm run test && cd build && python -m SimpleHTTPServer",
     "watch": "vamtiger-watch --folder source --extension ts --script test --extension html --script bundle-html",
     "clean-install": "rm -rf package-lock.json node_modules && npm i",
-    "postinstall": "vamtiger-postinstall --distTag source"
+    "postinstall": "vamtiger-postinstall --distTag source",
+    "publish-preview": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages"
   },
   "repository": {
     "type": "git",

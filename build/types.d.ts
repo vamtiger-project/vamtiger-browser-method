@@ -29,6 +29,7 @@ export declare enum LocalHostRelativePath {
 }
 export declare enum ScriptType {
     js = "text/javascript",
+    babel = "text/babel",
     json = "application/json",
     jsonld = "application/ld+json"
 }
@@ -60,7 +61,8 @@ export declare enum StringConstant {
     comma = ",",
     backTick = "`",
     doubleQuote = "\"",
-    commaSpace = ", "
+    commaSpace = ", ",
+    space = " "
 }
 export declare enum TagName {
     div = "div",
@@ -151,6 +153,7 @@ export interface IIsJsonScript {
 export interface ILoadLocalScriptParams {
     name: string;
     removeFromDom?: boolean;
+    transpileJs?: boolean;
 }
 export interface ILoadScriptParams {
     js: string;
@@ -178,6 +181,9 @@ export interface IJsonJsonLd {
 export interface ILoadScript {
     params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams | ILoadJsonScriptParams;
     reject: (error: Error) => void;
+}
+export interface ILoadScriptLoadJsJsonJs {
+    src: string;
 }
 export interface ILoadShadowStylesheet {
     css: string;
@@ -215,6 +221,21 @@ export interface ILoadElementQueryCss {
     stylesheetName?: string;
     hostName?: string;
 }
+export interface IGetCamelCase {
+    input: string;
+    from: 'kebabCase';
+}
+export interface IGetStartCase {
+    input: string;
+    from: 'camelCase';
+}
+export interface IGetJsonLdArray {
+    jsonLd: IAnyObject;
+}
+export interface IGetJsonLdArrayGetEntry {
+    key: string;
+    value: string | IAnyObject | IAnyObject[];
+}
 export interface IGetMetaElement {
     selector?: string;
     properties?: {
@@ -224,6 +245,10 @@ export interface IGetMetaElement {
         [key: string]: string;
     };
     dataset?: DOMStringMap;
+}
+export interface IGetBabelJs {
+    url?: string;
+    js?: string;
 }
 export interface ILoadContainerStylesheets {
     name: string;
@@ -380,6 +405,7 @@ export declare type VamtigerBrowserMethod = {
     worker?: Worker;
     support?: ISupport;
     workerSupport?: ISupport;
+    getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => string[][];
 };
 export interface IAttributes {
     id?: string;
@@ -399,6 +425,7 @@ export declare type GetTemplate<P extends IGetTemplate> = P['selector'] extends 
 declare global {
     interface Window extends TsLib {
         VamtigerBrowserMethod: VamtigerBrowserMethod;
+        Babel: any;
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
     }
@@ -414,6 +441,12 @@ export declare const regex: {
     space: RegExp;
     nonWord: RegExp;
     backTicks: RegExp;
+    remoteUrl: RegExp;
+    jsJsonJs: RegExp;
+    jsonJs: RegExp;
+    trailingJs: RegExp;
+    uppercase: RegExp;
+    leadingAt: RegExp;
 };
 export declare const selector: {
     worker: string;
