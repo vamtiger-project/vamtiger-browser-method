@@ -75,7 +75,7 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
         script.innerHTML = css;
         script.dataset.name = stylesheetName;
 
-        loadElementQueryCss({
+        await loadElementQueryCss({
             css,
             stylesheetName
         });
@@ -137,13 +137,8 @@ async function loadJsJsonJs({ src }: ILoadScriptLoadJsJsonJs) {
     const json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
     const js: string = json && json.text;
     const name = src.replace(jsonJs, nothing);
-    const loadedScript = name && js && await loadScript({ name, js }).catch(handleError);
-    const removeScripts = [
-        jsJsonJsScript,
-        loadedScript
-    ];
 
-    removeScripts.forEach(currentScript => currentScript && head.removeChild(currentScript));
+    name && js && await loadScript({ name, js }).catch(handleError);
 }
 
 function handleError(error: Error) {

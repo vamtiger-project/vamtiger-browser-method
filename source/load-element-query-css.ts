@@ -5,21 +5,28 @@ import {
     regex
 } from './types';
 import getMetaElment from './get-meta-element';
-import getCamelCase from './get-camel-case';
 
+const { requestIdleCallback } = self;
 const { showRootHost } = regex;
 const { nothing } = StringConstant;
 
-export default function({ css, stylesheetName: currentStylesheetName = nothing, hostName = nothing }: ILoadElementQueryCss) {
+export default function(params: ILoadElementQueryCss) {return new Promise(async (resolve, reject) => {
+    if (requestIdleCallback) {
+        requestIdleCallback(() => loadElementQueryCss(params).then(resolve));
+    } else {
+        loadElementQueryCss(params).then(resolve);
+    }
+})}
+
+async function loadElementQueryCss({ css, stylesheetName: currentStylesheetName = nothing, hostName = nothing }: ILoadElementQueryCss) {
+    const { _ } = self;
+    const { camelCase } = _;
     const metaElement = getMetaElment({
         properties: {
             id: MetaElementName.loadElementQueryCss
         }
     });
-    const stylesheetName = getCamelCase({
-        input: currentStylesheetName,
-        from: 'kebabCase'
-    });
+    const stylesheetName = camelCase(currentStylesheetName);
     const { dataset } = metaElement;
     const elementQueryCss = !dataset.hasOwnProperty(hostName) && (hostName && css.replace(showRootHost, hostName)) || css;
     const { EQCSS } = self;
@@ -33,4 +40,6 @@ export default function({ css, stylesheetName: currentStylesheetName = nothing, 
             dataset[hostName] = nothing;
         }
     }
+
+    return true;
 }

@@ -2,7 +2,6 @@ import {
     ILoadShadowStylesheet,
     Selector
 } from './types';
-import loadElementQueryCss from './load-element-query-css';
 
 export default function ({ css, element }: ILoadShadowStylesheet) {
     const {

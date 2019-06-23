@@ -30,9 +30,10 @@ const vamtigerBrowserMethod = {
     getMicrodataCaption,
     getJsonLdArray
 };
-main();
 
-function main() {
+main().catch(handleError);
+
+async function main() {
     try {
         const { VamtigerBrowserMethod } = self;
 
