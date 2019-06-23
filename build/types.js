@@ -152,7 +152,7 @@ var DbKeyPath;
 })(DbKeyPath = exports.DbKeyPath || (exports.DbKeyPath = {}));
 var Dependency;
 (function (Dependency) {
-    Dependency["lodash"] = "lodash.min.js.json.js";
+    Dependency["lodash"] = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js";
 })(Dependency = exports.Dependency || (exports.Dependency = {}));
 exports.regex = {
     showRootHost: /:{1,2}host/gm,

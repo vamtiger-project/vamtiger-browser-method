@@ -8,12 +8,15 @@ import {
     jsonLdEntryValueType
 } from './config';
 import getTabLink from './get-tab-link';
+import loadDependencies from './load-dependencies';
 
 const { requestIdleCallback } = self;
 const { nothing, slash } = StringConstant;
 const { leadingAt, remoteUrl } = regex;
 
 export default function (params: IGetJsonLdArray) {return new Promise(async (resolve: (jsonLdArray: string[][]) => void, reject) => {
+    await loadDependencies();
+
     if (requestIdleCallback) {
         requestIdleCallback(() => getJsonLdArray(params).then(resolve));
     } else {

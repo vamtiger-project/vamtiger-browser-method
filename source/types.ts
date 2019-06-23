@@ -153,7 +153,7 @@ export enum DbKeyPath {
 }
 
 export enum Dependency {
-    lodash = 'lodash.min.js.json.js'
+    lodash = 'https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js'
 }
 
 export interface IDequeue {
@@ -277,11 +277,6 @@ export interface ILoadElementQueryCss {
     css: string;
     stylesheetName?: string;
     hostName?: string;
-}
-
-export interface IGetStartCase {
-    input: string;
-    from: 'camelCase'
 }
 
 export interface IGetJsonLdArray {

@@ -5,12 +5,15 @@ import {
     regex
 } from './types';
 import getMetaElment from './get-meta-element';
+import loadDependencies from './load-dependencies';
 
 const { requestIdleCallback } = self;
 const { showRootHost } = regex;
 const { nothing } = StringConstant;
 
 export default function(params: ILoadElementQueryCss) {return new Promise(async (resolve, reject) => {
+    await loadDependencies();
+
     if (requestIdleCallback) {
         requestIdleCallback(() => loadElementQueryCss(params).then(resolve));
     } else {

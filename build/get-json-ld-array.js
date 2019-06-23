@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var config_1 = require("./config");
 var get_tab_link_1 = require("./get-tab-link");
+var load_dependencies_1 = require("./load-dependencies");
 var requestIdleCallback = self.requestIdleCallback;
 var nothing = types_1.StringConstant.nothing, slash = types_1.StringConstant.slash;
 var leadingAt = types_1.regex.leadingAt, remoteUrl = types_1.regex.remoteUrl;
@@ -45,13 +46,18 @@ function default_1(params) {
     var _this = this;
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            if (requestIdleCallback) {
-                requestIdleCallback(function () { return getJsonLdArray(params).then(resolve); });
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, load_dependencies_1.default()];
+                case 1:
+                    _a.sent();
+                    if (requestIdleCallback) {
+                        requestIdleCallback(function () { return getJsonLdArray(params).then(resolve); });
+                    }
+                    else {
+                        getJsonLdArray(params).then(resolve);
+                    }
+                    return [2 /*return*/];
             }
-            else {
-                getJsonLdArray(params).then(resolve);
-            }
-            return [2 /*return*/];
         });
     }); });
 }

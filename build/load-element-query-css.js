@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var get_meta_element_1 = require("./get-meta-element");
+var load_dependencies_1 = require("./load-dependencies");
 var requestIdleCallback = self.requestIdleCallback;
 var showRootHost = types_1.regex.showRootHost;
 var nothing = types_1.StringConstant.nothing;
@@ -44,13 +45,18 @@ function default_1(params) {
     var _this = this;
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
-            if (requestIdleCallback) {
-                requestIdleCallback(function () { return loadElementQueryCss(params).then(resolve); });
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, load_dependencies_1.default()];
+                case 1:
+                    _a.sent();
+                    if (requestIdleCallback) {
+                        requestIdleCallback(function () { return loadElementQueryCss(params).then(resolve); });
+                    }
+                    else {
+                        loadElementQueryCss(params).then(resolve);
+                    }
+                    return [2 /*return*/];
             }
-            else {
-                loadElementQueryCss(params).then(resolve);
-            }
-            return [2 /*return*/];
         });
     }); });
 }
