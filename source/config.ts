@@ -1,7 +1,6 @@
 import {
     StringConstant,
-    Dependency,
-    DependencyKey
+    Dependency
 } from './types';
 
 const { slash } = StringConstant;
@@ -20,4 +19,6 @@ export const dependencyPaths = Array.from(new Set([
     'lodash/lodash.min.js'
 ]));
 
-export const dependencies = (Object.keys(Dependency) as DependencyKey[]).map(key => Dependency[key]);
+export const getDependencies = () => [
+    !self._ && Dependency.lodash || ''
+].filter(dependency => dependency);
