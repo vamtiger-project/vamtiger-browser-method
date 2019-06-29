@@ -5,6 +5,9 @@ export declare enum Environment {
     window = "window",
     worker = "worker"
 }
+export declare enum EventName {
+    vamtigerBrowserMethodReady = "vamtigerBrowserMethodReady"
+}
 export declare enum TimeoutDuration {
     webComponent = 60000,
     indexDbIsAccessible = 100
@@ -64,7 +67,8 @@ export declare enum StringConstant {
     doubleQuote = "\"",
     commaSpace = ", ",
     space = " ",
-    period = "."
+    period = ".",
+    newline = "\n"
 }
 export declare enum TagName {
     div = "div",
@@ -86,6 +90,7 @@ export declare enum Selector {
     stylesheet = " link[rel=\"stylesheet\"]",
     vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
     worker = "[src$=\"js.json.js\"][data-worker]",
+    workderDependency = "script[data-worker-dependency]",
     vamtigerBrowserMethodJson = "[data-name$=\"vamtiger-browser-method.js.json\"]",
     vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]",
     script = "script",
@@ -93,7 +98,8 @@ export declare enum Selector {
     jsonLdScript = "script[type=\"application/ld+json\"]",
     a = "a",
     linkedDataCaption = "[data-linked-data-caption]",
-    linkedDataCaptionElement = "[data-linked-data-caption-element]"
+    linkedDataCaptionElement = "[data-linked-data-caption-element]",
+    jsonLdViewer = "vamtiger-json-ld-viewer"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
@@ -129,7 +135,8 @@ export declare enum DbKeyPath {
     support = "environment"
 }
 export declare enum Dependency {
-    lodash = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js"
+    lodash = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js",
+    jsonLdViewer = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js"
 }
 export interface IDequeue {
     key: string;
@@ -159,7 +166,7 @@ export interface IIsJsonScript {
 export interface ILoadLocalScriptParams {
     name: string;
     removeFromDom?: boolean;
-    transpileJs?: boolean;
+    workerDependency?: boolean;
 }
 export interface ILoadScriptParams {
     js: string;
@@ -190,6 +197,7 @@ export interface ILoadScript {
 }
 export interface ILoadScriptLoadJsJsonJs {
     src: string;
+    workerDependency?: boolean;
 }
 export interface ILoadShadowStylesheet {
     css: string;
@@ -244,6 +252,10 @@ export interface IGetMetaElement {
     };
     dataset?: DOMStringMap;
 }
+export interface IDispatchEvent {
+    eventName: EventName;
+    detail?: IAnyObject;
+}
 export interface IGetBabelJs {
     url?: string;
     js?: string;
@@ -254,10 +266,15 @@ export interface ILoadContainerStylesheets {
 }
 export interface IGetData {
     jsonLd: string;
+    textMode?: boolean;
 }
 export interface IGetJsonLd {
     jsonLd: string;
+    textMode?: boolean;
     loadJsonJsonLd?: boolean;
+}
+export interface IViewJsonLd {
+    jsonLd: string;
 }
 export interface IJosnLdImageObject {
     "@context": string;
@@ -374,6 +391,10 @@ export interface IGetTabLink {
     href: string;
     text: string;
 }
+export interface IGetEmailLink {
+    href: string;
+    text: string;
+}
 export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
 export declare type MessageResponse = IMessageAction | undefined | null | false;
@@ -451,9 +472,9 @@ export declare const regex: {
     trailingJs: RegExp;
     uppercase: RegExp;
     leadingAt: RegExp;
+    email: RegExp;
 };
 export declare const selector: {
-    worker: string;
     redundantScripts: string;
 };
 export declare const sendMessageFromWorker: WorkerPostMessage;
