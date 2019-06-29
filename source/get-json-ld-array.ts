@@ -8,10 +8,11 @@ import {
     jsonLdEntryValueType
 } from './config';
 import getTabLink from './get-tab-link';
+import getEmailLink from './get-email-link';
 
 const { requestIdleCallback } = self;
 const { nothing, slash } = StringConstant;
-const { leadingAt, remoteUrl } = regex;
+const { leadingAt, remoteUrl, email } = regex;
 
 export default function (params: IGetJsonLdArray) {return new Promise(async (resolve: (jsonLdArray: string[][]) => void, reject) => {
     if (requestIdleCallback) {
@@ -64,7 +65,7 @@ async function getEntry({key, value}: IGetJsonLdArrayGetEntry) {
     const entryValue = jsonLdEntryValueType.has(typeof value) && value as string | number | boolean;
     const valueArray = Array.isArray(value) && value || typeof value === 'object' && [value];
     const nestedEntries = valueArray && await Promise.all(valueArray.map(jsonLd => getJsonLdArray({ jsonLd })));
-    const entry = [[startCase( key.replace(leadingAt, nothing)), entryValue ? getEntryValue(entryValue) : nothing]];
+    const entry = [[startCase(key.replace(leadingAt, nothing)), entryValue && (key.match(email) && getEmailLink({href: entryValue.toString(), text: entryValue.toString()}) && getEntryValue(entryValue)) || nothing]];
 
     nestedEntries && nestedEntries.forEach(nestedEntry => nestedEntry.forEach(currentNestedEntry => entry.push(currentNestedEntry)));
 

@@ -38,9 +38,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var config_1 = require("./config");
 var get_tab_link_1 = require("./get-tab-link");
+var get_email_link_1 = require("./get-email-link");
 var requestIdleCallback = self.requestIdleCallback;
 var nothing = types_1.StringConstant.nothing, slash = types_1.StringConstant.slash;
-var leadingAt = types_1.regex.leadingAt, remoteUrl = types_1.regex.remoteUrl;
+var leadingAt = types_1.regex.leadingAt, remoteUrl = types_1.regex.remoteUrl, email = types_1.regex.email;
 function default_1(params) {
     var _this = this;
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
@@ -116,7 +117,7 @@ function getEntry(_a) {
                     _c.label = 2;
                 case 2:
                     nestedEntries = _b;
-                    entry = [[startCase(key.replace(leadingAt, nothing)), entryValue ? getEntryValue(entryValue) : nothing]];
+                    entry = [[startCase(key.replace(leadingAt, nothing)), entryValue && (key.match(email) && get_email_link_1.default({ href: entryValue.toString(), text: entryValue.toString() }) && getEntryValue(entryValue)) || nothing]];
                     nestedEntries && nestedEntries.forEach(function (nestedEntry) { return nestedEntry.forEach(function (currentNestedEntry) { return entry.push(currentNestedEntry); }); });
                     return [2 /*return*/, entry];
             }

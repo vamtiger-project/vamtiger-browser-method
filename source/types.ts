@@ -467,6 +467,11 @@ export interface IGetTabLink {
     text: string;
 }
 
+export interface IGetEmailLink {
+    href: string;
+    text: string;
+}
+
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 
 export type ErrorResolve = (error: Error) => void;
@@ -595,7 +600,8 @@ export const regex = {
     jsonJs: /\.json\.js$/,
     trailingJs: /\.js$/,
     uppercase: /[A-Z]/,
-    leadingAt: /^@/
+    leadingAt: /^@/,
+    email: /^email$/i
 }
 
 export const selector = {

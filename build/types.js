@@ -171,7 +171,8 @@ exports.regex = {
     jsonJs: /\.json\.js$/,
     trailingJs: /\.js$/,
     uppercase: /[A-Z]/,
-    leadingAt: /^@/
+    leadingAt: /^@/,
+    email: /^email$/i
 };
 exports.selector = {
     redundantScripts: [

@@ -384,6 +384,10 @@ export interface IGetTabLink {
     href: string;
     text: string;
 }
+export interface IGetEmailLink {
+    href: string;
+    text: string;
+}
 export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
 export declare type MessageResponse = IMessageAction | undefined | null | false;
@@ -461,6 +465,7 @@ export declare const regex: {
     trailingJs: RegExp;
     uppercase: RegExp;
     leadingAt: RegExp;
+    email: RegExp;
 };
 export declare const selector: {
     redundantScripts: string;
