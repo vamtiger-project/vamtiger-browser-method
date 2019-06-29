@@ -115,6 +115,7 @@ var Selector;
     Selector["a"] = "a";
     Selector["linkedDataCaption"] = "[data-linked-data-caption]";
     Selector["linkedDataCaptionElement"] = "[data-linked-data-caption-element]";
+    Selector["jsonLdViewer"] = "vamtiger-json-ld-viewer";
 })(Selector = exports.Selector || (exports.Selector = {}));
 var MetaElementName;
 (function (MetaElementName) {
@@ -159,6 +160,7 @@ var DbKeyPath;
 var Dependency;
 (function (Dependency) {
     Dependency["lodash"] = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js";
+    Dependency["jsonLdViewer"] = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js";
 })(Dependency = exports.Dependency || (exports.Dependency = {}));
 exports.regex = {
     showRootHost: /:{1,2}host/gm,

@@ -48,7 +48,7 @@ function default_1(params) {
                 requestIdleCallback(function () { return loadElementQueryCss(params).then(resolve); });
             }
             else {
-                loadElementQueryCss(params).then(resolve);
+                setTimeout(function () { return loadElementQueryCss(params).then(resolve); }, 0);
             }
             return [2 /*return*/];
         });

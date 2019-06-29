@@ -14,7 +14,7 @@ export default function(params: ILoadElementQueryCss) {return new Promise(async 
     if (requestIdleCallback) {
         requestIdleCallback(() => loadElementQueryCss(params).then(resolve));
     } else {
-        loadElementQueryCss(params).then(resolve);
+        setTimeout(() => loadElementQueryCss(params).then(resolve), 0);
     }
 })}
 

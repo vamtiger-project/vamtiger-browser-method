@@ -50,7 +50,7 @@ function default_1(params) {
                 requestIdleCallback(function () { return getJsonLdArray(params).then(resolve); });
             }
             else {
-                getJsonLdArray(params).then(resolve);
+                setTimeout(function () { return getJsonLdArray(params).then(resolve); }, 0);
             }
             return [2 /*return*/];
         });

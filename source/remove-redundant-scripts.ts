@@ -32,7 +32,7 @@ export function removeScripts(params: IRemoveRedundantScriptsRemoveScripts) {ret
     if (requestIdleCallback) {
         requestIdleCallback(() => removeScriptsFromParent({...params, resolve, reject }));
     } else {
-        removeScriptsFromParent({...params, resolve, reject });
+        setTimeout(() => removeScriptsFromParent({...params, resolve, reject }), 0);
     }
 })}
 
@@ -40,7 +40,7 @@ export function removeDuplicateScripts(params: IRemoveRedundantScriptsRemoveScri
     if (requestIdleCallback) {
         requestIdleCallback(() => removeDuplicateScriptsFromParent({...params, resolve, reject }));
     } else {
-        removeDuplicateScriptsFromParent({...params, resolve, reject });
+        setTimeout(() => removeDuplicateScriptsFromParent({...params, resolve, reject }), 0);
     }
 })}
 

@@ -98,7 +98,8 @@ export declare enum Selector {
     jsonLdScript = "script[type=\"application/ld+json\"]",
     a = "a",
     linkedDataCaption = "[data-linked-data-caption]",
-    linkedDataCaptionElement = "[data-linked-data-caption-element]"
+    linkedDataCaptionElement = "[data-linked-data-caption-element]",
+    jsonLdViewer = "vamtiger-json-ld-viewer"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
@@ -134,7 +135,8 @@ export declare enum DbKeyPath {
     support = "environment"
 }
 export declare enum Dependency {
-    lodash = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js"
+    lodash = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js",
+    jsonLdViewer = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js"
 }
 export interface IDequeue {
     key: string;
@@ -264,10 +266,15 @@ export interface ILoadContainerStylesheets {
 }
 export interface IGetData {
     jsonLd: string;
+    textMode?: boolean;
 }
 export interface IGetJsonLd {
     jsonLd: string;
+    textMode?: boolean;
     loadJsonJsonLd?: boolean;
+}
+export interface IViewJsonLd {
+    jsonLd: string;
 }
 export interface IJosnLdImageObject {
     "@context": string;

@@ -36,55 +36,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
-var get_element_from_template_1 = require("./get-element-from-template");
-var get_element_from_url_1 = require("./get-element-from-url");
-var remove_redundant_scripts_1 = require("./remove-redundant-scripts");
-var selector = types_1.Selector.script;
-function default_1(params) {
+var load_script_1 = require("./load-script");
+var src = types_1.Dependency.jsonLdViewer;
+var jsonLdViewerElement;
+function default_1(_a) {
+    var jsonLd = _a.jsonLd;
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (resolve, reject) {
-                    var requestIdleCallback = self.requestIdleCallback;
-                    if (requestIdleCallback) {
-                        requestIdleCallback(function () { return getElement(params, resolve); });
-                    }
-                    else {
-                        setTimeout(function () { return getElement(params, resolve); }, 0);
-                    }
-                })];
-        });
-    });
-}
-exports.default = default_1;
-function getElement(params, resolve) {
-    return __awaiter(this, void 0, void 0, function () {
-        var element, _a;
+        var jsonLdViewerScript, jsonLdViewer, dataset;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0:
-                    if (!params.url) return [3 /*break*/, 2];
-                    return [4 /*yield*/, get_element_from_url_1.default(params)];
+                case 0: return [4 /*yield*/, load_script_1.default({ name: src, src: src })];
                 case 1:
-                    element = _b.sent();
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, get_element_from_template_1.default(params)];
-                case 3:
-                    element = _b.sent();
-                    _b.label = 4;
-                case 4:
-                    _a = element;
-                    if (!_a) return [3 /*break*/, 6];
-                    return [4 /*yield*/, remove_redundant_scripts_1.removeScripts({ selector: selector, parent: element })];
-                case 5:
-                    _a = (_b.sent());
-                    _b.label = 6;
-                case 6:
-                    _a;
-                    resolve(element);
+                    jsonLdViewerScript = _b.sent();
+                    jsonLdViewer = getJsonLdViewer();
+                    dataset = jsonLdViewer.dataset;
+                    dataset.jsonLd = jsonLd;
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.getElement = getElement;
-//# sourceMappingURL=get-element.js.map
+exports.default = default_1;
+function getJsonLdViewer() {
+    var body = document.body;
+    var jsonLdViewer = jsonLdViewerElement || document.createElement('vamtiger-json-ld-viewer');
+    if (!jsonLdViewerElement) {
+        jsonLdViewerElement = jsonLdViewer;
+        body.appendChild(jsonLdViewer);
+    }
+    return jsonLdViewer;
+}
+//# sourceMappingURL=view-json-ld.js.map

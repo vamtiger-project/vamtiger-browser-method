@@ -18,7 +18,7 @@ export default function (params: IGetJsonLdArray) {return new Promise(async (res
     if (requestIdleCallback) {
         requestIdleCallback(() => getJsonLdArray(params).then(resolve));
     } else {
-        getJsonLdArray(params).then(resolve);
+        setTimeout(() => getJsonLdArray(params).then(resolve), 0);
     }
 })}
 

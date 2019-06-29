@@ -96,7 +96,7 @@ function removeScripts(params) {
             requestIdleCallback(function () { return removeScriptsFromParent(__assign({}, params, { resolve: resolve, reject: reject })); });
         }
         else {
-            removeScriptsFromParent(__assign({}, params, { resolve: resolve, reject: reject }));
+            setTimeout(function () { return removeScriptsFromParent(__assign({}, params, { resolve: resolve, reject: reject })); }, 0);
         }
     });
 }
@@ -107,7 +107,7 @@ function removeDuplicateScripts(params) {
             requestIdleCallback(function () { return removeDuplicateScriptsFromParent(__assign({}, params, { resolve: resolve, reject: reject })); });
         }
         else {
-            removeDuplicateScriptsFromParent(__assign({}, params, { resolve: resolve, reject: reject }));
+            setTimeout(function () { return removeDuplicateScriptsFromParent(__assign({}, params, { resolve: resolve, reject: reject })); }, 0);
         }
     });
 }

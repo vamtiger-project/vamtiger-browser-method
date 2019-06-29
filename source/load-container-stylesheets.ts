@@ -15,7 +15,7 @@ export default function(params: ILoadContainerStylesheets) { return new Promise(
     if (requestIdleCallback) {
         requestIdleCallback(() => loadStylesheets(params, resolve));
     } else {
-        loadStylesheets(params, resolve);
+        setTimeout(() => loadStylesheets(params, resolve), 0);
     }
 })};
 

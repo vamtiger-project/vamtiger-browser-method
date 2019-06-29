@@ -45,7 +45,7 @@ function default_1(params) {
             requestIdleCallback(function () { return loadStylesheets(params, resolve); });
         }
         else {
-            loadStylesheets(params, resolve);
+            setTimeout(function () { return loadStylesheets(params, resolve); }, 0);
         }
     });
 }
