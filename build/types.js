@@ -5,6 +5,10 @@ var Environment;
     Environment["window"] = "window";
     Environment["worker"] = "worker";
 })(Environment = exports.Environment || (exports.Environment = {}));
+var EventName;
+(function (EventName) {
+    EventName["vamtigerBrowserMethodReady"] = "vamtigerBrowserMethodReady";
+})(EventName = exports.EventName || (exports.EventName = {}));
 var TimeoutDuration;
 (function (TimeoutDuration) {
     TimeoutDuration[TimeoutDuration["webComponent"] = 60000] = "webComponent";

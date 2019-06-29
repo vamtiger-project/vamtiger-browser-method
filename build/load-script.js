@@ -62,7 +62,7 @@ function loadScript(params) {
                                 head.removeChild(script);
                             }
                             if (!(src && src.match(jsJsonJs))) return [3 /*break*/, 2];
-                            return [4 /*yield*/, loadJsJsonJs({ src: src })];
+                            return [4 /*yield*/, loadJsJsonJs({ src: src, workerDependency: workerDependency })];
                         case 1:
                             _a.sent();
                             _a.label = 2;
@@ -85,22 +85,22 @@ function loadScript(params) {
                 script.removeEventListener('error', handleLoadError);
             }
         }
-        var head, body, _a, js, scriptName, jsonld, removeFromDom, src, transpiledJs, _b, _c, css, stylesheetName, href, json, remoteScript, element, selector, existingScript, script;
-        return __generator(this, function (_d) {
-            switch (_d.label) {
+        var head, body, _a, js, scriptName, jsonld, removeFromDom, _b, workerDependency, src, transpiledJs, _c, _d, css, stylesheetName, href, json, remoteScript, element, selector, existingScript, script;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
                 case 0:
                     head = document.head, body = document.body;
-                    _a = params, js = _a.js, scriptName = _a.name, jsonld = _a.jsonld, removeFromDom = _a.removeFromDom;
+                    _a = params, js = _a.js, scriptName = _a.name, jsonld = _a.jsonld, removeFromDom = _a.removeFromDom, _b = _a.workerDependency, workerDependency = _b === void 0 ? false : _b;
                     src = params.src;
-                    _b = (js || src && !src.match(remoteUrl));
-                    if (!_b) return [3 /*break*/, 2];
+                    _c = (js || src && !src.match(remoteUrl));
+                    if (!_c) return [3 /*break*/, 2];
                     return [4 /*yield*/, get_transpiled_js_1.default({ js: js, url: src })];
                 case 1:
-                    _b = (_d.sent());
-                    _d.label = 2;
+                    _c = (_e.sent());
+                    _e.label = 2;
                 case 2:
-                    transpiledJs = _b || '';
-                    _c = params, css = _c.css, stylesheetName = _c.name;
+                    transpiledJs = _c || '';
+                    _d = params, css = _d.css, stylesheetName = _d.name;
                     href = params.href;
                     json = params.json;
                     remoteScript = params.hasOwnProperty('src') || params.hasOwnProperty('href');
@@ -149,8 +149,8 @@ function loadScript(params) {
                             stylesheetName: stylesheetName
                         })];
                 case 5:
-                    _d.sent();
-                    _d.label = 6;
+                    _e.sent();
+                    _e.label = 6;
                 case 6:
                     if (existingScript) {
                         resolve(existingScript);
@@ -159,6 +159,9 @@ function loadScript(params) {
                         script.addEventListener('load', handleLoad);
                         script.addEventListener('error', handleLoadError);
                         head.appendChild(script);
+                        if (workerDependency) {
+                            script.dataset.workerDependency = nothing;
+                        }
                         if (transpiledJs || !remoteScript) {
                             handleLoad();
                         }
@@ -170,7 +173,7 @@ function loadScript(params) {
 }
 ;
 function loadJsJsonJs(_a) {
-    var src = _a.src;
+    var src = _a.src, workerDependency = _a.workerDependency;
     return __awaiter(this, void 0, void 0, function () {
         var head, paths, scriptName, selector, jsJsonJsScript, json, js, name, _b;
         return __generator(this, function (_c) {
@@ -188,7 +191,7 @@ function loadJsJsonJs(_a) {
                     name = src.replace(jsonJs, nothing);
                     _b = name && js;
                     if (!_b) return [3 /*break*/, 2];
-                    return [4 /*yield*/, loadScript({ name: name, js: js }).catch(handleError)];
+                    return [4 /*yield*/, loadScript({ name: name, js: js, workerDependency: workerDependency }).catch(handleError)];
                 case 1:
                     _b = (_c.sent());
                     _c.label = 2;

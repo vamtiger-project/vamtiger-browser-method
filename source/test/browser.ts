@@ -9,13 +9,15 @@ import getJsonLdArray from './get-json-ld-array';
 
 tslib;
 
-setup('bdd');
+addEventListener('load', () => {
+    setup('bdd');
 
-loadVamtigerBrowserMethod();
-loadScript();
-defineCustomElement();
-getElement();
-getData();
-getJsonLdArray();
+    loadVamtigerBrowserMethod();
+    loadScript();
+    defineCustomElement();
+    getElement();
+    getData();
+    getJsonLdArray();
 
-run();
+    run();
+});

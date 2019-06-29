@@ -37,7 +37,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var get_worker_1 = require("./get-worker");
 var is_window_1 = require("./is-window");
-var load_dependencies_1 = require("./load-dependencies");
 function default_1() {
     is_window_1.default() && setupWindow();
 }
@@ -49,12 +48,9 @@ function setupWindow() {
             switch (_b.label) {
                 case 0:
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
-                    return [4 /*yield*/, load_dependencies_1.default()];
-                case 1:
-                    _b.sent();
                     _a = VamtigerBrowserMethod;
                     return [4 /*yield*/, get_worker_1.default()];
-                case 2:
+                case 1:
                     _a.worker = _b.sent();
                     return [2 /*return*/];
             }

@@ -38,7 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("./config");
 var load_script_1 = require("./load-script");
 var is_window_1 = require("./is-window");
-var loaded = false;
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
         var _a;
@@ -61,16 +60,17 @@ function default_1() {
 exports.default = default_1;
 function loadDependencies() {
     return __awaiter(this, void 0, void 0, function () {
-        var dependencies;
+        var workerDependency, dependencies;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    dependencies = !loaded && config_1.getDependencies() || [];
-                    return [4 /*yield*/, Promise.all(dependencies.map(function (src) { return load_script_1.default({ name: src, src: src }); }))
-                            .then(function () { return loaded = true; })];
+                    workerDependency = true;
+                    dependencies = config_1.getDependencies();
+                    return [4 /*yield*/, Promise.all(dependencies.map(function (src) { return load_script_1.default({ name: src, src: src, workerDependency: workerDependency }); }))];
                 case 1:
                     _a.sent();
-                    return [2 /*return*/, loaded];
+                    ;
+                    return [2 /*return*/];
             }
         });
     });

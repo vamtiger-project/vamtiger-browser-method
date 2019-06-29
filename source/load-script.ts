@@ -31,7 +31,13 @@ export default function<P extends ILoadScript['params']>(params: P) {
 
 function loadScript<P extends ILoadScript['params']>(params: P) {return new Promise(async (resolve: (script: LoadedScript<P>) => void, reject: ILoadScript['reject']) => {
     const { head, body } = document;
-    const { js, name: scriptName, jsonld, removeFromDom } = params as LocalScriptParams;
+    const {
+        js,
+        name: scriptName,
+        jsonld,
+        removeFromDom,
+        workerDependency = false
+    } = params as LocalScriptParams;
     const { src } = params as ILoadRemoteScriptParams;
     const transpiledJs = (js || src && !src.match(remoteUrl)) && await getTranspiledJs({ js, url: src}) || '';
     const { css, name: stylesheetName } = params as LocalStylesheetScriptParams;
@@ -89,6 +95,10 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
 
         head.appendChild(script);
 
+        if (workerDependency) {
+            script.dataset.workerDependency = nothing;
+        }
+
         if (transpiledJs || !remoteScript) {
             handleLoad();
         }
@@ -103,7 +113,7 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
             }
 
             if(src && src.match(jsJsonJs)){
-                await loadJsJsonJs({ src });
+                await loadJsJsonJs({ src, workerDependency });
             }
 
             resolve(script);
@@ -126,7 +136,7 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
     }
 })};
 
-async function loadJsJsonJs({ src }: ILoadScriptLoadJsJsonJs) {
+async function loadJsJsonJs({ src, workerDependency }: ILoadScriptLoadJsJsonJs) {
     const { head } = document;
     const paths = src
         .replace(trailingJs, nothing)
@@ -138,7 +148,7 @@ async function loadJsJsonJs({ src }: ILoadScriptLoadJsJsonJs) {
     const js: string = json && json.text;
     const name = src.replace(jsonJs, nothing);
 
-    name && js && await loadScript({ name, js }).catch(handleError);
+    name && js && await loadScript({ name, js, workerDependency }).catch(handleError);
 }
 
 function handleError(error: Error) {

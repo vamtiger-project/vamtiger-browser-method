@@ -7,6 +7,10 @@ export enum Environment {
     worker = 'worker'
 }
 
+export enum EventName {
+    vamtigerBrowserMethodReady = 'vamtigerBrowserMethodReady'
+}
+
 export enum TimeoutDuration {
     webComponent = 60000,
     indexDbIsAccessible = 100
@@ -190,7 +194,7 @@ export interface IIsJsonScript {
 export interface ILoadLocalScriptParams {
     name: string;
     removeFromDom?: boolean;
-    transpileJs?: boolean;
+    workerDependency?: boolean;
 }
 
 export interface ILoadScriptParams {
@@ -233,6 +237,7 @@ export interface ILoadScript {
 
 export interface ILoadScriptLoadJsJsonJs {
     src: string;
+    workerDependency?: boolean;
 }
 
 export interface ILoadShadowStylesheet {
@@ -297,6 +302,11 @@ export interface IGetMetaElement {
         [key: string]: string;
     };
     dataset?: DOMStringMap;
+}
+
+export interface IDispatchEvent {
+    eventName: EventName;
+    detail?: IAnyObject;
 }
 
 export interface IGetBabelJs {
