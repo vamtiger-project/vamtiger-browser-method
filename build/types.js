@@ -80,6 +80,7 @@ var StringConstant;
     StringConstant["commaSpace"] = ", ";
     StringConstant["space"] = " ";
     StringConstant["period"] = ".";
+    StringConstant["newline"] = "\n";
 })(StringConstant = exports.StringConstant || (exports.StringConstant = {}));
 var TagName;
 (function (TagName) {
@@ -105,6 +106,7 @@ var Selector;
     Selector["stylesheet"] = " link[rel=\"stylesheet\"]";
     Selector["vamtigerBrowserMethodJsonJs"] = "[src$=\"vamtiger-browser-method.js.json.js\"]";
     Selector["worker"] = "[src$=\"js.json.js\"][data-worker]";
+    Selector["workderDependency"] = "script[data-worker-dependency]";
     Selector["vamtigerBrowserMethodJson"] = "[data-name$=\"vamtiger-browser-method.js.json\"]";
     Selector["vamtigerBrowserMethod"] = "[data-name$=\"vamtiger-browser-method.js\"]";
     Selector["script"] = "script";
@@ -172,9 +174,6 @@ exports.regex = {
     leadingAt: /^@/
 };
 exports.selector = {
-    worker: [
-        Selector.vamtigerBrowserMethod
-    ].join(StringConstant.comma),
     redundantScripts: [
         Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,

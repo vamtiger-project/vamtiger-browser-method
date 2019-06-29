@@ -42,10 +42,11 @@ var stringify = JSON.stringify;
 var params = {
     type: types_1.ScriptType.js
 };
+var newline = types_1.StringConstant.newline;
 var worker;
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
-        var localHostWorkerUrl, head, createObjectURL, workerSelector, workerScripts, workerBlob, workerUrl, currentWorker;
+        var localHostWorkerUrl, head, createObjectURL, workderScript, workerDependecies, workerScripts, workerBlob, workerUrl, currentWorker;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, get_local_host_worker_url_1.default()];
@@ -53,14 +54,17 @@ function default_1() {
                     localHostWorkerUrl = _a.sent();
                     head = document.head;
                     createObjectURL = URL.createObjectURL;
-                    workerSelector = !worker && types_1.selector.worker;
-                    workerScripts = (workerSelector && Array.from(head.querySelectorAll(workerSelector)) || [])
+                    workderScript = head.querySelector(types_1.Selector.vamtigerBrowserMethod);
+                    workerDependecies = (Array.from(head.querySelectorAll(types_1.Selector.workderDependency)) || [])
                         .map(function (_a) {
                         var innerHTML = _a.innerHTML;
                         return innerHTML;
                     })
                         .filter(function (script) { return script; });
-                    workerBlob = workerScripts && workerScripts.length && new Blob(workerScripts, params);
+                    workerScripts = workerDependecies.concat([
+                        workderScript && workderScript.innerHTML || ''
+                    ]).filter(function (script) { return script; }).join(newline.repeat(2));
+                    workerBlob = workerScripts && workerScripts.length && new Blob([workerScripts], params);
                     workerUrl = workerBlob && createObjectURL && createObjectURL(workerBlob);
                     currentWorker = workerUrl && new Worker(localHostWorkerUrl || workerUrl);
                     if (currentWorker) {

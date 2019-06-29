@@ -80,7 +80,8 @@ export enum StringConstant {
     doubleQuote = '"',
     commaSpace = ', ',
     space = ' ',
-    period = '.'
+    period = '.',
+    newline = '\n'
 }
 
 export enum TagName {
@@ -106,6 +107,7 @@ export enum Selector {
     stylesheet = ' link[rel="stylesheet"]',
     vamtigerBrowserMethodJsonJs = '[src$="vamtiger-browser-method.js.json.js"]',
     worker = '[src$="js.json.js"][data-worker]',
+    workderDependency = 'script[data-worker-dependency]',
     vamtigerBrowserMethodJson = '[data-name$="vamtiger-browser-method.js.json"]',
     vamtigerBrowserMethod = '[data-name$="vamtiger-browser-method.js"]',
     script = 'script',
@@ -597,9 +599,6 @@ export const regex = {
 }
 
 export const selector = {
-    worker: [
-        Selector.vamtigerBrowserMethod
-    ].join(StringConstant.comma),
     redundantScripts: [
         Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,

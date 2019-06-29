@@ -67,7 +67,8 @@ export declare enum StringConstant {
     doubleQuote = "\"",
     commaSpace = ", ",
     space = " ",
-    period = "."
+    period = ".",
+    newline = "\n"
 }
 export declare enum TagName {
     div = "div",
@@ -89,6 +90,7 @@ export declare enum Selector {
     stylesheet = " link[rel=\"stylesheet\"]",
     vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
     worker = "[src$=\"js.json.js\"][data-worker]",
+    workderDependency = "script[data-worker-dependency]",
     vamtigerBrowserMethodJson = "[data-name$=\"vamtiger-browser-method.js.json\"]",
     vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]",
     script = "script",
@@ -461,7 +463,6 @@ export declare const regex: {
     leadingAt: RegExp;
 };
 export declare const selector: {
-    worker: string;
     redundantScripts: string;
 };
 export declare const sendMessageFromWorker: WorkerPostMessage;
