@@ -65,7 +65,7 @@ async function getEntry({key, value}: IGetJsonLdArrayGetEntry) {
     const entryValue = jsonLdEntryValueType.has(typeof value) && value as string | number | boolean;
     const valueArray = Array.isArray(value) && value || typeof value === 'object' && [value];
     const nestedEntries = valueArray && await Promise.all(valueArray.map(jsonLd => getJsonLdArray({ jsonLd })));
-    const entry = [[startCase(key.replace(leadingAt, nothing)), entryValue && (key.match(email) && getEmailLink({href: entryValue.toString(), text: entryValue.toString()}) && getEntryValue(entryValue)) || nothing]];
+    const entry = [[startCase(key.replace(leadingAt, nothing)), entryValue && (key.match(email) && getEmailLink({href: entryValue.toString(), text: entryValue.toString()}) || getEntryValue(entryValue)) || nothing]];
 
     nestedEntries && nestedEntries.forEach(nestedEntry => nestedEntry.forEach(currentNestedEntry => entry.push(currentNestedEntry)));
 

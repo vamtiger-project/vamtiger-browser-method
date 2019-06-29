@@ -117,7 +117,7 @@ function getEntry(_a) {
                     _c.label = 2;
                 case 2:
                     nestedEntries = _b;
-                    entry = [[startCase(key.replace(leadingAt, nothing)), entryValue && (key.match(email) && get_email_link_1.default({ href: entryValue.toString(), text: entryValue.toString() }) && getEntryValue(entryValue)) || nothing]];
+                    entry = [[startCase(key.replace(leadingAt, nothing)), entryValue && (key.match(email) && get_email_link_1.default({ href: entryValue.toString(), text: entryValue.toString() }) || getEntryValue(entryValue)) || nothing]];
                     nestedEntries && nestedEntries.forEach(function (nestedEntry) { return nestedEntry.forEach(function (currentNestedEntry) { return entry.push(currentNestedEntry); }); });
                     return [2 /*return*/, entry];
             }
