@@ -7,6 +7,10 @@ export enum Environment {
     worker = 'worker'
 }
 
+export enum EventName {
+    vamtigerBrowserMethodReady = 'vamtigerBrowserMethodReady'
+}
+
 export enum TimeoutDuration {
     webComponent = 60000,
     indexDbIsAccessible = 100
@@ -76,7 +80,8 @@ export enum StringConstant {
     doubleQuote = '"',
     commaSpace = ', ',
     space = ' ',
-    period = '.'
+    period = '.',
+    newline = '\n'
 }
 
 export enum TagName {
@@ -102,6 +107,7 @@ export enum Selector {
     stylesheet = ' link[rel="stylesheet"]',
     vamtigerBrowserMethodJsonJs = '[src$="vamtiger-browser-method.js.json.js"]',
     worker = '[src$="js.json.js"][data-worker]',
+    workderDependency = 'script[data-worker-dependency]',
     vamtigerBrowserMethodJson = '[data-name$="vamtiger-browser-method.js.json"]',
     vamtigerBrowserMethod = '[data-name$="vamtiger-browser-method.js"]',
     script = 'script',
@@ -109,7 +115,8 @@ export enum Selector {
     jsonLdScript = 'script[type="application/ld+json"]',
     a = 'a',
     linkedDataCaption = '[data-linked-data-caption]',
-    linkedDataCaptionElement = '[data-linked-data-caption-element]'
+    linkedDataCaptionElement = '[data-linked-data-caption-element]',
+    jsonLdViewer = 'vamtiger-json-ld-viewer'
 }
 
 export enum  MetaElementName {
@@ -153,7 +160,8 @@ export enum DbKeyPath {
 }
 
 export enum Dependency {
-    lodash = 'https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js'
+    lodash = 'https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js',
+    jsonLdViewer = 'https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js'
 }
 
 export interface IDequeue {
@@ -190,7 +198,7 @@ export interface IIsJsonScript {
 export interface ILoadLocalScriptParams {
     name: string;
     removeFromDom?: boolean;
-    transpileJs?: boolean;
+    workerDependency?: boolean;
 }
 
 export interface ILoadScriptParams {
@@ -233,6 +241,7 @@ export interface ILoadScript {
 
 export interface ILoadScriptLoadJsJsonJs {
     src: string;
+    workerDependency?: boolean;
 }
 
 export interface ILoadShadowStylesheet {
@@ -299,6 +308,11 @@ export interface IGetMetaElement {
     dataset?: DOMStringMap;
 }
 
+export interface IDispatchEvent {
+    eventName: EventName;
+    detail?: IAnyObject;
+}
+
 export interface IGetBabelJs {
     url?: string;
     js?: string;
@@ -311,11 +325,17 @@ export interface ILoadContainerStylesheets {
 
 export interface IGetData {
     jsonLd: string;
+    textMode?: boolean;
 }
 
 export interface IGetJsonLd {
     jsonLd: string;
+    textMode?: boolean;
     loadJsonJsonLd?: boolean;
+}
+
+export interface IViewJsonLd {
+    jsonLd: string;
 }
 
 export interface IJosnLdImageObject {
@@ -455,6 +475,11 @@ export interface IGetTabLink {
     text: string;
 }
 
+export interface IGetEmailLink {
+    href: string;
+    text: string;
+}
+
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 
 export type ErrorResolve = (error: Error) => void;
@@ -583,13 +608,11 @@ export const regex = {
     jsonJs: /\.json\.js$/,
     trailingJs: /\.js$/,
     uppercase: /[A-Z]/,
-    leadingAt: /^@/
+    leadingAt: /^@/,
+    email: /^email$/i
 }
 
 export const selector = {
-    worker: [
-        Selector.vamtigerBrowserMethod
-    ].join(StringConstant.comma),
     redundantScripts: [
         Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,

@@ -1,3 +1,6 @@
+import {
+    EventName
+} from './types';
 export * from './load-ts-lib';
 import loadScript from './load-script';
 import loadScripts from './load-scripts';
@@ -13,6 +16,8 @@ import setupWorker from './setup-worker';
 import setSupport from './set-support';
 import getMicrodataCaption from './get-microdata-caption';
 import getJsonLdArray from './get-json-ld-array';
+import loadDependencies from './load-dependencies';
+import dispatchEvent from './dispatch-event';
 
 const environment = getEnvironment();
 const vamtigerBrowserMethod = {
@@ -40,11 +45,15 @@ async function main() {
         if (!VamtigerBrowserMethod) {
             self.VamtigerBrowserMethod = vamtigerBrowserMethod;
 
-            setSupport();
+            await loadDependencies();
 
-            setupWindow();
+            await setSupport();
 
-            setupWorker();
+            await setupWindow();
+
+            await setupWorker();
+
+            dispatchEvent({eventName: EventName.vamtigerBrowserMethodReady})
         }
     } catch(error) {
         handleError(error);

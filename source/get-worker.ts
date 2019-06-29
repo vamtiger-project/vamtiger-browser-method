@@ -1,7 +1,7 @@
 import {
-    selector,
+    Selector,
     ScriptType,
-    LocalHostRelativePath
+    StringConstant
 } from './types';
 import handleMessage from './handle-message';
 import getLocalHostWorkerUrl from './get-local-host-worker-url';
@@ -10,6 +10,7 @@ const { stringify } = JSON;
 const params = {
     type: ScriptType.js
 }
+const { newline } = StringConstant;
 
 let worker: Worker;
 
@@ -17,11 +18,15 @@ export default async function () {
     const localHostWorkerUrl = await getLocalHostWorkerUrl();
     const { head } = document;
     const { createObjectURL } = URL;
-    const workerSelector = !worker && selector.worker;
-    const workerScripts = (workerSelector && Array.from(head.querySelectorAll<HTMLScriptElement>(workerSelector)) || [])
+    const workderScript = head.querySelector<HTMLScriptElement>(Selector.vamtigerBrowserMethod);
+    const workerDependecies = (Array.from(head.querySelectorAll<HTMLScriptElement>(Selector.workderDependency)) || [])
         .map(({ innerHTML }) => innerHTML)
         .filter(script => script);
-    const workerBlob = workerScripts && workerScripts.length && new Blob(workerScripts, params);
+    const workerScripts = [
+        ...workerDependecies,
+        workderScript && workderScript.innerHTML || ''
+    ].filter(script => script).join(newline.repeat(2));
+    const workerBlob = workerScripts && workerScripts.length && new Blob([workerScripts], params);
     const workerUrl = workerBlob && createObjectURL && createObjectURL(workerBlob);
     const currentWorker = workerUrl && new Worker(localHostWorkerUrl || workerUrl);
 

@@ -16,7 +16,7 @@ export default async function<P extends GetElementParams>(params: P) { return ne
     if (requestIdleCallback) {
         requestIdleCallback(() => getElement(params, resolve));
     } else {
-        getElement(params, resolve);
+        setTimeout(() => getElement(params, resolve), 0);
     }
 })}
 

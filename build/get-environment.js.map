@@ -1,0 +1,1 @@
+{"version":3,"file":"get-environment.js","sourceRoot":"","sources":["../source/get-environment.ts"],"names":[],"mappings":";;AAAA,iCAEiB;AAEjB;IACI,IAAM,WAAW,GAAG,IAAI,CAAC,cAAc,CAAC,mBAAmB,CAAC;WACrD,mBAAW,CAAC,MAAM;WAClB,mBAAW,CAAC,MAAM,CAAC;IAE1B,OAAO,WAAW,CAAC;AACvB,CAAC;AAND,4BAMC"}

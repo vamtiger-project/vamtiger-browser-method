@@ -4,17 +4,13 @@ import {
 import loadScript from './load-script';
 import isWindow from './is-window';
 
-let loaded = false
-
 export default async function () {
     isWindow() && await loadDependencies();
 }
 
 async function loadDependencies() {
-    const dependencies = !loaded && getDependencies() || [];
+    const workerDependency = true;
+    const dependencies = getDependencies();
 
-    await Promise.all(dependencies.map(src => loadScript({name: src, src})))
-        .then(() => loaded = true);
-
-    return loaded;
+    await Promise.all(dependencies.map(src => loadScript({name: src, src, workerDependency})));;
 }
