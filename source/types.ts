@@ -116,7 +116,8 @@ export enum Selector {
     a = 'a',
     linkedDataCaption = '[data-linked-data-caption]',
     linkedDataCaptionElement = '[data-linked-data-caption-element]',
-    jsonLdViewer = 'vamtiger-json-ld-viewer'
+    jsonLdViewer = 'vamtiger-json-ld-viewer',
+    transpiledJs = '[data-transpiled-js]'
 }
 
 export enum  MetaElementName {
@@ -616,7 +617,9 @@ export const selector = {
     redundantScripts: [
         Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,
-        Selector.vamtigerBrowserMethod
+        Selector.vamtigerBrowserMethod,
+        Selector.transpiledJs,
+        ...(Object.keys(Dependency) as DependencyKey[]).map(key => `[src="${Dependency[key]}"]`)
     ].join(StringConstant.comma)
 }
 

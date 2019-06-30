@@ -13,10 +13,12 @@ import {
     ScriptAttribute,
     ScriptType,
     StringConstant,
-    regex
+    regex,
+    Selector
 } from './types';
 import loadElementQueryCss from './load-element-query-css';
 import getTranspiledJs from './get-transpiled-js';
+import removeRedundantScripts from './remove-redundant-scripts';
 
 const { parse } = JSON;
 const { failedToLoadScript } = ErrorMessage;
@@ -147,8 +149,16 @@ async function loadJsJsonJs({ src, workerDependency }: ILoadScriptLoadJsJsonJs) 
     const json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
     const js: string = json && json.text;
     const name = src.replace(jsonJs, nothing);
+    const removeScriptSelector = [
+        `script[src="${src}"]`,
+        selector,
+        Selector.transpiledJs
+    ].join(StringConstant.comma);
 
-    name && js && await loadScript({ name, js, workerDependency }).catch(handleError);
+    if (name && js) {
+        await loadScript({ name, js, workerDependency }).catch(handleError);
+        await removeRedundantScripts({selector: removeScriptSelector});
+    }
 }
 
 function handleError(error: Error) {

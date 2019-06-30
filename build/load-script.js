@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var load_element_query_css_1 = require("./load-element-query-css");
 var get_transpiled_js_1 = require("./get-transpiled-js");
+var remove_redundant_scripts_1 = require("./remove-redundant-scripts");
 var parse = JSON.parse;
 var failedToLoadScript = types_1.ErrorMessage.failedToLoadScript;
 var stylesheet = types_1.LinkRel.stylesheet;
@@ -175,9 +176,9 @@ function loadScript(params) {
 function loadJsJsonJs(_a) {
     var src = _a.src, workerDependency = _a.workerDependency;
     return __awaiter(this, void 0, void 0, function () {
-        var head, paths, scriptName, selector, jsJsonJsScript, json, js, name, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var head, paths, scriptName, selector, jsJsonJsScript, json, js, name, removeScriptSelector;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
                     head = document.head;
                     paths = src
@@ -189,15 +190,20 @@ function loadJsJsonJs(_a) {
                     json = jsJsonJsScript && jsJsonJsScript.innerHTML && parse(jsJsonJsScript.innerHTML);
                     js = json && json.text;
                     name = src.replace(jsonJs, nothing);
-                    _b = name && js;
-                    if (!_b) return [3 /*break*/, 2];
+                    removeScriptSelector = [
+                        "script[src=\"" + src + "\"]",
+                        selector,
+                        types_1.Selector.transpiledJs
+                    ].join(types_1.StringConstant.comma);
+                    if (!(name && js)) return [3 /*break*/, 3];
                     return [4 /*yield*/, loadScript({ name: name, js: js, workerDependency: workerDependency }).catch(handleError)];
                 case 1:
-                    _b = (_c.sent());
-                    _c.label = 2;
+                    _b.sent();
+                    return [4 /*yield*/, remove_redundant_scripts_1.default({ selector: removeScriptSelector })];
                 case 2:
-                    _b;
-                    return [2 /*return*/];
+                    _b.sent();
+                    _b.label = 3;
+                case 3: return [2 /*return*/];
             }
         });
     });

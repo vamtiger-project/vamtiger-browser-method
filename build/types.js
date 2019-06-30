@@ -116,6 +116,7 @@ var Selector;
     Selector["linkedDataCaption"] = "[data-linked-data-caption]";
     Selector["linkedDataCaptionElement"] = "[data-linked-data-caption-element]";
     Selector["jsonLdViewer"] = "vamtiger-json-ld-viewer";
+    Selector["transpiledJs"] = "[data-transpiled-js]";
 })(Selector = exports.Selector || (exports.Selector = {}));
 var MetaElementName;
 (function (MetaElementName) {
@@ -180,8 +181,9 @@ exports.selector = {
     redundantScripts: [
         Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,
-        Selector.vamtigerBrowserMethod
-    ].join(StringConstant.comma)
+        Selector.vamtigerBrowserMethod,
+        Selector.transpiledJs
+    ].concat(Object.keys(Dependency).map(function (key) { return "[src=\"" + Dependency[key] + "\"]"; })).join(StringConstant.comma)
 };
 exports.sendMessageFromWorker = postMessage;
 //# sourceMappingURL=types.js.map

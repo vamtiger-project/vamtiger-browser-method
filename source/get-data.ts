@@ -8,13 +8,13 @@ import viewJsonLd from './view-json-ld';
 
 const { noJsonLdParameter } = ErrorMessage;
 
-export default function(params: IGetData) { return new Promise((resolve: (data: IJsonData) => void, reject) => {
+export default function(params: IGetData) { return new Promise(async (resolve: (data: IJsonData) => void, reject) => {
     const { requestIdleCallback } = self;
     const { textMode, jsonLd } = params;
 
     if (jsonLd) {
         if (textMode) {
-            viewJsonLd(params);
+            await viewJsonLd(params);
         }
 
         if (requestIdleCallback) {

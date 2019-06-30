@@ -99,7 +99,8 @@ export declare enum Selector {
     a = "a",
     linkedDataCaption = "[data-linked-data-caption]",
     linkedDataCaptionElement = "[data-linked-data-caption-element]",
-    jsonLdViewer = "vamtiger-json-ld-viewer"
+    jsonLdViewer = "vamtiger-json-ld-viewer",
+    transpiledJs = "[data-transpiled-js]"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
