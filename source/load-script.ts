@@ -158,7 +158,7 @@ async function loadJsJsonJs({ src, workerDependency }: ILoadScriptLoadJsJsonJs) 
     if (name && js) {
         await loadScript({ name, js, workerDependency }).catch(handleError);
 
-        removeRedundantScripts({selector: removeScriptSelector});
+        await removeRedundantScripts({selector: removeScriptSelector});
     }
 }
 

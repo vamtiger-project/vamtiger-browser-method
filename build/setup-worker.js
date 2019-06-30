@@ -10,7 +10,7 @@ function default_1() {
 exports.default = default_1;
 function setupWorker() {
     addEventListener('message', handle_message_1.default);
-    remove_redundant_scripts_1.default({
+    return remove_redundant_scripts_1.default({
         selector: types_1.selector.redundantScripts
     });
 }

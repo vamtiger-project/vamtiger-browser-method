@@ -12,7 +12,7 @@ export default function () {
 function setupWorker() {
     addEventListener('message', handleMessage);
 
-    removeRedundantScripts({
+    return removeRedundantScripts({
         selector: selector.redundantScripts
     });
 }

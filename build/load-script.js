@@ -195,13 +195,15 @@ function loadJsJsonJs(_a) {
                         selector,
                         types_1.Selector.transpiledJs
                     ].join(types_1.StringConstant.comma);
-                    if (!(name && js)) return [3 /*break*/, 2];
+                    if (!(name && js)) return [3 /*break*/, 3];
                     return [4 /*yield*/, loadScript({ name: name, js: js, workerDependency: workerDependency }).catch(handleError)];
                 case 1:
                     _b.sent();
-                    remove_redundant_scripts_1.default({ selector: removeScriptSelector });
-                    _b.label = 2;
-                case 2: return [2 /*return*/];
+                    return [4 /*yield*/, remove_redundant_scripts_1.default({ selector: removeScriptSelector })];
+                case 2:
+                    _b.sent();
+                    _b.label = 3;
+                case 3: return [2 /*return*/];
             }
         });
     });

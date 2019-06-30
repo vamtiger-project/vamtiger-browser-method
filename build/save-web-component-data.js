@@ -70,18 +70,20 @@ function saveWebComponentDataWindow(params) {
                     };
                     if (!(workerSupport && workerSupport.indexedDbIsAccessible)) return [3 /*break*/, 1];
                     message && send_message_1.default(message);
-                    return [3 /*break*/, 4];
+                    return [3 /*break*/, 5];
                 case 1:
-                    if (!(support && support.indexedDbIsAccessible)) return [3 /*break*/, 4];
+                    if (!(support && support.indexedDbIsAccessible)) return [3 /*break*/, 5];
                     return [4 /*yield*/, saveWebComponentDataIndexDb(params)];
                 case 2:
                     _a.sent();
                     return [4 /*yield*/, get_web_component_data_1.default({ key: key })];
                 case 3:
                     _a.sent();
-                    remove_redundant_scripts_1.default({ selector: selector });
-                    _a.label = 4;
-                case 4: return [2 /*return*/];
+                    return [4 /*yield*/, remove_redundant_scripts_1.default({ selector: selector })];
+                case 4:
+                    _a.sent();
+                    _a.label = 5;
+                case 5: return [2 /*return*/];
             }
         });
     });

@@ -100,14 +100,14 @@ function loadWebComponentData(_a) {
                     removeScriptParams = {
                         selector: "[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + url + "\"]"
                     };
-                    if (!jsonJsonLdData) return [3 /*break*/, 5];
+                    if (!jsonJsonLdData) return [3 /*break*/, 6];
                     jsonJsonLdData.forEach(function (currentJsonJsonLdData) { return currentJsonJsonLdData.forEach(function (_a) {
                         var index = _a.index, key = _a.key, data = _a.jsonLd;
                         if (jsonLd && Array.isArray(jsonLd) && jsonLd[index] && key && jsonLd[index][key] === true && data) {
                             jsonLd[index][key] = data;
                         }
                     }); });
-                    if (!(jsonLdScript && jsonLd)) return [3 /*break*/, 5];
+                    if (!(jsonLdScript && jsonLd)) return [3 /*break*/, 6];
                     head.removeChild(jsonLdScript);
                     return [4 /*yield*/, Promise.all(jsonLd.map(function (currentJsonLd) { return load_script_1.default({
                             name: url,
@@ -116,9 +116,11 @@ function loadWebComponentData(_a) {
                         }); }))];
                 case 4:
                     _d.sent();
-                    remove_redundant_scripts_1.default(removeScriptParams);
-                    _d.label = 5;
+                    return [4 /*yield*/, remove_redundant_scripts_1.default(removeScriptParams)];
                 case 5:
+                    _d.sent();
+                    _d.label = 6;
+                case 6:
                     if (worker && params) {
                         save_web_component_data_1.default(params);
                     }

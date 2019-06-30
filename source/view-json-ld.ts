@@ -3,14 +3,14 @@ import {
     Dependency
 } from './types';
 import loadScript from './load-script';
+import isTextMode from './is-text-mode';
 
 const { jsonLdViewer: src } = Dependency;
 
 let jsonLdViewerElement: HTMLElement;
 
 export default async function (params: IViewJsonLd) {
-    const { documentElement } = document;
-    const textMode = documentElement.dataset.hasOwnProperty('vamtigerTextMode');
+    const textMode = isTextMode();
 
     if (textMode) {
         await viewJsonLd(params);

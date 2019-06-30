@@ -37,16 +37,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var load_script_1 = require("./load-script");
+var is_text_mode_1 = require("./is-text-mode");
 var src = types_1.Dependency.jsonLdViewer;
 var jsonLdViewerElement;
 function default_1(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var documentElement, textMode;
+        var textMode;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    documentElement = document.documentElement;
-                    textMode = documentElement.dataset.hasOwnProperty('vamtigerTextMode');
+                    textMode = is_text_mode_1.default();
                     if (!textMode) return [3 /*break*/, 2];
                     return [4 /*yield*/, viewJsonLd(params)];
                 case 1:

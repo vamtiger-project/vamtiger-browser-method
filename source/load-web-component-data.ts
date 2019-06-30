@@ -56,7 +56,7 @@ async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
                 jsonld: true
             })));
 
-            removeRedundantScripts(removeScriptParams);
+            await removeRedundantScripts(removeScriptParams);
         }
     }
 
