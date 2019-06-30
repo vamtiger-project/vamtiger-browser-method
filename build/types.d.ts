@@ -269,6 +269,11 @@ export interface IGetData {
     jsonLd: string;
     textMode?: boolean;
 }
+export interface IGetDataResolve extends IGetData {
+    data: IJsonData;
+    jsonLd: string;
+    resolve: (data: IJsonData) => void;
+}
 export interface IGetJsonLd {
     jsonLd: string;
     textMode?: boolean;
