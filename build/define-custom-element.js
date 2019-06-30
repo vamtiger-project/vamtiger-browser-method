@@ -10,6 +10,9 @@ function defineCustomElement(_a) {
     if (define && !existingElement) {
         customElements.define(name, constructor);
     }
+    else if (existingElement) {
+        types_1.ignore();
+    }
     else if (!ignore) {
         defineCustomElement({ name: name, constructor: constructor, ignore: true });
     }

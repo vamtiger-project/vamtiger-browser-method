@@ -479,3 +479,4 @@ export declare const selector: {
     redundantScripts: string;
 };
 export declare const sendMessageFromWorker: WorkerPostMessage;
+export declare const ignore: () => void;

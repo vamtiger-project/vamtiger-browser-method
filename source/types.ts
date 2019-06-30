@@ -624,3 +624,5 @@ export const selector = {
 }
 
 export const sendMessageFromWorker = postMessage as WorkerPostMessage;
+
+export const ignore = () => {};

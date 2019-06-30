@@ -186,4 +186,5 @@ exports.selector = {
     ].concat(Object.keys(Dependency).map(function (key) { return "[src=\"" + Dependency[key] + "\"]"; })).join(StringConstant.comma)
 };
 exports.sendMessageFromWorker = postMessage;
+exports.ignore = function () { };
 //# sourceMappingURL=types.js.map
