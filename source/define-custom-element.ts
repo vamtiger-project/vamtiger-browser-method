@@ -1,6 +1,6 @@
 import { IDefineCustomElement, ErrorMessage } from './types';
 
-const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
+const { unsupportedFeature } = ErrorMessage;
 
 export default function defineCustomElement({ name, constructor, ignore }: IDefineCustomElement) {
     const { customElements } = self;
@@ -9,8 +9,6 @@ export default function defineCustomElement({ name, constructor, ignore }: IDefi
 
     if (define && !existingElement) {
         customElements.define(name, constructor);
-    } else if (existingElement) {
-        throw new Error(`${customElementAreadyDefined}: ${name}`);
     } else if (!ignore) {
         defineCustomElement({ name, constructor, ignore: true });
     } else {
