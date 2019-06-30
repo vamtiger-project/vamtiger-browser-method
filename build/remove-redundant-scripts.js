@@ -168,7 +168,7 @@ function removeScriptsFromParent(_a) {
         parent.dataset.jsonLd = jsonLdScriptSelector;
     }
     if (scripts.length) {
-        parent.dataset.removedScripts = scripts.length.toString();
+        parent.dataset.removedScripts = (Number(parent.dataset.removedScripts || 0) + scripts.length).toString();
     }
     safeScripts.forEach(function (script) { return head.appendChild(script); });
     scripts.forEach(function (script) { return parent.removeChild(script); });
