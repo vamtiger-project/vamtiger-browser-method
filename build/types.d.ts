@@ -136,7 +136,7 @@ export declare enum DbKeyPath {
 }
 export declare enum Dependency {
     lodash = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js",
-    jsonLdViewer = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js"
+    jsonLdViewer = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js.json.js"
 }
 export interface IDequeue {
     key: string;
