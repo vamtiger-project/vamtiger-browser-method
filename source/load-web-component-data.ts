@@ -3,8 +3,7 @@ import {
     IJsonData,
     ILoadDataGetJsonJsonLd,
     Selector,
-    ILoadDataGetFeldData,
-    ScriptType
+    ILoadDataGetFeldData
 } from './types';
 import loadScript from './load-script';
 import saveWebComponentData from './save-web-component-data';
