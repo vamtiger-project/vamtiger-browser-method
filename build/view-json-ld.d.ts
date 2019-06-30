@@ -1,2 +1,2 @@
 import { IViewJsonLd } from './types';
-export default function ({ jsonLd }: IViewJsonLd): Promise<void>;
+export default function (params: IViewJsonLd): Promise<void>;

@@ -39,7 +39,26 @@ var types_1 = require("./types");
 var load_script_1 = require("./load-script");
 var src = types_1.Dependency.jsonLdViewer;
 var jsonLdViewerElement;
-function default_1(_a) {
+function default_1(params) {
+    return __awaiter(this, void 0, void 0, function () {
+        var documentElement, textMode;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    documentElement = document.documentElement;
+                    textMode = documentElement.dataset.hasOwnProperty('vamtigerTextMode');
+                    if (!textMode) return [3 /*break*/, 2];
+                    return [4 /*yield*/, viewJsonLd(params)];
+                case 1:
+                    _a.sent();
+                    _a.label = 2;
+                case 2: return [2 /*return*/];
+            }
+        });
+    });
+}
+exports.default = default_1;
+function viewJsonLd(_a) {
     var jsonLd = _a.jsonLd;
     return __awaiter(this, void 0, void 0, function () {
         var jsonLdViewerScript, jsonLdViewer, dataset;
@@ -56,7 +75,6 @@ function default_1(_a) {
         });
     });
 }
-exports.default = default_1;
 function getJsonLdViewer() {
     var body = document.body;
     var jsonLdViewer = jsonLdViewerElement || document.createElement('vamtiger-json-ld-viewer');

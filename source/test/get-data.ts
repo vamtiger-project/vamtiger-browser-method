@@ -11,6 +11,13 @@ interface IData {
 
 export default () => describe('getData', function () {
     this.timeout(5000);
+    before(function () {
+        const { documentElement } = document;
+        const { dataset } = documentElement;
+
+        dataset.vamtigerTextMode = '';
+    });
+
     it('json-ld', jsonLdTest);
 });
 

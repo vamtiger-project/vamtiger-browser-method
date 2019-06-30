@@ -38,6 +38,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 exports.default = (function () { return describe('getData', function () {
     this.timeout(5000);
+    before(function () {
+        var documentElement = document.documentElement;
+        var dataset = documentElement.dataset;
+        dataset.vamtigerTextMode = '';
+    });
     it('json-ld', jsonLdTest);
 }); });
 function jsonLdTest() {

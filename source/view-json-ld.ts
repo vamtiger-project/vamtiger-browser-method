@@ -8,7 +8,16 @@ const { jsonLdViewer: src } = Dependency;
 
 let jsonLdViewerElement: HTMLElement;
 
-export default async function ({jsonLd}: IViewJsonLd) {
+export default async function (params: IViewJsonLd) {
+    const { documentElement } = document;
+    const textMode = documentElement.dataset.hasOwnProperty('vamtigerTextMode');
+
+    if (textMode) {
+        await viewJsonLd(params);
+    }
+}
+
+async function viewJsonLd({jsonLd}: IViewJsonLd) {
     const jsonLdViewerScript = await loadScript({name: src, src});
     const jsonLdViewer = getJsonLdViewer();
     const { dataset } = jsonLdViewer;
