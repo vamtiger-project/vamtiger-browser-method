@@ -51,7 +51,6 @@ var load_script_1 = require("./load-script");
 var save_web_component_data_1 = require("./save-web-component-data");
 var is_window_1 = require("./is-window");
 var get_json_ld_1 = require("./get-json-ld");
-var remove_redundant_scripts_1 = require("./remove-redundant-scripts");
 var parse = JSON.parse, stringify = JSON.stringify;
 var emptyJsonLd = {
     jsonLd: [],
@@ -71,7 +70,7 @@ exports.default = default_1;
 function loadWebComponentData(_a) {
     var url = _a.url, loadJsonJsonLd = _a.loadJsonJsonLd;
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, worker, head, jsonLdSelector, _b, jsonLd, json, jsonJsonLdData, _c, params, jsonLdScript, removeScriptParams;
+        var VamtigerBrowserMethod, worker, head, jsonLdSelector, _b, jsonLd, json, jsonJsonLdData, _c, params, jsonLdScript;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
@@ -97,9 +96,6 @@ function loadWebComponentData(_a) {
                         json: json
                     };
                     jsonLdScript = head.querySelector(jsonLdSelector);
-                    removeScriptParams = {
-                        selector: "[type=\"" + types_1.ScriptType.json + "\"][data-name=\"" + url + "\"]"
-                    };
                     if (!jsonJsonLdData) return [3 /*break*/, 5];
                     jsonJsonLdData.forEach(function (currentJsonJsonLdData) { return currentJsonJsonLdData.forEach(function (_a) {
                         var index = _a.index, key = _a.key, data = _a.jsonLd;
@@ -108,7 +104,6 @@ function loadWebComponentData(_a) {
                         }
                     }); });
                     if (!(jsonLdScript && jsonLd)) return [3 /*break*/, 5];
-                    head.removeChild(jsonLdScript);
                     return [4 /*yield*/, Promise.all(jsonLd.map(function (currentJsonLd) { return load_script_1.default({
                             name: url,
                             json: stringify(currentJsonLd),
@@ -116,7 +111,6 @@ function loadWebComponentData(_a) {
                         }); }))];
                 case 4:
                     _d.sent();
-                    remove_redundant_scripts_1.default(removeScriptParams);
                     _d.label = 5;
                 case 5:
                     if (worker && params) {
