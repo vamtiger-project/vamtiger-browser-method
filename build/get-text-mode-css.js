@@ -52,15 +52,15 @@ function default_1() {
 exports.default = default_1;
 function getTextModeCssWindow() {
     var VamtigerBrowserMethod = self.VamtigerBrowserMethod;
-    var support = VamtigerBrowserMethod.support, workerSupport = VamtigerBrowserMethod.workerSupport;
+    var support = VamtigerBrowserMethod.support, workerSupport = VamtigerBrowserMethod.workerSupport, textMode = VamtigerBrowserMethod.textMode;
     var message = workerSupport && workerSupport.indexedDbIsAccessible && {
         action: types_1.MessageAction.getTextModeCss,
         params: {}
     };
-    if (message) {
+    if (textMode && message) {
         send_message_1.default(message);
     }
-    else if (support && support.indexedDbIsAccessible) {
+    else if (textMode && support && support.indexedDbIsAccessible) {
         getTextModeCssWindowIndexDb();
     }
     else {

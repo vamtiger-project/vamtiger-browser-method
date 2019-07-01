@@ -25,15 +25,15 @@ export default function() {
 
 function getTextModeCssWindow() {
     const { VamtigerBrowserMethod } = self;
-    const { support, workerSupport } = VamtigerBrowserMethod;
+    const { support, workerSupport, textMode } = VamtigerBrowserMethod;
     const message = workerSupport && workerSupport.indexedDbIsAccessible && {
         action: MessageAction.getTextModeCss,
         params: {}
     };
 
-    if (message) {
+    if (textMode && message) {
         sendMessage(message);
-    } else if (support && support.indexedDbIsAccessible) {
+    } else if (textMode && support && support.indexedDbIsAccessible) {
         getTextModeCssWindowIndexDb()
     } else {
         getTextModeCssFromMetaElement()
