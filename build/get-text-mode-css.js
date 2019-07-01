@@ -60,9 +60,39 @@ function getTextModeCssWindow() {
     if (message) {
         send_message_1.default(message);
     }
+    else if (support && support.indexedDbIsAccessible) {
+        getTextModeCssWindowIndexDb();
+    }
     else {
         getTextModeCssFromMetaElement();
     }
+}
+function getTextModeCssWindowIndexDb() {
+    return __awaiter(this, void 0, void 0, function () {
+        var customElementNames, names, css, params;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, get_indexed_db_data_1.default({
+                        storeName: storeName,
+                        keyPath: keyPath
+                    })];
+                case 1:
+                    customElementNames = (_a.sent()) || [];
+                    names = customElementNames.map(function (_a) {
+                        var name = _a.name;
+                        return name;
+                    });
+                    css = getCss(names);
+                    params = css && {
+                        name: types_1.ScriptName.textMode,
+                        css: css,
+                        removeExisting: true
+                    };
+                    params && handle_load_script_1.default(params);
+                    return [2 /*return*/];
+            }
+        });
+    });
 }
 function getTextModeCssWorker() {
     return __awaiter(this, void 0, void 0, function () {

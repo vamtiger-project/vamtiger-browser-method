@@ -33,9 +33,27 @@ function getTextModeCssWindow() {
 
     if (message) {
         sendMessage(message);
+    } else if (support && support.indexedDbIsAccessible) {
+        getTextModeCssWindowIndexDb()
     } else {
         getTextModeCssFromMetaElement()
     }
+}
+
+async function getTextModeCssWindowIndexDb() {
+    const customElementNames = await getData({
+        storeName,
+        keyPath
+    }) || [];
+    const names = customElementNames.map(({ name }) => name);
+    const css = getCss(names);
+    const params = css && {
+        name: ScriptName.textMode,
+        css,
+        removeExisting: true
+    };
+
+    params && loadScript(params);
 }
 
 async function getTextModeCssWorker() {
