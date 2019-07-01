@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var get_worker_1 = require("./get-worker");
 var is_window_1 = require("./is-window");
+var is_text_mode_1 = require("./is-text-mode");
 var nothing = types_1.StringConstant.nothing;
 function default_1() {
     is_window_1.default() && setupWindow();
@@ -45,7 +46,7 @@ function default_1() {
 exports.default = default_1;
 function setupWindow() {
     return __awaiter(this, void 0, void 0, function () {
-        var head, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, _b;
+        var head, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -53,6 +54,7 @@ function setupWindow() {
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     _a = VamtigerBrowserMethod.metaElement, metaElement = _a === void 0 ? document.createElement('meta') : _a;
                     customeElementMetaElement = document.createElement('meta');
+                    textMode = is_text_mode_1.default();
                     customeElementMetaElement.dataset[types_1.DataAttribute.customElementName] = nothing;
                     metaElement.id = types_1.ElementId.metaElement;
                     metaElement.appendChild(customeElementMetaElement);
@@ -62,6 +64,7 @@ function setupWindow() {
                     return [4 /*yield*/, get_worker_1.default()];
                 case 1:
                     _b.worker = _c.sent();
+                    VamtigerBrowserMethod.textMode = textMode;
                     return [2 /*return*/];
             }
         });

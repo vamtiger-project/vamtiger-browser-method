@@ -5,7 +5,6 @@ import {
 } from './types';
 import loadScript from './load-script';
 import isWindow from './is-window';
-import isTextMode from './is-text-mode';
 
 export default async function<P extends ILoadScript['params']>(params: P) {return new Promise((resolve, reject) => {
     const { requestIdleCallback } = self;
@@ -22,13 +21,8 @@ async function loadScriptWindow<P extends ILoadScript['params']>(params: P) {ret
     const { name, removeExisting } = params as LocalScriptParams;
     const selector = name && removeExisting && `[data-name="${name}"]`;
     const existingScript = selector && head.querySelector<HTMLElement>(selector);
-    const textMode = isTextMode();
-    const ignore = !textMode && existingScript && existingScript.innerHTML === ((params as LocalStylesheetScriptParams).css || (params as LocalScriptParams).js);
+    const ignore = existingScript && existingScript.innerHTML === ((params as LocalStylesheetScriptParams).css || (params as LocalScriptParams).js);
 
-    console.log({
-        ignore,
-        textMode
-    });
     try {
         !ignore && await loadScript(params);
 

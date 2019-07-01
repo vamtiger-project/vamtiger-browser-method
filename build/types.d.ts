@@ -465,6 +465,7 @@ export declare type VamtigerBrowserMethod = {
     support?: ISupport;
     workerSupport?: ISupport;
     getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
+    textMode?: boolean;
 };
 export interface IAttributes {
     id?: string;
