@@ -10,18 +10,24 @@ export default async function<P extends ILoadScript['params']>(params: P) {retur
     const { requestIdleCallback } = self;
 
     if (requestIdleCallback) {
-        requestIdleCallback(() => isWindow() && loadScriptWindow(params).then(() => resolve()).catch(reject));
+        requestIdleCallback(() => isWindow() && loadScriptWindow(params).then(resolve).catch(reject));
     } else {
-        setTimeout(() => isWindow() && loadScriptWindow(params).then(() => resolve()).catch(reject), 0);
+        setTimeout(() => isWindow() && loadScriptWindow(params).then(resolve).catch(reject), 0);
     }
 })}
 
-async function loadScriptWindow<P extends ILoadScript['params']>(params: P) {
+async function loadScriptWindow<P extends ILoadScript['params']>(params: P) {return new Promise(async (resolve, reject) => {
     const { head } = document;
     const { name, removeExisting } = params as LocalScriptParams;
     const selector = name && removeExisting && `[data-name="${name}"]`;
     const existingScript = selector && head.querySelector<HTMLElement>(selector);
     const ignore = existingScript && existingScript.innerHTML === ((params as LocalStylesheetScriptParams).css || (params as LocalScriptParams).js);
 
-    !ignore && await loadScript(params);
-}
+    try {
+        !ignore && await loadScript(params);
+
+        resolve();
+    } catch(error) {
+        reject(error);
+    }
+});}

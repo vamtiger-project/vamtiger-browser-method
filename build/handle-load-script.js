@@ -43,10 +43,10 @@ function default_1(params) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var requestIdleCallback = self.requestIdleCallback;
                     if (requestIdleCallback) {
-                        requestIdleCallback(function () { return is_window_1.default() && loadScriptWindow(params).then(function () { return resolve(); }).catch(reject); });
+                        requestIdleCallback(function () { return is_window_1.default() && loadScriptWindow(params).then(resolve).catch(reject); });
                     }
                     else {
-                        setTimeout(function () { return is_window_1.default() && loadScriptWindow(params).then(function () { return resolve(); }).catch(reject); }, 0);
+                        setTimeout(function () { return is_window_1.default() && loadScriptWindow(params).then(resolve).catch(reject); }, 0);
                     }
                 })];
         });
@@ -55,25 +55,39 @@ function default_1(params) {
 exports.default = default_1;
 function loadScriptWindow(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var head, _a, name, removeExisting, selector, existingScript, ignore, _b;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    head = document.head;
-                    _a = params, name = _a.name, removeExisting = _a.removeExisting;
-                    selector = name && removeExisting && "[data-name=\"" + name + "\"]";
-                    existingScript = selector && head.querySelector(selector);
-                    ignore = existingScript && existingScript.innerHTML === (params.css || params.js);
-                    _b = !ignore;
-                    if (!_b) return [3 /*break*/, 2];
-                    return [4 /*yield*/, load_script_1.default(params)];
-                case 1:
-                    _b = (_c.sent());
-                    _c.label = 2;
-                case 2:
-                    _b;
-                    return [2 /*return*/];
-            }
+        var _this = this;
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
+                    var head, _a, name, removeExisting, selector, existingScript, ignore, _b, error_1;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                head = document.head;
+                                _a = params, name = _a.name, removeExisting = _a.removeExisting;
+                                selector = name && removeExisting && "[data-name=\"" + name + "\"]";
+                                existingScript = selector && head.querySelector(selector);
+                                ignore = existingScript && existingScript.innerHTML === (params.css || params.js);
+                                _c.label = 1;
+                            case 1:
+                                _c.trys.push([1, 4, , 5]);
+                                _b = !ignore;
+                                if (!_b) return [3 /*break*/, 3];
+                                return [4 /*yield*/, load_script_1.default(params)];
+                            case 2:
+                                _b = (_c.sent());
+                                _c.label = 3;
+                            case 3:
+                                _b;
+                                resolve();
+                                return [3 /*break*/, 5];
+                            case 4:
+                                error_1 = _c.sent();
+                                reject(error_1);
+                                return [3 /*break*/, 5];
+                            case 5: return [2 /*return*/];
+                        }
+                    });
+                }); })];
         });
     });
 }
