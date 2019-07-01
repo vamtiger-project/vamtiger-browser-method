@@ -22,8 +22,13 @@ async function loadScriptWindow<P extends ILoadScript['params']>(params: P) {ret
     const { name, removeExisting } = params as LocalScriptParams;
     const selector = name && removeExisting && `[data-name="${name}"]`;
     const existingScript = selector && head.querySelector<HTMLElement>(selector);
-    const ignore = !isTextMode() && existingScript && existingScript.innerHTML === ((params as LocalStylesheetScriptParams).css || (params as LocalScriptParams).js);
+    const textMode = isTextMode();
+    const ignore = !textMode && existingScript && existingScript.innerHTML === ((params as LocalStylesheetScriptParams).css || (params as LocalScriptParams).js);
 
+    console.log({
+        ignore,
+        textMode
+    });
     try {
         !ignore && await loadScript(params);
 

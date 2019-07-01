@@ -59,7 +59,7 @@ function loadScriptWindow(params) {
         var _this = this;
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
-                    var head, _a, name, removeExisting, selector, existingScript, ignore, _b, error_1;
+                    var head, _a, name, removeExisting, selector, existingScript, textMode, ignore, _b, error_1;
                     return __generator(this, function (_c) {
                         switch (_c.label) {
                             case 0:
@@ -67,7 +67,12 @@ function loadScriptWindow(params) {
                                 _a = params, name = _a.name, removeExisting = _a.removeExisting;
                                 selector = name && removeExisting && "[data-name=\"" + name + "\"]";
                                 existingScript = selector && head.querySelector(selector);
-                                ignore = !is_text_mode_1.default() && existingScript && existingScript.innerHTML === (params.css || params.js);
+                                textMode = is_text_mode_1.default();
+                                ignore = !textMode && existingScript && existingScript.innerHTML === (params.css || params.js);
+                                console.log({
+                                    ignore: ignore,
+                                    textMode: textMode
+                                });
                                 _c.label = 1;
                             case 1:
                                 _c.trys.push([1, 4, , 5]);
