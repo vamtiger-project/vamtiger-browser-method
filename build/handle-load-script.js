@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var load_script_1 = require("./load-script");
 var is_window_1 = require("./is-window");
+var is_text_mode_1 = require("./is-text-mode");
 function default_1(params) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -66,7 +67,7 @@ function loadScriptWindow(params) {
                                 _a = params, name = _a.name, removeExisting = _a.removeExisting;
                                 selector = name && removeExisting && "[data-name=\"" + name + "\"]";
                                 existingScript = selector && head.querySelector(selector);
-                                ignore = existingScript && existingScript.innerHTML === (params.css || params.js);
+                                ignore = !is_text_mode_1.default() && existingScript && existingScript.innerHTML === (params.css || params.js);
                                 _c.label = 1;
                             case 1:
                                 _c.trys.push([1, 4, , 5]);
