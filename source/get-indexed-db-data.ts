@@ -13,7 +13,7 @@ export default async function <P extends IGetIndexedDbData>({ storeName, keyPath
         keyPath,
         mode
     });
-    const get = store.get(key);
+    const get = key && store.get(key) || store.getAll();
 
     get.addEventListener('error', reject);
     get.addEventListener('success', () => resolve(get.result));

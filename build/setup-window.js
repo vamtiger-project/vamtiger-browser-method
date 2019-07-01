@@ -35,23 +35,33 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var types_1 = require("./types");
 var get_worker_1 = require("./get-worker");
 var is_window_1 = require("./is-window");
+var nothing = types_1.StringConstant.nothing;
 function default_1() {
     is_window_1.default() && setupWindow();
 }
 exports.default = default_1;
 function setupWindow() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var head, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
+                    head = document.head;
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
-                    _a = VamtigerBrowserMethod;
+                    _a = VamtigerBrowserMethod.metaElement, metaElement = _a === void 0 ? document.createElement('meta') : _a;
+                    customeElementMetaElement = document.createElement('meta');
+                    customeElementMetaElement.dataset[types_1.DataAttribute.customElementName] = nothing;
+                    metaElement.id = types_1.ElementId.metaElement;
+                    metaElement.appendChild(customeElementMetaElement);
+                    head.appendChild(metaElement);
+                    VamtigerBrowserMethod.metaElement = metaElement;
+                    _b = VamtigerBrowserMethod;
                     return [4 /*yield*/, get_worker_1.default()];
                 case 1:
-                    _a.worker = _b.sent();
+                    _b.worker = _c.sent();
                     return [2 /*return*/];
             }
         });

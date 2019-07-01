@@ -128,7 +128,8 @@ function saveWebComponentDataIndexDb(params) {
                     saveParams = data && {
                         storeName: storeName,
                         keyPath: keyPath,
-                        data: data
+                        data: data,
+                        successAction: types_1.MessageAction.getWebComponentData
                     };
                     _a = saveParams;
                     if (!_a) return [3 /*break*/, 2];

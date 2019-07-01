@@ -18,9 +18,9 @@ export default function(params: IGetData) { return new Promise(async (resolve: (
         }
 
         if (requestIdleCallback) {
-            requestIdleCallback(() => getJsonLd(params).then(resolve));
+            requestIdleCallback(() => getJsonLd(params).then(resolve).catch(reject));
         } else {
-            setTimeout(() => getJsonLd(params).then(resolve), 0);
+            setTimeout(() => getJsonLd(params).then(resolve).catch(reject), 0);
         }
     } else {
         reject(new Error(noJsonLdParameter));

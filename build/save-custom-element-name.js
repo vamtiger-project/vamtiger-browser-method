@@ -47,41 +47,86 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
-var get_db_params_1 = require("./get-db-params");
+var is_window_1 = require("./is-window");
+var is_worker_1 = require("./is-worker");
 var send_message_1 = require("./send-message");
-var mode = types_1.DbMode.readwrite;
-function default_1(_a) {
-    var storeName = _a.storeName, keyPath = _a.keyPath, data = _a.data, messageId = _a.messageId, action = _a.successAction;
+var save_indexed_db_data_1 = require("./save-indexed-db-data");
+var get_text_mode_css_1 = require("./get-text-mode-css");
+var keyPath = types_1.DbKeyPath.customElementName;
+var storeName = types_1.DbStoreName.customElementName;
+function default_1(params) {
+    is_window_1.default() && saveCustomElementNameWindow(params);
+    is_worker_1.default() && saveCustomElementNameWorker(params);
+}
+exports.default = default_1;
+function saveCustomElementNameWindow(params) {
+    var VamtigerBrowserMethod = self.VamtigerBrowserMethod;
+    var support = VamtigerBrowserMethod.support, workerSupport = VamtigerBrowserMethod.workerSupport;
+    var message = workerSupport && workerSupport.indexedDbIsAccessible && {
+        action: types_1.MessageAction.saveCustomElementName,
+        params: params
+    };
+    if (message) {
+        send_message_1.default(message);
+    }
+    else if (support && support.indexedDbIsAccessible) {
+        saveCustomElementNameWindowIndexDb(params);
+    }
+    else {
+        saveCustomeElementNameDocument(params);
+    }
+}
+function saveCustomElementNameWorker(params) {
+    saveCustomElementNameIndexDb(params);
+}
+function saveCustomElementNameIndexDb(params) {
+    var name = params.name;
+    var saveParams = name && {
+        storeName: storeName,
+        keyPath: keyPath,
+        data: __assign({ name: name }, params),
+        successAction: types_1.MessageAction.getTextModeCss
+    };
+    saveParams && save_indexed_db_data_1.default(saveParams);
+}
+function saveCustomElementNameWindowIndexDb(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var store, save;
+        var name, saveParams, _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0: return [4 /*yield*/, get_db_params_1.default({
+                case 0:
+                    name = params.name;
+                    saveParams = name && {
                         storeName: storeName,
                         keyPath: keyPath,
-                        mode: mode
-                    })];
+                        data: __assign({ name: name }, params)
+                    };
+                    _a = saveParams;
+                    if (!_a) return [3 /*break*/, 2];
+                    return [4 /*yield*/, save_indexed_db_data_1.default(saveParams)];
                 case 1:
-                    store = (_b.sent()).store;
-                    save = store.put(data);
-                    save.addEventListener('error', handleError);
-                    save.addEventListener('success', function () { return handleSuccess({ messageId: messageId, key: keyPath, action: action, data: data }); });
+                    _a = (_b.sent());
+                    _b.label = 2;
+                case 2:
+                    _a;
+                    get_text_mode_css_1.default();
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.default = default_1;
-function handleSuccess(params) {
-    var action = params.action, data = params.data;
-    var message = action && {
-        action: action,
-        params: __assign({}, params, data)
-    };
-    message && send_message_1.default(message);
+function saveCustomeElementNameDocument(_a) {
+    var name = _a.name;
+    var VamtigerBrowserMethod = self.VamtigerBrowserMethod;
+    var metaElement = VamtigerBrowserMethod.metaElement;
+    var customElementMetaElement = metaElement && metaElement.querySelector(types_1.Selector.customElementNameMetaElement);
+    var selector = customElementMetaElement && "meta[data-name=\"" + name + "\"]";
+    var existingMetaElement = selector && customElementMetaElement && customElementMetaElement.querySelector(selector);
+    var newMetaElement = !existingMetaElement && document.createElement('meta');
+    if (customElementMetaElement && newMetaElement) {
+        newMetaElement.dataset.name = name;
+        customElementMetaElement.appendChild(newMetaElement);
+        get_text_mode_css_1.default();
+    }
 }
-function handleError(error) {
-    console.error(error);
-    throw error;
-}
-//# sourceMappingURL=save-indexed-db-data.js.map
+//# sourceMappingURL=save-custom-element-name.js.map

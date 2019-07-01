@@ -42,10 +42,10 @@ function default_1(params) {
     return new Promise(function (resolve, reject) {
         var requestIdleCallback = self.requestIdleCallback;
         if (requestIdleCallback) {
-            requestIdleCallback(function () { return loadStylesheets(params, resolve); });
+            requestIdleCallback(function () { return loadStylesheets(params, resolve).catch(reject); });
         }
         else {
-            setTimeout(function () { return loadStylesheets(params, resolve); }, 0);
+            setTimeout(function () { return loadStylesheets(params, resolve).catch(reject); }, 0);
         }
     });
 }

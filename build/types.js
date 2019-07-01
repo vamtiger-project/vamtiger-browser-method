@@ -25,6 +25,10 @@ var Prefix;
     Prefix["messageIdWindow"] = "vamtiger-browser-method-window";
     Prefix["messageIdWorker"] = "vamtiger-browser-method-worker";
 })(Prefix = exports.Prefix || (exports.Prefix = {}));
+var ElementId;
+(function (ElementId) {
+    ElementId["metaElement"] = "vamtiger-browser-method";
+})(ElementId = exports.ElementId || (exports.ElementId = {}));
 var Origin;
 (function (Origin) {
     Origin["nowhere"] = "";
@@ -53,6 +57,7 @@ var DataAttribute;
 (function (DataAttribute) {
     DataAttribute["vamtigerElementQuery"] = "vamtigerLoadElementQueryCss";
     DataAttribute["elementQueryCssLoaded"] = "elementQueryCssLoaded";
+    DataAttribute["customElementName"] = "customElementName";
 })(DataAttribute = exports.DataAttribute || (exports.DataAttribute = {}));
 var ErrorMessage;
 (function (ErrorMessage) {
@@ -81,6 +86,7 @@ var StringConstant;
     StringConstant["space"] = " ";
     StringConstant["period"] = ".";
     StringConstant["newline"] = "\n";
+    StringConstant["semiColon"] = ";";
 })(StringConstant = exports.StringConstant || (exports.StringConstant = {}));
 var TagName;
 (function (TagName) {
@@ -117,7 +123,13 @@ var Selector;
     Selector["linkedDataCaptionElement"] = "[data-linked-data-caption-element]";
     Selector["jsonLdViewer"] = "vamtiger-json-ld-viewer";
     Selector["transpiledJs"] = "[data-transpiled-js]";
+    Selector["htmlTextMode"] = "html[data-vamtiger-text-mode]";
+    Selector["customElementNameMetaElement"] = "meta[data-custom-element-name]";
 })(Selector = exports.Selector || (exports.Selector = {}));
+var TextModeElementName;
+(function (TextModeElementName) {
+    TextModeElementName["vamtigerJsonLdViewer"] = "vamtiger-json-ld-viewer";
+})(TextModeElementName = exports.TextModeElementName || (exports.TextModeElementName = {}));
 var MetaElementName;
 (function (MetaElementName) {
     MetaElementName["loadElementQueryCss"] = "vamtiger-load-element-query-css";
@@ -127,6 +139,10 @@ var ScriptNameSuffix;
     ScriptNameSuffix["style"] = "style";
     ScriptNameSuffix["stylesheet"] = "stylesheet";
 })(ScriptNameSuffix = exports.ScriptNameSuffix || (exports.ScriptNameSuffix = {}));
+var ScriptName;
+(function (ScriptName) {
+    ScriptName["textMode"] = "vamtiger-text-mode";
+})(ScriptName = exports.ScriptName || (exports.ScriptName = {}));
 var MessageAction;
 (function (MessageAction) {
     MessageAction["ignore"] = "ignore";
@@ -137,6 +153,9 @@ var MessageAction;
     MessageAction["dequeue"] = "dequeue";
     MessageAction["loadWebComponentData"] = "loadWebComponentData";
     MessageAction["saveSupport"] = "saveSupport";
+    MessageAction["saveCustomElementName"] = "saveCustomElementName";
+    MessageAction["getTextModeCss"] = "getTextModeCss";
+    MessageAction["loadScript"] = "loadScript";
 })(MessageAction = exports.MessageAction || (exports.MessageAction = {}));
 var DbName;
 (function (DbName) {
@@ -146,6 +165,7 @@ var DbStoreName;
 (function (DbStoreName) {
     DbStoreName["support"] = "support";
     DbStoreName["webComponent"] = "web-component";
+    DbStoreName["customElementName"] = "custom-element-name";
 })(DbStoreName = exports.DbStoreName || (exports.DbStoreName = {}));
 var DbMode;
 (function (DbMode) {
@@ -157,6 +177,7 @@ var DbKeyPath;
 (function (DbKeyPath) {
     DbKeyPath["webComponent"] = "url";
     DbKeyPath["support"] = "environment";
+    DbKeyPath["customElementName"] = "name";
 })(DbKeyPath = exports.DbKeyPath || (exports.DbKeyPath = {}));
 var Dependency;
 (function (Dependency) {
@@ -175,7 +196,10 @@ exports.regex = {
     trailingJs: /\.js$/,
     uppercase: /[A-Z]/,
     leadingAt: /^@/,
-    email: /^email$/i
+    email: /^email$/i,
+    textModeElement: new RegExp(Object.keys(TextModeElementName)
+        .map(function (key) { return TextModeElementName[key]; })
+        .join(StringConstant.pipe), 'i')
 };
 exports.selector = {
     redundantScripts: [

@@ -69,7 +69,8 @@ async function saveWebComponentDataIndexDb(params: ISaveWebComponentData) {
     const saveParams = data && {
         storeName,
         keyPath,
-        data
+        data,
+        successAction: MessageAction.getWebComponentData
     };
 
     saveParams && await save(saveParams);

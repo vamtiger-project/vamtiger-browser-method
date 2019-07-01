@@ -46,10 +46,10 @@ function default_1(params) {
             return [2 /*return*/, new Promise(function (resolve, reject) {
                     var requestIdleCallback = self.requestIdleCallback;
                     if (requestIdleCallback) {
-                        requestIdleCallback(function () { return getElement(params, resolve); });
+                        requestIdleCallback(function () { return getElement(params, resolve).catch(reject); });
                     }
                     else {
-                        setTimeout(function () { return getElement(params, resolve); }, 0);
+                        setTimeout(function () { return getElement(params, resolve).catch(reject); }, 0);
                     }
                 })];
         });

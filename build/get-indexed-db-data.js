@@ -54,7 +54,7 @@ function default_1(_a) {
                                 })];
                             case 1:
                                 store = (_a.sent()).store;
-                                get = store.get(key);
+                                get = key && store.get(key) || store.getAll();
                                 get.addEventListener('error', reject);
                                 get.addEventListener('success', function () { return resolve(get.result); });
                                 return [2 /*return*/];

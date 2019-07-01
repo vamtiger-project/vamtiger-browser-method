@@ -12,6 +12,9 @@ import getWebComponentData from './get-web-component-data';
 import dequeue from './dequeue';
 import loadWebComponentData from './load-web-component-data';
 import saveSupport from './save-support';
+import saveCustomElementName from './save-custom-element-name';
+import getTextModeCss from './get-text-mode-css';
+import loadScript from './handle-load-script';
 
 const action = {
     [MessageAction.ignore]: ignoreMessage,
@@ -21,7 +24,10 @@ const action = {
     [MessageAction.getWebComponentData]: getWebComponentData,
     [MessageAction.dequeue]: dequeue,
     [MessageAction.loadWebComponentData]: loadWebComponentData,
-    [MessageAction.saveSupport]: saveSupport
+    [MessageAction.saveSupport]: saveSupport,
+    [MessageAction.saveCustomElementName]: saveCustomElementName,
+    [MessageAction.getTextModeCss]: getTextModeCss,
+    [MessageAction.loadScript]: loadScript
 }
 
 export default async function (event: MessageEvent) {

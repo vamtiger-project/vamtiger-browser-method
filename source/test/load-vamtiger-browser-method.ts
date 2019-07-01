@@ -12,9 +12,14 @@ export default () => describe('load vamtiger-browser-method', function () {
 });
 
 function loadScriptTest() {return new Promise((resolve, reject) => {
-    addEventListener(EventName.vamtigerBrowserMethodReady, resolve);
+    const { VamtigerBrowserMethod } = self;
+    !VamtigerBrowserMethod && addEventListener(EventName.vamtigerBrowserMethodReady, resolve);
 
     loadScript({name: src, src});
+
+    if (VamtigerBrowserMethod) {
+        resolve();
+    }
 })}
 
 function vamtigerBrowserMethodTest() {return new Promise((resolve, reject) => {

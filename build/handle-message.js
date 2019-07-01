@@ -47,6 +47,9 @@ var get_web_component_data_1 = require("./get-web-component-data");
 var dequeue_1 = require("./dequeue");
 var load_web_component_data_1 = require("./load-web-component-data");
 var save_support_1 = require("./save-support");
+var save_custom_element_name_1 = require("./save-custom-element-name");
+var get_text_mode_css_1 = require("./get-text-mode-css");
+var handle_load_script_1 = require("./handle-load-script");
 var action = (_a = {},
     _a[types_1.MessageAction.ignore] = ignore_message_1.default,
     _a[types_1.MessageAction.removeRedundantScripts] = remove_redundant_scripts_1.default,
@@ -56,6 +59,9 @@ var action = (_a = {},
     _a[types_1.MessageAction.dequeue] = dequeue_1.default,
     _a[types_1.MessageAction.loadWebComponentData] = load_web_component_data_1.default,
     _a[types_1.MessageAction.saveSupport] = save_support_1.default,
+    _a[types_1.MessageAction.saveCustomElementName] = save_custom_element_name_1.default,
+    _a[types_1.MessageAction.getTextModeCss] = get_text_mode_css_1.default,
+    _a[types_1.MessageAction.loadScript] = handle_load_script_1.default,
     _a);
 function default_1(event) {
     return __awaiter(this, void 0, void 0, function () {

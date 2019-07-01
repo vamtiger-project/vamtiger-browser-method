@@ -47,10 +47,10 @@ function default_1(params) {
     return new Promise(function (resolve, reject) { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (requestIdleCallback) {
-                requestIdleCallback(function () { return getJsonLdArray(params).then(resolve); });
+                requestIdleCallback(function () { return getJsonLdArray(params).then(resolve).catch(reject); });
             }
             else {
-                setTimeout(function () { return getJsonLdArray(params).then(resolve); }, 0);
+                setTimeout(function () { return getJsonLdArray(params).then(resolve).catch(reject); }, 0);
             }
             return [2 /*return*/];
         });

@@ -56,10 +56,10 @@ function default_1(params) {
                     _a.label = 2;
                 case 2:
                     if (requestIdleCallback) {
-                        requestIdleCallback(function () { return get_json_ld_1.default(params).then(resolve); });
+                        requestIdleCallback(function () { return get_json_ld_1.default(params).then(resolve).catch(reject); });
                     }
                     else {
-                        setTimeout(function () { return get_json_ld_1.default(params).then(resolve); }, 0);
+                        setTimeout(function () { return get_json_ld_1.default(params).then(resolve).catch(reject); }, 0);
                     }
                     return [3 /*break*/, 4];
                 case 3:

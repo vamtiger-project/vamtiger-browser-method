@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -46,42 +35,46 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var types_1 = require("./types");
-var get_db_params_1 = require("./get-db-params");
-var send_message_1 = require("./send-message");
-var mode = types_1.DbMode.readwrite;
-function default_1(_a) {
-    var storeName = _a.storeName, keyPath = _a.keyPath, data = _a.data, messageId = _a.messageId, action = _a.successAction;
+var load_script_1 = require("./load-script");
+var is_window_1 = require("./is-window");
+function default_1(params) {
     return __awaiter(this, void 0, void 0, function () {
-        var store, save;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0: return [4 /*yield*/, get_db_params_1.default({
-                        storeName: storeName,
-                        keyPath: keyPath,
-                        mode: mode
-                    })];
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (resolve, reject) {
+                    var requestIdleCallback = self.requestIdleCallback;
+                    if (requestIdleCallback) {
+                        requestIdleCallback(function () { return is_window_1.default() && loadScriptWindow(params).then(function () { return resolve(); }).catch(reject); });
+                    }
+                    else {
+                        setTimeout(function () { return is_window_1.default() && loadScriptWindow(params).then(function () { return resolve(); }).catch(reject); }, 0);
+                    }
+                })];
+        });
+    });
+}
+exports.default = default_1;
+function loadScriptWindow(params) {
+    return __awaiter(this, void 0, void 0, function () {
+        var head, _a, name, removeExisting, selector, existingScript, ignore, _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    head = document.head;
+                    _a = params, name = _a.name, removeExisting = _a.removeExisting;
+                    selector = name && removeExisting && "[data-name=\"" + name + "\"]";
+                    existingScript = selector && head.querySelector(selector);
+                    ignore = existingScript && existingScript.innerHTML === (params.css || params.js);
+                    _b = !ignore;
+                    if (!_b) return [3 /*break*/, 2];
+                    return [4 /*yield*/, load_script_1.default(params)];
                 case 1:
-                    store = (_b.sent()).store;
-                    save = store.put(data);
-                    save.addEventListener('error', handleError);
-                    save.addEventListener('success', function () { return handleSuccess({ messageId: messageId, key: keyPath, action: action, data: data }); });
+                    _b = (_c.sent());
+                    _c.label = 2;
+                case 2:
+                    _b;
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.default = default_1;
-function handleSuccess(params) {
-    var action = params.action, data = params.data;
-    var message = action && {
-        action: action,
-        params: __assign({}, params, data)
-    };
-    message && send_message_1.default(message);
-}
-function handleError(error) {
-    console.error(error);
-    throw error;
-}
-//# sourceMappingURL=save-indexed-db-data.js.map
+//# sourceMappingURL=handle-load-script.js.map
