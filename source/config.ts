@@ -1,9 +1,6 @@
 import {
-    StringConstant,
     Dependency
 } from './types';
-
-const { slash } = StringConstant;
 
 export const babel = {
     presets: ['es2015']
@@ -22,3 +19,13 @@ export const dependencyPaths = Array.from(new Set([
 export const getDependencies = () => [
     !self._ && Dependency.lodash || ''
 ].filter(dependency => dependency);
+
+export const intersectionObserverThreshold = new Array(4)
+    .fill(undefined)
+    .map((value, index) => (index + 1) * 0.25);
+
+export const intersectionObserver = {
+    root: null,
+    rootMargin: '0px',
+    threshold: intersectionObserverThreshold
+};

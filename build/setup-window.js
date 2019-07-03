@@ -39,6 +39,7 @@ var types_1 = require("./types");
 var get_worker_1 = require("./get-worker");
 var is_window_1 = require("./is-window");
 var is_text_mode_1 = require("./is-text-mode");
+var get_intersection_observer_1 = require("./get-intersection-observer");
 var nothing = types_1.StringConstant.nothing;
 function default_1() {
     is_window_1.default() && setupWindow();
@@ -65,6 +66,7 @@ function setupWindow() {
                 case 1:
                     _b.worker = _c.sent();
                     VamtigerBrowserMethod.textMode = textMode;
+                    VamtigerBrowserMethod.intersectionObserver = get_intersection_observer_1.default();
                     return [2 /*return*/];
             }
         });

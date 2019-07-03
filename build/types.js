@@ -58,6 +58,7 @@ var DataAttribute;
     DataAttribute["vamtigerElementQuery"] = "vamtigerLoadElementQueryCss";
     DataAttribute["elementQueryCssLoaded"] = "elementQueryCssLoaded";
     DataAttribute["customElementName"] = "customElementName";
+    DataAttribute["visible"] = "visible";
 })(DataAttribute = exports.DataAttribute || (exports.DataAttribute = {}));
 var ErrorMessage;
 (function (ErrorMessage) {

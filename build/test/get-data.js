@@ -47,12 +47,12 @@ exports.default = (function () { return describe('getData', function () {
 }); });
 function jsonLdTest() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, getData, data, currentJsonLd, jsonLd;
+        var VamtigerBrowserMethod, getData, intersectionObserver, data, currentJsonLd, jsonLd, element;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     VamtigerBrowserMethod = window.VamtigerBrowserMethod;
-                    getData = VamtigerBrowserMethod.getData;
+                    getData = VamtigerBrowserMethod.getData, intersectionObserver = VamtigerBrowserMethod.intersectionObserver;
                     return [4 /*yield*/, getData({
                             jsonLd: 'https://vamtiger-project.github.io/vamtiger-mental-health-botswana-json-ld/build/vamtiger-mental-health-botswana-2018-json-ld.js',
                             textMode: true
@@ -61,6 +61,7 @@ function jsonLdTest() {
                     data = _a.sent();
                     currentJsonLd = data.jsonLd;
                     jsonLd = currentJsonLd[0];
+                    element = document.querySelector('vamtiger-json-ld-viewer');
                     chai_1.expect(jsonLd).to.be.ok;
                     chai_1.expect(jsonLd['@context']).to.equal('http://schema.org');
                     chai_1.expect(jsonLd['@type']).to.equal('VisualArtwork');

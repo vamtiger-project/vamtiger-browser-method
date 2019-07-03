@@ -46,7 +46,8 @@ export declare enum ScriptAttribute {
 export declare enum DataAttribute {
     vamtigerElementQuery = "vamtigerLoadElementQueryCss",
     elementQueryCssLoaded = "elementQueryCssLoaded",
-    customElementName = "customElementName"
+    customElementName = "customElementName",
+    visible = "visible"
 }
 export declare enum ErrorMessage {
     failedToLoadScript = "Failed to load script",
@@ -466,6 +467,7 @@ export declare type VamtigerBrowserMethod = {
     workerSupport?: ISupport;
     getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
     textMode?: boolean;
+    intersectionObserver?: IntersectionObserver;
 };
 export interface IAttributes {
     id?: string;
@@ -490,6 +492,7 @@ declare global {
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
         _: typeof lodash;
+        IntersectionObserver: typeof IntersectionObserver;
     }
     namespace NodeJS {
         interface Global {

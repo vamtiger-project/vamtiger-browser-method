@@ -6,6 +6,7 @@ import {
 import getWorker from './get-worker';
 import isWindow from './is-window';
 import isTextMode from './is-text-mode';
+import getIntersectionObserver from './get-intersection-observer';
 
 const { nothing } = StringConstant;
 
@@ -33,4 +34,6 @@ async function setupWindow() {
     VamtigerBrowserMethod.worker = await getWorker();
 
     VamtigerBrowserMethod.textMode = textMode;
+
+    VamtigerBrowserMethod.intersectionObserver = getIntersectionObserver();
 }
