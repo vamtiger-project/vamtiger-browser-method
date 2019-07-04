@@ -23,14 +23,13 @@ export default () => describe('getData', function () {
 
 async function jsonLdTest() {
     const { VamtigerBrowserMethod } = window;
-    const { getData, intersectionObserver  } = VamtigerBrowserMethod;
+    const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
         jsonLd: 'https://vamtiger-project.github.io/vamtiger-mental-health-botswana-json-ld/build/vamtiger-mental-health-botswana-2018-json-ld.js',
         textMode: true
     }) as IData;
     const { jsonLd: currentJsonLd } = data;
     const [ jsonLd ] = currentJsonLd;
-    const element = document.querySelector('vamtiger-json-ld-viewer');
 
     expect(jsonLd).to.be.ok;
     expect(jsonLd['@context']).to.equal('http://schema.org');

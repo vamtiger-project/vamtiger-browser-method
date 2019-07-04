@@ -35,38 +35,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var chai_1 = require("chai");
 exports.default = (function () { return describe('getData', function () {
-    this.timeout(5000);
     before(function () {
-        var documentElement = document.documentElement;
-        var dataset = documentElement.dataset;
-        dataset.vamtigerTextMode = '';
+        var VamtigerBrowserMethod = window.VamtigerBrowserMethod;
+        var intersectionObserver = VamtigerBrowserMethod.intersectionObserver;
+        var element = document.createElement('div');
+        var dataset = element.dataset;
+        dataset.intercetionObserver = '';
+        intersectionObserver && intersectionObserver.observe(element);
+        document.body.appendChild(element);
     });
-    it('json-ld', jsonLdTest);
+    it('intersectionObserver', intersectionObserverTest);
 }); });
-function jsonLdTest() {
+function intersectionObserverTest() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, getData, data, currentJsonLd, jsonLd;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    VamtigerBrowserMethod = window.VamtigerBrowserMethod;
-                    getData = VamtigerBrowserMethod.getData;
-                    return [4 /*yield*/, getData({
-                            jsonLd: 'https://vamtiger-project.github.io/vamtiger-mental-health-botswana-json-ld/build/vamtiger-mental-health-botswana-2018-json-ld.js',
-                            textMode: true
-                        })];
-                case 1:
-                    data = _a.sent();
-                    currentJsonLd = data.jsonLd;
-                    jsonLd = currentJsonLd[0];
-                    chai_1.expect(jsonLd).to.be.ok;
-                    chai_1.expect(jsonLd['@context']).to.equal('http://schema.org');
-                    chai_1.expect(jsonLd['@type']).to.equal('VisualArtwork');
-                    return [2 /*return*/];
-            }
+            return [2 /*return*/];
         });
     });
 }
-//# sourceMappingURL=get-data.js.map
+//# sourceMappingURL=intersection-observer.js.map

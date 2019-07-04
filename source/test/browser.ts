@@ -6,6 +6,7 @@ import defineCustomElement from './define-custom-element';
 import getElement from './get-element';
 import getData from './get-data';
 import getJsonLdArray from './get-json-ld-array';
+import intersectionObserver from './intersection-observer';
 
 tslib;
 
@@ -17,5 +18,6 @@ defineCustomElement();
 getElement();
 getData();
 getJsonLdArray();
+intersectionObserver();
 
 run();
