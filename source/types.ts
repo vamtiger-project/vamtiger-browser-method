@@ -4,7 +4,13 @@ import * as lodash from 'lodash';
 
 export enum Environment {
     window = 'window',
-    worker = 'worker'
+    worker = 'worker',
+    serviceWorker = 'serviceWorker',
+    unknown = 'unknown'
+}
+
+export enum CacheName {
+    vamtigerBrowserMethod = 'vamtiger-browser-method'
 }
 
 export enum EventName {
@@ -391,6 +397,7 @@ export interface IMessageAction {
     action: MessageAction;
     params: IAnyObject & {
         messageId?: string;
+        ports?: MessagePort[];
     };
 }
 
@@ -588,11 +595,15 @@ export type VamtigerBrowserMethod = {
     getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined
     messageQueue: Map<string, Set<IMessageQueueEntry>>;
     worker?: Worker;
+    serviceWorker?: ServiceWorker;
+    serviceWorkerRegistration?: ServiceWorkerRegistration;
     support?: ISupport;
     workerSupport?: ISupport;
+    serviceWorkerSupport?: ISupport;
     getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
     textMode?: boolean;
     intersectionObserver?: IntersectionObserver;
+    messageChannel?: MessageChannel;
 };
 
 export interface IAttributes {
@@ -603,6 +614,26 @@ export interface IAttributes {
     'data-json-ld'?: string;
     itemprop?: string;
 }
+
+export interface IGetServiceWorkerClients {
+    type: ClientTypes;
+}
+
+export interface ISendMessageFromServiceWorker {
+    message: string | Uint8Array;
+    clients?: ServiceWorkerClient;
+}
+
+export interface FetchEvent extends Event {
+	request: Request;
+	respondWith(response: Promise<Response>|Response): Promise<Response>;
+}
+
+export interface IUpdateRequestCache {
+    request: Request;
+}
+
+export type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
 
 export type JsonDataResolve = (data: IJsonData) => void;
 
@@ -676,6 +707,12 @@ export const selector = {
     ].join(StringConstant.comma)
 }
 
-export const sendMessageFromWorker = postMessage as WorkerPostMessage;
+export const sendMessageFromWorker = getPostMessage();
 
 export const ignore = () => {};
+
+function getPostMessage() {
+    try {
+        return postMessage as WorkerPostMessage;
+    } catch(error) {}
+}

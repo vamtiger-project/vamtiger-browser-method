@@ -10,3 +10,9 @@ export declare const intersectionObserver: {
     rootMargin: string;
     threshold: number[];
 };
+export declare const serviceWorker: {
+    scope: string;
+};
+export declare const serviceWorkerClients: {
+    includeUncontrolled: boolean;
+};

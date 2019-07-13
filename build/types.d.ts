@@ -3,7 +3,12 @@ import { requestIdleCallback } from 'requestidlecallback';
 import * as lodash from 'lodash';
 export declare enum Environment {
     window = "window",
-    worker = "worker"
+    worker = "worker",
+    serviceWorker = "serviceWorker",
+    unknown = "unknown"
+}
+export declare enum CacheName {
+    vamtigerBrowserMethod = "vamtiger-browser-method"
 }
 export declare enum EventName {
     vamtigerBrowserMethodReady = "vamtigerBrowserMethodReady"
@@ -323,6 +328,7 @@ export interface IMessageAction {
     action: MessageAction;
     params: IAnyObject & {
         messageId?: string;
+        ports?: MessagePort[];
     };
 }
 export interface IRemoveRedundantScripts {
@@ -463,11 +469,15 @@ export declare type VamtigerBrowserMethod = {
     getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined;
     messageQueue: Map<string, Set<IMessageQueueEntry>>;
     worker?: Worker;
+    serviceWorker?: ServiceWorker;
+    serviceWorkerRegistration?: ServiceWorkerRegistration;
     support?: ISupport;
     workerSupport?: ISupport;
+    serviceWorkerSupport?: ISupport;
     getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
     textMode?: boolean;
     intersectionObserver?: IntersectionObserver;
+    messageChannel?: MessageChannel;
 };
 export interface IAttributes {
     id?: string;
@@ -477,6 +487,21 @@ export interface IAttributes {
     'data-json-ld'?: string;
     itemprop?: string;
 }
+export interface IGetServiceWorkerClients {
+    type: ClientTypes;
+}
+export interface ISendMessageFromServiceWorker {
+    message: string | Uint8Array;
+    clients?: ServiceWorkerClient;
+}
+export interface FetchEvent extends Event {
+    request: Request;
+    respondWith(response: Promise<Response> | Response): Promise<Response>;
+}
+export interface IUpdateRequestCache {
+    request: Request;
+}
+export declare type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
 export declare type JsonDataResolve = (data: IJsonData) => void;
 export declare type WorkerPostMessage = (message: string | Uint8Array) => void;
 export declare type IndexDbData = IWebComponentData | ISupport | ICustomElementName;
@@ -518,5 +543,5 @@ export declare const regex: {
 export declare const selector: {
     redundantScripts: string;
 };
-export declare const sendMessageFromWorker: WorkerPostMessage;
+export declare const sendMessageFromWorker: WorkerPostMessage | undefined;
 export declare const ignore: () => void;

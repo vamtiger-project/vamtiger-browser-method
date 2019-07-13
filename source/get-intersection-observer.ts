@@ -1,11 +1,13 @@
 import {
-    DataAttribute
+    DataAttribute,
+    StringConstant
 } from './types';
 import {
     intersectionObserver as config,
 } from './config';
 
 const { IntersectionObserver, requestIdleCallback } = self;
+const { nothing } = StringConstant;
 const defaultObserver = IntersectionObserver && new IntersectionObserver(handleIntersect, config);
 
 export default function () {
@@ -26,14 +28,13 @@ function handleIntersectElement(entry: IntersectionObserverEntry) {
     const {
         isIntersecting,
         intersectionRatio,
-        target: element,
-        isVisible
+        target: element
     } = entry as IntersectionObserverEntry & {isVisible: boolean;};
     const { dataset } = element as HTMLElement;
 
     if (isIntersecting) {
         dataset[DataAttribute.visible] = intersectionRatio.toString();
-    } else {
-        delete dataset[DataAttribute.visible];
+    } else if (dataset[DataAttribute.visible]) {
+        dataset[DataAttribute.visible] = nothing;
     }
 }

@@ -45,18 +45,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var save_indexed_db_data_1 = require("./save-indexed-db-data");
 var is_window_1 = require("./is-window");
 var is_worker_1 = require("./is-worker");
+var is_service_worker_1 = require("./is-service-worker");
 var send_message_1 = require("./send-message");
 var storeName = types_1.DbStoreName.support;
 function default_1(params) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             is_window_1.default() && saveSupportDataWindow(params);
-            is_worker_1.default() && saveSupportDataWorker(params);
+            (is_worker_1.default() || is_service_worker_1.default()) && saveSupportDataWorker(params);
             return [2 /*return*/];
         });
     });
@@ -64,11 +74,18 @@ function default_1(params) {
 exports.default = default_1;
 function saveSupportDataWindow(params) {
     var VamtigerBrowserMethod = self.VamtigerBrowserMethod;
+    var environment = params.environment, support = __rest(params, ["environment"]);
     var workerSupport = VamtigerBrowserMethod.workerSupport;
     var message = workerSupport && workerSupport.indexedDbIsAccessible && {
         action: types_1.MessageAction.saveSupport,
         params: params
     };
+    if (environment === types_1.Environment.serviceWorker) {
+        VamtigerBrowserMethod.serviceWorkerSupport = support;
+    }
+    else if (environment === types_1.Environment.worker) {
+        VamtigerBrowserMethod.workerSupport = support;
+    }
     if (message) {
         send_message_1.default(message);
     }

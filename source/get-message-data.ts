@@ -22,12 +22,12 @@ export default function (event: MessageEvent) {
     return message;
 }
 
-function getMessageData({ data: message }: MessageEvent) {
+function getMessageData({ data: message, ports }: MessageEvent) {
     const messageData: IMessageAction = typeof message === 'string' && parse(message)
         || message instanceof Uint8Array && parse(textDecoder.decode(message));
 
     if (typeof messageData.params === 'string') {
-        messageData.params = parse(messageData.params);
+        messageData.params = {...parse(messageData.params), ports};
     }
 
     return messageData;

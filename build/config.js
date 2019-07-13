@@ -15,12 +15,23 @@ exports.dependencyPaths = Array.from(new Set([
 exports.getDependencies = function () { return [
     !self._ && types_1.Dependency.lodash || ''
 ].filter(function (dependency) { return dependency; }); };
-exports.intersectionObserverThreshold = new Array(4)
-    .fill(undefined)
-    .map(function (value, index) { return (index + 1) * 0.25; });
+exports.intersectionObserverThreshold = getIntersectionObserverThreshold(5);
 exports.intersectionObserver = {
     root: null,
     rootMargin: '0px',
     threshold: exports.intersectionObserverThreshold
 };
+exports.serviceWorker = {
+    scope: '/'
+};
+exports.serviceWorkerClients = {
+    includeUncontrolled: true
+};
+function getIntersectionObserverThreshold(length) {
+    var step = 1 / length;
+    var threshold = Array(length)
+        .fill(undefined)
+        .map(function (value, index) { return index ? (index + 1) * step : index; });
+    return threshold;
+}
 //# sourceMappingURL=config.js.map

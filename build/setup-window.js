@@ -40,22 +40,37 @@ var get_worker_1 = require("./get-worker");
 var is_window_1 = require("./is-window");
 var is_text_mode_1 = require("./is-text-mode");
 var get_intersection_observer_1 = require("./get-intersection-observer");
+var get_service_worker_registration_1 = require("./get-service-worker-registration");
+var handle_message_1 = require("./handle-message");
 var nothing = types_1.StringConstant.nothing;
 function default_1() {
-    is_window_1.default() && setupWindow();
+    if (is_window_1.default()) {
+        setEventListeser();
+        setupWindow();
+    }
 }
 exports.default = default_1;
+function setEventListeser() {
+    var serviceWorker = navigator.serviceWorker;
+    serviceWorker && serviceWorker.addEventListener('message', handle_message_1.default);
+}
 function setupWindow() {
     return __awaiter(this, void 0, void 0, function () {
-        var head, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, _b;
+        var serviceWorker, head, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, serviceWorkerRegistration, messageChannel, port1, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
+                    serviceWorker = navigator.serviceWorker;
                     head = document.head;
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     _a = VamtigerBrowserMethod.metaElement, metaElement = _a === void 0 ? document.createElement('meta') : _a;
                     customeElementMetaElement = document.createElement('meta');
                     textMode = is_text_mode_1.default();
+                    return [4 /*yield*/, get_service_worker_registration_1.default()];
+                case 1:
+                    serviceWorkerRegistration = _c.sent();
+                    messageChannel = new MessageChannel();
+                    port1 = messageChannel.port1;
                     customeElementMetaElement.dataset[types_1.DataAttribute.customElementName] = nothing;
                     metaElement.id = types_1.ElementId.metaElement;
                     metaElement.appendChild(customeElementMetaElement);
@@ -63,10 +78,14 @@ function setupWindow() {
                     VamtigerBrowserMethod.metaElement = metaElement;
                     _b = VamtigerBrowserMethod;
                     return [4 /*yield*/, get_worker_1.default()];
-                case 1:
+                case 2:
                     _b.worker = _c.sent();
                     VamtigerBrowserMethod.textMode = textMode;
                     VamtigerBrowserMethod.intersectionObserver = get_intersection_observer_1.default();
+                    VamtigerBrowserMethod.serviceWorkerRegistration = serviceWorkerRegistration;
+                    VamtigerBrowserMethod.serviceWorker = serviceWorker && serviceWorker.controller || undefined;
+                    VamtigerBrowserMethod.messageChannel = messageChannel;
+                    port1.addEventListener('message', handle_message_1.default);
                     return [2 /*return*/];
             }
         });

@@ -4,7 +4,13 @@ var Environment;
 (function (Environment) {
     Environment["window"] = "window";
     Environment["worker"] = "worker";
+    Environment["serviceWorker"] = "serviceWorker";
+    Environment["unknown"] = "unknown";
 })(Environment = exports.Environment || (exports.Environment = {}));
+var CacheName;
+(function (CacheName) {
+    CacheName["vamtigerBrowserMethod"] = "vamtiger-browser-method";
+})(CacheName = exports.CacheName || (exports.CacheName = {}));
 var EventName;
 (function (EventName) {
     EventName["vamtigerBrowserMethodReady"] = "vamtigerBrowserMethodReady";
@@ -210,6 +216,12 @@ exports.selector = {
         Selector.transpiledJs
     ].concat(Object.keys(Dependency).map(function (key) { return "[src=\"" + Dependency[key] + "\"]"; })).join(StringConstant.comma)
 };
-exports.sendMessageFromWorker = postMessage;
+exports.sendMessageFromWorker = getPostMessage();
 exports.ignore = function () { };
+function getPostMessage() {
+    try {
+        return postMessage;
+    }
+    catch (error) { }
+}
 //# sourceMappingURL=types.js.map

@@ -35,37 +35,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var types_1 = require("./types");
 var handle_message_1 = require("./handle-message");
 var get_local_host_worker_url_1 = require("./get-local-host-worker-url");
+var get_worker_url_1 = require("./get-worker-url");
 var stringify = JSON.stringify;
-var params = {
-    type: types_1.ScriptType.js
-};
-var newline = types_1.StringConstant.newline;
 var worker;
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
-        var localHostWorkerUrl, head, createObjectURL, workderScript, workerDependecies, workerScripts, workerBlob, workerUrl, currentWorker;
+        var localHostWorkerUrl, workerUrl, currentWorker;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, get_local_host_worker_url_1.default()];
                 case 1:
                     localHostWorkerUrl = _a.sent();
-                    head = document.head;
-                    createObjectURL = URL.createObjectURL;
-                    workderScript = head.querySelector(types_1.Selector.vamtigerBrowserMethod);
-                    workerDependecies = (Array.from(head.querySelectorAll(types_1.Selector.workderDependency)) || [])
-                        .map(function (_a) {
-                        var innerHTML = _a.innerHTML;
-                        return innerHTML;
-                    })
-                        .filter(function (script) { return script; });
-                    workerScripts = workerDependecies.concat([
-                        workderScript && workderScript.innerHTML || ''
-                    ]).filter(function (script) { return script; }).join(newline.repeat(2));
-                    workerBlob = workerScripts && workerScripts.length && new Blob([workerScripts], params);
-                    workerUrl = workerBlob && createObjectURL && createObjectURL(workerBlob);
+                    workerUrl = get_worker_url_1.default();
                     currentWorker = workerUrl && new Worker(localHostWorkerUrl || workerUrl);
                     if (currentWorker) {
                         currentWorker.addEventListener('message', handle_message_1.default);

@@ -20,12 +20,27 @@ export const getDependencies = () => [
     !self._ && Dependency.lodash || ''
 ].filter(dependency => dependency);
 
-export const intersectionObserverThreshold = new Array(4)
-    .fill(undefined)
-    .map((value, index) => (index + 1) * 0.25);
+export const intersectionObserverThreshold = getIntersectionObserverThreshold(5);
 
 export const intersectionObserver = {
     root: null,
     rootMargin: '0px',
     threshold: intersectionObserverThreshold
 };
+
+export const serviceWorker = {
+    scope: '/'
+};
+
+export const serviceWorkerClients = {
+    includeUncontrolled: true
+}
+
+function getIntersectionObserverThreshold(length: number) {
+    const step = 1 / length;
+    const threshold = Array(length)
+        .fill(undefined)
+        .map((value, index) => index ? (index + 1) * step : index);
+
+    return threshold;
+}

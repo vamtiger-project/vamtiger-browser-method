@@ -5,6 +5,8 @@ import {
 } from './types';
 import isWindow from './is-window';
 import isWorker from './is-worker';
+import isServiceWorker from './is-service-worker';
+import sendMessageFromServiceWorker from './send-message-from-service-worker';
 
 const { stringify } = JSON;
 const textEncoder = new TextEncoder();
@@ -19,5 +21,7 @@ export default function (params: IMessageAction) {
 
     isWindow() && worker && worker.postMessage(message);
 
-    isWorker() && sendMessageFromWorker(message)
+    isWorker() && sendMessageFromWorker && sendMessageFromWorker(message);
+
+    isServiceWorker() && sendMessageFromServiceWorker({message});
 }

@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var config_1 = require("./config");
 var IntersectionObserver = self.IntersectionObserver, requestIdleCallback = self.requestIdleCallback;
+var nothing = types_1.StringConstant.nothing;
 var defaultObserver = IntersectionObserver && new IntersectionObserver(handleIntersect, config_1.intersectionObserver);
 function default_1() {
     return defaultObserver;
@@ -19,13 +20,13 @@ function handleIntersect(entries, observer) {
     });
 }
 function handleIntersectElement(entry) {
-    var _a = entry, isIntersecting = _a.isIntersecting, intersectionRatio = _a.intersectionRatio, element = _a.target, isVisible = _a.isVisible;
+    var _a = entry, isIntersecting = _a.isIntersecting, intersectionRatio = _a.intersectionRatio, element = _a.target;
     var dataset = element.dataset;
     if (isIntersecting) {
         dataset[types_1.DataAttribute.visible] = intersectionRatio.toString();
     }
-    else {
-        delete dataset[types_1.DataAttribute.visible];
+    else if (dataset[types_1.DataAttribute.visible]) {
+        dataset[types_1.DataAttribute.visible] = nothing;
     }
 }
 //# sourceMappingURL=get-intersection-observer.js.map
