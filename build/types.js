@@ -204,6 +204,7 @@ exports.regex = {
     uppercase: /[A-Z]/,
     leadingAt: /^@/,
     email: /^email$/i,
+    trailingHtml: /\.html$/i,
     textModeElement: new RegExp(Object.keys(TextModeElementName)
         .map(function (key) { return TextModeElementName[key]; })
         .join(StringConstant.pipe), 'i')

@@ -689,6 +689,7 @@ export const regex = {
     uppercase: /[A-Z]/,
     leadingAt: /^@/,
     email: /^email$/i,
+    trailingHtml: /\.html$/i,
     textModeElement: new RegExp(
         (Object.keys(TextModeElementName) as (keyof typeof TextModeElementName)[])
             .map(key => TextModeElementName[key])

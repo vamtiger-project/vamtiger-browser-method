@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
 var config_1 = require("./config");
 var is_window_1 = require("./is-window");
+var get_page_relative_url_1 = require("./get-page-relative-url");
 var slash = types_1.StringConstant.slash;
 var vamtigerBrowserMethod = types_1.LocalHostRelativePath.vamtigerBrowserMethod;
 function default_1() {
@@ -62,18 +63,46 @@ function default_1() {
 exports.default = default_1;
 function getServiceWorker() {
     return __awaiter(this, void 0, void 0, function () {
-        var serviceWorker, origin, url, sharedWorkerRegistration;
-        return __generator(this, function (_a) {
-            serviceWorker = navigator.serviceWorker;
-            origin = location.origin;
-            url = [
-                origin,
-                vamtigerBrowserMethod
-            ].join(slash);
-            sharedWorkerRegistration = serviceWorker && serviceWorker
-                .register(url, config_1.serviceWorker)
-                .catch(handleError);
-            return [2 /*return*/, sharedWorkerRegistration];
+        var serviceWorker, origin, url, pageUrl, secondaryUrl, sharedWorkerRegistration, _a, secondarySharedWorkerRegistration, _b, registration;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    serviceWorker = navigator.serviceWorker;
+                    origin = location.origin;
+                    url = [
+                        origin,
+                        vamtigerBrowserMethod
+                    ].join(slash);
+                    pageUrl = get_page_relative_url_1.default();
+                    secondaryUrl = [
+                        pageUrl === slash ? '' : pageUrl,
+                        vamtigerBrowserMethod
+                    ].join(slash);
+                    console.log(url);
+                    console.log(secondaryUrl);
+                    _a = serviceWorker;
+                    if (!_a) return [3 /*break*/, 2];
+                    return [4 /*yield*/, serviceWorker
+                            .register(url, config_1.serviceWorker)
+                            .catch(handleError)];
+                case 1:
+                    _a = (_c.sent());
+                    _c.label = 2;
+                case 2:
+                    sharedWorkerRegistration = _a;
+                    _b = !sharedWorkerRegistration && secondaryUrl !== url && serviceWorker;
+                    if (!_b) return [3 /*break*/, 4];
+                    return [4 /*yield*/, serviceWorker
+                            .register(secondaryUrl, config_1.serviceWorker)
+                            .catch(handleError)];
+                case 3:
+                    _b = (_c.sent());
+                    _c.label = 4;
+                case 4:
+                    secondarySharedWorkerRegistration = _b;
+                    registration = sharedWorkerRegistration || secondarySharedWorkerRegistration;
+                    return [2 /*return*/, registration];
+            }
         });
     });
 }

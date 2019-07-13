@@ -538,6 +538,7 @@ export declare const regex: {
     uppercase: RegExp;
     leadingAt: RegExp;
     email: RegExp;
+    trailingHtml: RegExp;
     textModeElement: RegExp;
 };
 export declare const selector: {
