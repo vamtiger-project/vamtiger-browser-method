@@ -3,7 +3,12 @@ import { requestIdleCallback } from 'requestidlecallback';
 import * as lodash from 'lodash';
 export declare enum Environment {
     window = "window",
-    worker = "worker"
+    worker = "worker",
+    serviceWorker = "serviceWorker",
+    unknown = "unknown"
+}
+export declare enum CacheName {
+    vamtigerBrowserMethod = "vamtiger-browser-method"
 }
 export declare enum EventName {
     vamtigerBrowserMethodReady = "vamtigerBrowserMethodReady"
@@ -20,6 +25,9 @@ export declare enum Prefix {
     db = "vamtiger-browser-method",
     messageIdWindow = "vamtiger-browser-method-window",
     messageIdWorker = "vamtiger-browser-method-worker"
+}
+export declare enum ElementId {
+    metaElement = "vamtiger-browser-method"
 }
 export declare enum Origin {
     nowhere = "",
@@ -42,7 +50,9 @@ export declare enum ScriptAttribute {
 }
 export declare enum DataAttribute {
     vamtigerElementQuery = "vamtigerLoadElementQueryCss",
-    elementQueryCssLoaded = "elementQueryCssLoaded"
+    elementQueryCssLoaded = "elementQueryCssLoaded",
+    customElementName = "customElementName",
+    visible = "visible"
 }
 export declare enum ErrorMessage {
     failedToLoadScript = "Failed to load script",
@@ -68,7 +78,8 @@ export declare enum StringConstant {
     commaSpace = ", ",
     space = " ",
     period = ".",
-    newline = "\n"
+    newline = "\n",
+    semiColon = ";"
 }
 export declare enum TagName {
     div = "div",
@@ -99,7 +110,13 @@ export declare enum Selector {
     a = "a",
     linkedDataCaption = "[data-linked-data-caption]",
     linkedDataCaptionElement = "[data-linked-data-caption-element]",
-    jsonLdViewer = "vamtiger-json-ld-viewer"
+    jsonLdViewer = "vamtiger-json-ld-viewer",
+    transpiledJs = "[data-transpiled-js]",
+    htmlTextMode = "html[data-vamtiger-text-mode]",
+    customElementNameMetaElement = "meta[data-custom-element-name]"
+}
+export declare enum TextModeElementName {
+    vamtigerJsonLdViewer = "vamtiger-json-ld-viewer"
 }
 export declare enum MetaElementName {
     loadElementQueryCss = "vamtiger-load-element-query-css"
@@ -107,6 +124,9 @@ export declare enum MetaElementName {
 export declare enum ScriptNameSuffix {
     style = "style",
     stylesheet = "stylesheet"
+}
+export declare enum ScriptName {
+    textMode = "vamtiger-text-mode"
 }
 export declare enum MessageAction {
     ignore = "ignore",
@@ -116,14 +136,18 @@ export declare enum MessageAction {
     getWebComponentData = "getWebComponentData",
     dequeue = "dequeue",
     loadWebComponentData = "loadWebComponentData",
-    saveSupport = "saveSupport"
+    saveSupport = "saveSupport",
+    saveCustomElementName = "saveCustomElementName",
+    getTextModeCss = "getTextModeCss",
+    loadScript = "loadScript"
 }
 export declare enum DbName {
     vamtigerBrowserSupport = "vamtiger-browser-support"
 }
 export declare enum DbStoreName {
     support = "support",
-    webComponent = "web-component"
+    webComponent = "web-component",
+    customElementName = "custom-element-name"
 }
 export declare enum DbMode {
     readonly = "readonly",
@@ -132,11 +156,12 @@ export declare enum DbMode {
 }
 export declare enum DbKeyPath {
     webComponent = "url",
-    support = "environment"
+    support = "environment",
+    customElementName = "name"
 }
 export declare enum Dependency {
     lodash = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js",
-    jsonLdViewer = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js"
+    jsonLdViewer = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js.json.js"
 }
 export interface IDequeue {
     key: string;
@@ -165,12 +190,16 @@ export interface IIsJsonScript {
 }
 export interface ILoadLocalScriptParams {
     name: string;
+    removeExisting?: boolean;
     removeFromDom?: boolean;
     workerDependency?: boolean;
 }
 export interface ILoadScriptParams {
     js: string;
     jsonld?: boolean;
+}
+export interface ISaveCustomeElementName {
+    name: string;
 }
 export interface ILoadJsonScriptParams {
     json: string;
@@ -268,6 +297,11 @@ export interface IGetData {
     jsonLd: string;
     textMode?: boolean;
 }
+export interface IGetDataResolve extends IGetData {
+    data: IJsonData;
+    jsonLd: string;
+    resolve: (data: IJsonData) => void;
+}
 export interface IGetJsonLd {
     jsonLd: string;
     textMode?: boolean;
@@ -294,6 +328,7 @@ export interface IMessageAction {
     action: MessageAction;
     params: IAnyObject & {
         messageId?: string;
+        ports?: MessagePort[];
     };
 }
 export interface IRemoveRedundantScripts {
@@ -315,6 +350,9 @@ export interface ISupport {
     textEncoder: boolean;
     textDecoder: boolean;
 }
+export interface ICustomElementName {
+    name: string;
+}
 export interface ISaveSupport extends ISupport {
     environment: Environment;
 }
@@ -330,17 +368,20 @@ export interface ISaveIndexedDbData {
     storeName: DbStoreName;
     keyPath: DbKeyPath;
     messageId?: string;
-    data: IWebComponentData | ISupport;
+    data: IndexDbData;
+    successAction?: MessageAction;
 }
 export interface IGetIndexedDbData {
     storeName: DbStoreName;
     keyPath: DbKeyPath;
-    key: string;
+    key?: string;
     messageId?: string;
 }
 export interface ISaveIndexedDbDataHandleSuccess {
     messageId?: string;
     key: string;
+    action?: MessageAction;
+    data: IndexDbData;
 }
 export interface IWebComponentData {
     url: string;
@@ -414,6 +455,7 @@ export declare type LoadedScripts<P extends LoadScriptsParams> = P extends ILoad
 export declare type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> = P extends ILoadScriptParams[][] ? HTMLScriptElement[] : P extends ILoadStylesheetScriptParams[][] ? HTMLStyleElement[] : P extends ILoadRemoteScriptParams[][] ? HTMLScriptElement[] : P extends ILoadRemoteStylesheetScriptParams[][] ? HTMLLinkElement[] : never;
 export declare type GetElementParams = IGetElementTemplate | IGetElementUrl;
 export declare type VamtigerBrowserMethod = {
+    metaElement?: HTMLMetaElement;
     loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
     loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;
     loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
@@ -427,9 +469,15 @@ export declare type VamtigerBrowserMethod = {
     getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined;
     messageQueue: Map<string, Set<IMessageQueueEntry>>;
     worker?: Worker;
+    serviceWorker?: ServiceWorker;
+    serviceWorkerRegistration?: ServiceWorkerRegistration;
     support?: ISupport;
     workerSupport?: ISupport;
+    serviceWorkerSupport?: ISupport;
     getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
+    textMode?: boolean;
+    intersectionObserver?: IntersectionObserver;
+    messageChannel?: MessageChannel;
 };
 export interface IAttributes {
     id?: string;
@@ -439,9 +487,25 @@ export interface IAttributes {
     'data-json-ld'?: string;
     itemprop?: string;
 }
+export interface IGetServiceWorkerClients {
+    type: ClientTypes;
+}
+export interface ISendMessageFromServiceWorker {
+    message: string | Uint8Array;
+    clients?: ServiceWorkerClient;
+}
+export interface FetchEvent extends Event {
+    request: Request;
+    respondWith(response: Promise<Response> | Response): Promise<Response>;
+}
+export interface IUpdateRequestCache {
+    request: Request;
+}
+export declare type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
 export declare type JsonDataResolve = (data: IJsonData) => void;
 export declare type WorkerPostMessage = (message: string | Uint8Array) => void;
-export declare type GetIndexedDbData<P extends IGetIndexedDbData> = P['keyPath'] extends DbKeyPath.webComponent ? IWebComponentData | undefined : P['keyPath'] extends DbKeyPath.support ? ISaveSupport : never;
+export declare type IndexDbData = IWebComponentData | ISupport | ICustomElementName;
+export declare type GetIndexedDbData<P extends IGetIndexedDbData> = P['keyPath'] extends DbKeyPath.webComponent ? IWebComponentData | undefined : P['keyPath'] extends DbKeyPath.support ? ISaveSupport : P['keyPath'] extends DbKeyPath.customElementName ? ICustomElementName[] : never;
 export declare type DbKeyPathName = keyof typeof DbKeyPath;
 export declare type DbStoreNameKey = keyof typeof DbStoreName;
 export declare type AttributesKey = keyof IAttributes;
@@ -453,6 +517,7 @@ declare global {
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
         _: typeof lodash;
+        IntersectionObserver: typeof IntersectionObserver;
     }
     namespace NodeJS {
         interface Global {
@@ -473,8 +538,11 @@ export declare const regex: {
     uppercase: RegExp;
     leadingAt: RegExp;
     email: RegExp;
+    trailingHtml: RegExp;
+    textModeElement: RegExp;
 };
 export declare const selector: {
     redundantScripts: string;
 };
-export declare const sendMessageFromWorker: WorkerPostMessage;
+export declare const sendMessageFromWorker: WorkerPostMessage | undefined;
+export declare const ignore: () => void;
