@@ -39,7 +39,7 @@ async function saveWebComponentDataWindow(params: ISaveWebComponentData) {
     } else if (support && support.indexedDbIsAccessible) {
         await saveWebComponentDataIndexDb(params);
         await getWebComponentData({ key });
-        removeRedundantScripts({ selector });
+        await removeRedundantScripts({ selector });
     }
 }
 
@@ -69,7 +69,8 @@ async function saveWebComponentDataIndexDb(params: ISaveWebComponentData) {
     const saveParams = data && {
         storeName,
         keyPath,
-        data
+        data,
+        successAction: MessageAction.getWebComponentData
     };
 
     saveParams && await save(saveParams);

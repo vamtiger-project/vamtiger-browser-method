@@ -1,11 +1,9 @@
-import {
-    Environment
-} from './types';
+declare const DedicatedWorkerGlobalScope: any;
 
 export default function () {
-    const { VamtigerBrowserMethod } = self;
-    const { environment } = VamtigerBrowserMethod;
-    const isWorker = environment === Environment.worker;
-
-    return isWorker;
+    try {
+        return self instanceof DedicatedWorkerGlobalScope;
+    } catch(error) {
+        return false;
+    }
 }

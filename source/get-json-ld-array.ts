@@ -16,9 +16,9 @@ const { leadingAt, remoteUrl, email } = regex;
 
 export default function (params: IGetJsonLdArray) {return new Promise(async (resolve: (jsonLdArray: string[][]) => void, reject) => {
     if (requestIdleCallback) {
-        requestIdleCallback(() => getJsonLdArray(params).then(resolve));
+        requestIdleCallback(() => getJsonLdArray(params).then(resolve).catch(reject));
     } else {
-        setTimeout(() => getJsonLdArray(params).then(resolve), 0);
+        setTimeout(() => getJsonLdArray(params).then(resolve).catch(reject), 0);
     }
 })}
 

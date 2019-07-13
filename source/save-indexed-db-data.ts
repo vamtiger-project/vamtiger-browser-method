@@ -8,9 +8,8 @@ import getDbParams from './get-db-params';
 import sendMessage from './send-message';
 
 const { readwrite: mode } = DbMode;
-const { getWebComponentData: action } = MessageAction;
 
-export default async function ({ storeName, keyPath, data, messageId }: ISaveIndexedDbData) {
+export default async function ({ storeName, keyPath, data, messageId, successAction: action }: ISaveIndexedDbData) {
     const { store } = await getDbParams({
         storeName,
         keyPath,
@@ -19,15 +18,19 @@ export default async function ({ storeName, keyPath, data, messageId }: ISaveInd
     const save = store.put(data);
 
     save.addEventListener('error', handleError);
-    save.addEventListener('success', () => handleSuccess({ messageId, key: keyPath }));
+    save.addEventListener('success', () => handleSuccess({ messageId, key: keyPath, action, data }));
 }
 
-function handleSuccess({ messageId, key }: ISaveIndexedDbDataHandleSuccess) {
-    const message = messageId && {
+function handleSuccess(params: ISaveIndexedDbDataHandleSuccess) {
+    const {
+        action,
+        data
+    } = params;
+    const message = action && {
         action,
         params: {
-            messageId,
-            key
+            ...params,
+            ...data
         }
     };
 

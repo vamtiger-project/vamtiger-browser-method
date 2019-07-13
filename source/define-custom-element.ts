@@ -1,6 +1,11 @@
-import { IDefineCustomElement, ErrorMessage } from './types';
+import {
+    IDefineCustomElement,
+    ErrorMessage,
+    ignore as doNothing
+} from './types';
+import saveCustomElementName from './save-custom-element-name';
 
-const { unsupportedFeature, customElementAreadyDefined } = ErrorMessage;
+const { unsupportedFeature } = ErrorMessage;
 
 export default function defineCustomElement({ name, constructor, ignore }: IDefineCustomElement) {
     const { customElements } = self;
@@ -9,8 +14,9 @@ export default function defineCustomElement({ name, constructor, ignore }: IDefi
 
     if (define && !existingElement) {
         customElements.define(name, constructor);
+        saveCustomElementName({name});
     } else if (existingElement) {
-        throw new Error(`${customElementAreadyDefined}: ${name}`);
+        doNothing();
     } else if (!ignore) {
         defineCustomElement({ name, constructor, ignore: true });
     } else {

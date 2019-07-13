@@ -6,18 +6,18 @@ import defineCustomElement from './define-custom-element';
 import getElement from './get-element';
 import getData from './get-data';
 import getJsonLdArray from './get-json-ld-array';
+import intersectionObserver from './intersection-observer';
 
 tslib;
 
-addEventListener('load', () => {
-    setup('bdd');
+setup('bdd');
 
-    loadVamtigerBrowserMethod();
-    loadScript();
-    defineCustomElement();
-    getElement();
-    getData();
-    getJsonLdArray();
+loadVamtigerBrowserMethod();
+loadScript();
+defineCustomElement();
+getElement();
+getData();
+getJsonLdArray();
+intersectionObserver();
 
-    run();
-});
+run();

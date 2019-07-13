@@ -3,13 +3,14 @@ import {
     IJsonData,
     ILoadDataGetJsonJsonLd,
     Selector,
-    ILoadDataGetFeldData
+    ILoadDataGetFeldData,
+    ScriptType
 } from './types';
 import loadScript from './load-script';
 import saveWebComponentData from './save-web-component-data';
 import isWindow from './is-window';
 import getJsonLd from './get-json-ld';
-import dequeue from './dequeue';
+import removeRedundantScripts from './remove-redundant-scripts';
 
 const { parse, stringify } = JSON;
 const emptyJsonLd = {
@@ -35,6 +36,9 @@ async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
         json
     };
     const jsonLdScript = head.querySelector<HTMLScriptElement>(jsonLdSelector);
+    const removeScriptParams = {
+        selector: `[type="${ScriptType.json}"][data-name="${url}"]`
+    }
 
     if (jsonJsonLdData) {
         jsonJsonLdData.forEach(currentJsonJsonLdData => currentJsonJsonLdData.forEach(({index, key, jsonLd: data}) => {
@@ -51,6 +55,8 @@ async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
                 json: stringify(currentJsonLd),
                 jsonld: true
             })));
+
+            await removeRedundantScripts(removeScriptParams);
         }
     }
 

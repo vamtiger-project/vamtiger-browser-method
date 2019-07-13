@@ -92,7 +92,7 @@ function removeScriptsFromParent({ selector, parent, resolve, reject }: IRemoveR
     }
 
     if (scripts.length) {
-        parent.dataset.removedScripts = scripts.length.toString();
+        parent.dataset.removedScripts = (Number(parent.dataset.removedScripts || 0) + scripts.length).toString();
     }
 
     safeScripts.forEach(script => head.appendChild(script));

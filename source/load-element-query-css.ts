@@ -12,9 +12,9 @@ const { nothing } = StringConstant;
 
 export default function(params: ILoadElementQueryCss) {return new Promise(async (resolve, reject) => {
     if (requestIdleCallback) {
-        requestIdleCallback(() => loadElementQueryCss(params).then(resolve));
+        requestIdleCallback(() => loadElementQueryCss(params).then(resolve).catch(reject));
     } else {
-        setTimeout(() => loadElementQueryCss(params).then(resolve), 0);
+        setTimeout(() => loadElementQueryCss(params).then(resolve).catch(reject), 0);
     }
 })}
 

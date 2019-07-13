@@ -4,7 +4,13 @@ import * as lodash from 'lodash';
 
 export enum Environment {
     window = 'window',
-    worker = 'worker'
+    worker = 'worker',
+    serviceWorker = 'serviceWorker',
+    unknown = 'unknown'
+}
+
+export enum CacheName {
+    vamtigerBrowserMethod = 'vamtiger-browser-method'
 }
 
 export enum EventName {
@@ -25,6 +31,10 @@ export enum Prefix {
     db = 'vamtiger-browser-method',
     messageIdWindow = 'vamtiger-browser-method-window',
     messageIdWorker = 'vamtiger-browser-method-worker'
+}
+
+export enum ElementId {
+    metaElement = 'vamtiger-browser-method'
 }
 
 export enum Origin {
@@ -53,7 +63,9 @@ export enum ScriptAttribute {
 
 export enum DataAttribute {
     vamtigerElementQuery = 'vamtigerLoadElementQueryCss',
-    elementQueryCssLoaded = 'elementQueryCssLoaded'
+    elementQueryCssLoaded = 'elementQueryCssLoaded',
+    customElementName = 'customElementName',
+    visible = 'visible'
 }
 
 export enum ErrorMessage {
@@ -81,7 +93,8 @@ export enum StringConstant {
     commaSpace = ', ',
     space = ' ',
     period = '.',
-    newline = '\n'
+    newline = '\n',
+    semiColon = ';'
 }
 
 export enum TagName {
@@ -116,7 +129,14 @@ export enum Selector {
     a = 'a',
     linkedDataCaption = '[data-linked-data-caption]',
     linkedDataCaptionElement = '[data-linked-data-caption-element]',
-    jsonLdViewer = 'vamtiger-json-ld-viewer'
+    jsonLdViewer = 'vamtiger-json-ld-viewer',
+    transpiledJs = '[data-transpiled-js]',
+    htmlTextMode = 'html[data-vamtiger-text-mode]',
+    customElementNameMetaElement = 'meta[data-custom-element-name]'
+}
+
+export enum TextModeElementName {
+    vamtigerJsonLdViewer = 'vamtiger-json-ld-viewer'
 }
 
 export enum  MetaElementName {
@@ -128,6 +148,10 @@ export enum ScriptNameSuffix {
     stylesheet = 'stylesheet'
 }
 
+export enum ScriptName {
+    textMode = 'vamtiger-text-mode'
+}
+
 export enum MessageAction {
     ignore = 'ignore',
     removeRedundantScripts = 'removeRedundantScripts',
@@ -136,7 +160,10 @@ export enum MessageAction {
     getWebComponentData = 'getWebComponentData',
     dequeue = 'dequeue',
     loadWebComponentData = 'loadWebComponentData',
-    saveSupport = 'saveSupport'
+    saveSupport = 'saveSupport',
+    saveCustomElementName = 'saveCustomElementName',
+    getTextModeCss = 'getTextModeCss',
+    loadScript = 'loadScript'
 }
 
 export enum DbName {
@@ -145,7 +172,8 @@ export enum DbName {
 
 export enum DbStoreName {
     support = 'support',
-    webComponent = 'web-component'
+    webComponent = 'web-component',
+    customElementName = 'custom-element-name'
 }
 
 export enum DbMode {
@@ -156,12 +184,13 @@ export enum DbMode {
 
 export enum DbKeyPath {
     webComponent = 'url',
-    support = 'environment'
+    support = 'environment',
+    customElementName = 'name'
 }
 
 export enum Dependency {
     lodash = 'https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js',
-    jsonLdViewer = 'https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js'
+    jsonLdViewer = 'https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js.json.js'
 }
 
 export interface IDequeue {
@@ -197,6 +226,7 @@ export interface IIsJsonScript {
 
 export interface ILoadLocalScriptParams {
     name: string;
+    removeExisting?: boolean;
     removeFromDom?: boolean;
     workerDependency?: boolean;
 }
@@ -204,6 +234,10 @@ export interface ILoadLocalScriptParams {
 export interface ILoadScriptParams {
     js: string;
     jsonld?: boolean;
+}
+
+export interface ISaveCustomeElementName {
+    name: string;
 }
 
 export interface ILoadJsonScriptParams {
@@ -328,6 +362,12 @@ export interface IGetData {
     textMode?: boolean;
 }
 
+export interface IGetDataResolve extends IGetData {
+    data: IJsonData;
+    jsonLd: string;
+    resolve: (data: IJsonData) => void
+}
+
 export interface IGetJsonLd {
     jsonLd: string;
     textMode?: boolean;
@@ -357,6 +397,7 @@ export interface IMessageAction {
     action: MessageAction;
     params: IAnyObject & {
         messageId?: string;
+        ports?: MessagePort[];
     };
 }
 
@@ -383,6 +424,10 @@ export interface ISupport {
     textDecoder: boolean;
 }
 
+export interface ICustomElementName {
+    name: string;
+}
+
 export interface ISaveSupport extends ISupport {
     environment: Environment;
 }
@@ -401,19 +446,22 @@ export interface ISaveIndexedDbData {
     storeName: DbStoreName;
     keyPath: DbKeyPath;
     messageId?: string;
-    data: IWebComponentData | ISupport;
+    data: IndexDbData;
+    successAction?: MessageAction
 }
 
 export interface IGetIndexedDbData {
     storeName: DbStoreName;
     keyPath: DbKeyPath;
-    key: string;
+    key?: string;
     messageId?: string;
 }
 
 export interface ISaveIndexedDbDataHandleSuccess {
     messageId?: string;
     key: string;
+    action?: MessageAction;
+    data: IndexDbData;
 }
 
 export interface IWebComponentData {
@@ -533,6 +581,7 @@ export type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> =
 export type GetElementParams = IGetElementTemplate | IGetElementUrl;
 
 export type VamtigerBrowserMethod = {
+    metaElement?: HTMLMetaElement;
     loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
     loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;
     loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
@@ -546,9 +595,15 @@ export type VamtigerBrowserMethod = {
     getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined
     messageQueue: Map<string, Set<IMessageQueueEntry>>;
     worker?: Worker;
+    serviceWorker?: ServiceWorker;
+    serviceWorkerRegistration?: ServiceWorkerRegistration;
     support?: ISupport;
     workerSupport?: ISupport;
+    serviceWorkerSupport?: ISupport;
     getJsonLdArray: ({ jsonLd }: IGetJsonLdArray) => Promise<string[][]>;
+    textMode?: boolean;
+    intersectionObserver?: IntersectionObserver;
+    messageChannel?: MessageChannel;
 };
 
 export interface IAttributes {
@@ -560,13 +615,36 @@ export interface IAttributes {
     itemprop?: string;
 }
 
+export interface IGetServiceWorkerClients {
+    type: ClientTypes;
+}
+
+export interface ISendMessageFromServiceWorker {
+    message: string | Uint8Array;
+    clients?: ServiceWorkerClient;
+}
+
+export interface FetchEvent extends Event {
+	request: Request;
+	respondWith(response: Promise<Response>|Response): Promise<Response>;
+}
+
+export interface IUpdateRequestCache {
+    request: Request;
+}
+
+export type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
+
 export type JsonDataResolve = (data: IJsonData) => void;
 
 export type WorkerPostMessage = (message: string | Uint8Array) => void;
 
+export type IndexDbData = IWebComponentData | ISupport | ICustomElementName;
+
 export type GetIndexedDbData<P extends IGetIndexedDbData> =
     P['keyPath'] extends DbKeyPath.webComponent ? IWebComponentData | undefined :
     P['keyPath'] extends DbKeyPath.support ? ISaveSupport :
+    P['keyPath'] extends DbKeyPath.customElementName ? ICustomElementName[] :
     never;
 
 export type DbKeyPathName = keyof typeof DbKeyPath;
@@ -588,6 +666,7 @@ declare global {
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
         _: typeof lodash;
+        IntersectionObserver: typeof IntersectionObserver
     }
 
     namespace NodeJS {
@@ -609,15 +688,32 @@ export const regex = {
     trailingJs: /\.js$/,
     uppercase: /[A-Z]/,
     leadingAt: /^@/,
-    email: /^email$/i
+    email: /^email$/i,
+    trailingHtml: /\.html$/i,
+    textModeElement: new RegExp(
+        (Object.keys(TextModeElementName) as (keyof typeof TextModeElementName)[])
+            .map(key => TextModeElementName[key])
+            .join(StringConstant.pipe),
+        'i'
+    )
 }
 
 export const selector = {
     redundantScripts: [
         Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,
-        Selector.vamtigerBrowserMethod
+        Selector.vamtigerBrowserMethod,
+        Selector.transpiledJs,
+        ...(Object.keys(Dependency) as DependencyKey[]).map(key => `[src="${Dependency[key]}"]`)
     ].join(StringConstant.comma)
 }
 
-export const sendMessageFromWorker = postMessage as WorkerPostMessage;
+export const sendMessageFromWorker = getPostMessage();
+
+export const ignore = () => {};
+
+function getPostMessage() {
+    try {
+        return postMessage as WorkerPostMessage;
+    } catch(error) {}
+}

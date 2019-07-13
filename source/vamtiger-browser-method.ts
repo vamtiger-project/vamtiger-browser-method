@@ -18,6 +18,7 @@ import getMicrodataCaption from './get-microdata-caption';
 import getJsonLdArray from './get-json-ld-array';
 import loadDependencies from './load-dependencies';
 import dispatchEvent from './dispatch-event';
+import setupServiceWorker from './setup-service-worker';
 
 const environment = getEnvironment();
 const vamtigerBrowserMethod = {
@@ -45,13 +46,14 @@ async function main() {
         if (!VamtigerBrowserMethod) {
             self.VamtigerBrowserMethod = vamtigerBrowserMethod;
 
-            await loadDependencies();
+            setupServiceWorker();
 
-            await setSupport();
-
-            await setupWindow();
-
-            await setupWorker();
+            await Promise.all([
+                loadDependencies(),
+                setSupport(),
+                setupWindow(),
+                setupWorker()
+            ]);
 
             dispatchEvent({eventName: EventName.vamtigerBrowserMethodReady})
         }
