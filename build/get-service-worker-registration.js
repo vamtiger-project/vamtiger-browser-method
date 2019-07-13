@@ -90,8 +90,6 @@ function getServiceWorker() {
                         vamtigerBrowserMethod
                     ].join(nothing);
                     secondaryConfig = __assign({}, config_1.serviceWorker, { scope: pageUrl });
-                    console.log(url, config_1.serviceWorker);
-                    console.log(secondaryUrl, secondaryConfig);
                     _a = serviceWorker;
                     if (!_a) return [3 /*break*/, 2];
                     return [4 /*yield*/, serviceWorker

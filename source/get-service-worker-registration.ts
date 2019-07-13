@@ -30,9 +30,7 @@ async function getServiceWorker() {
     const secondaryConfig = {
         ...config,
         scope: pageUrl
-    }
-    console.log(url, config);
-    console.log(secondaryUrl, secondaryConfig);
+    };
     const sharedWorkerRegistration = serviceWorker && await serviceWorker
         .register(url, config)
         .catch(handleError);
