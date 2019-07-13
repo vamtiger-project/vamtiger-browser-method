@@ -27,13 +27,17 @@ async function getServiceWorker() {
         pageUrl === slash ? '' : pageUrl,
         vamtigerBrowserMethod
     ].join(nothing);
-    console.log(url);
-    console.log(secondaryUrl);
+    const secondaryConfig = {
+        ...config,
+        scope: pageUrl
+    }
+    console.log(url, config);
+    console.log(secondaryUrl, secondaryConfig);
     const sharedWorkerRegistration = serviceWorker && await serviceWorker
         .register(url, config)
         .catch(handleError);
     const secondarySharedWorkerRegistration = !sharedWorkerRegistration && secondaryUrl !== url && serviceWorker && await serviceWorker
-        .register(secondaryUrl, config)
+        .register(secondaryUrl, secondaryConfig)
         .catch(handleError);
     const registration = sharedWorkerRegistration || secondarySharedWorkerRegistration;
 
