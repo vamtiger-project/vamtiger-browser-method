@@ -39,7 +39,7 @@ var types_1 = require("./types");
 var config_1 = require("./config");
 var is_window_1 = require("./is-window");
 var get_page_relative_url_1 = require("./get-page-relative-url");
-var slash = types_1.StringConstant.slash;
+var slash = types_1.StringConstant.slash, nothing = types_1.StringConstant.nothing;
 var vamtigerBrowserMethod = types_1.LocalHostRelativePath.vamtigerBrowserMethod;
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
@@ -77,7 +77,7 @@ function getServiceWorker() {
                     secondaryUrl = [
                         pageUrl === slash ? '' : pageUrl,
                         vamtigerBrowserMethod
-                    ].join(slash);
+                    ].join(nothing);
                     console.log(url);
                     console.log(secondaryUrl);
                     _a = serviceWorker;

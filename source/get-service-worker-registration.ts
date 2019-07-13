@@ -6,7 +6,7 @@ import { serviceWorker as config } from './config';
 import isWindow from './is-window';
 import getPageRelativeUrl from './get-page-relative-url';
 
-const { slash } = StringConstant;
+const { slash, nothing } = StringConstant;
 const { vamtigerBrowserMethod } = LocalHostRelativePath;
 
 export default async function () {
@@ -26,7 +26,7 @@ async function getServiceWorker() {
     const secondaryUrl = [
         pageUrl === slash ? '' : pageUrl,
         vamtigerBrowserMethod
-    ].join(slash);
+    ].join(nothing);
     console.log(url);
     console.log(secondaryUrl);
     const sharedWorkerRegistration = serviceWorker && await serviceWorker
