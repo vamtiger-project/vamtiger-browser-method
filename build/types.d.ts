@@ -14,7 +14,7 @@ export declare enum EventName {
     vamtigerBrowserMethodReady = "vamtigerBrowserMethodReady"
 }
 export declare enum TimeoutDuration {
-    webComponent = 60000,
+    webComponent = 30000,
     indexDbIsAccessible = 100
 }
 export declare enum MessageQueueName {
@@ -24,7 +24,9 @@ export declare enum Prefix {
     vamtigerBrowserMethod = "vamtiger-browser-method",
     db = "vamtiger-browser-method",
     messageIdWindow = "vamtiger-browser-method-window",
-    messageIdWorker = "vamtiger-browser-method-worker"
+    messageIdWorker = "vamtiger-browser-method-worker",
+    messageIdServiceWorker = "vamtiger-browser-method-service-worker",
+    messageIdUnknownEnvironment = "vamtiger-browser-method-unknown-environment"
 }
 export declare enum ElementId {
     metaElement = "vamtiger-browser-method"
@@ -65,7 +67,9 @@ export declare enum ErrorMessage {
     noTemplateForUrl = "No Template for URL",
     noTemplate = "No Template",
     noElementForSelector = "No Element for Selector",
-    noJsonLdParameter = "No \"jsonLd\" property set"
+    noJsonLdParameter = "No \"jsonLd\" property set",
+    scriptLoadedButMethodNameNotFound = "Failed to load method: Script loaded, but method name not found",
+    crossOriginMethodsNotAllowed = "Cross-Origin methods are not allowed"
 }
 export declare enum StringConstant {
     nothing = "",
@@ -139,7 +143,10 @@ export declare enum MessageAction {
     saveSupport = "saveSupport",
     saveCustomElementName = "saveCustomElementName",
     getTextModeCss = "getTextModeCss",
-    loadScript = "loadScript"
+    loadScript = "loadScript",
+    loadMethod = "loadMethod",
+    updateMethod = "updateMethod",
+    getMethodResult = "getMethodResult"
 }
 export declare enum DbName {
     vamtigerBrowserSupport = "vamtiger-browser-support"
@@ -223,6 +230,21 @@ export interface IJsonJsonLd {
 export interface ILoadScript {
     params: LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams | ILoadJsonScriptParams;
     reject: (error: Error) => void;
+}
+export interface IUpdateMthod {
+    name: string;
+}
+export interface IGetMethodResult {
+    messageId?: string;
+    name: string;
+    params: IAnyObject;
+}
+export interface IGetMethodResultWindow extends IGetMethodResult {
+    resolve: (result: any) => void;
+    reject: (error: Error) => void;
+}
+export interface IUpdateMthodWrapNamedMethod {
+    method: Function;
 }
 export interface ILoadScriptLoadJsJsonJs {
     src: string;
@@ -342,6 +364,7 @@ export interface IRemoveRedundantScriptsRemoveScriptsFromParent extends IRemoveR
     reject?: (error: Error) => void;
 }
 export interface ISupport {
+    cache: boolean;
     localStorage: boolean;
     indexedDb: boolean;
     indexedDbIsAccessible: boolean;
@@ -349,6 +372,14 @@ export interface ISupport {
     sharedWorker: boolean;
     textEncoder: boolean;
     textDecoder: boolean;
+}
+export interface ILoadMethod {
+    name: string;
+    relativeUrl: string;
+}
+export interface ILoadMethodWindow extends ILoadMethod {
+    resolve: () => void;
+    reject: (error: Error) => void;
 }
 export interface ICustomElementName {
     name: string;
@@ -436,6 +467,9 @@ export interface IGetEmailLink {
     href: string;
     text: string;
 }
+export interface IVamtigerBrowserMethodLoadMethod {
+    [key: string]: Function;
+}
 export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
 export declare type MessageResponse = IMessageAction | undefined | null | false;
@@ -459,6 +493,7 @@ export declare type VamtigerBrowserMethod = {
     loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
     loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;
     loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
+    loadMethod: (params: ILoadMethod) => Promise<boolean>;
     loadShadowStylesheet: ({ css, element }: ILoadShadowStylesheet) => void;
     defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
     pause: ({ milliseconds }: IPause) => Promise<unknown>;
@@ -478,6 +513,7 @@ export declare type VamtigerBrowserMethod = {
     textMode?: boolean;
     intersectionObserver?: IntersectionObserver;
     messageChannel?: MessageChannel;
+    method: IVamtigerBrowserMethodLoadMethod;
 };
 export interface IAttributes {
     id?: string;
@@ -518,6 +554,7 @@ declare global {
         requestIdleCallback?: typeof requestIdleCallback;
         _: typeof lodash;
         IntersectionObserver: typeof IntersectionObserver;
+        importScripts?: (url: string) => void;
     }
     namespace NodeJS {
         interface Global {
