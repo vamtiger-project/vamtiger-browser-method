@@ -1,3 +1,3 @@
 /// <reference types="mocha" />
-declare const _default: () => Mocha.Suite;
+declare const _default: () => void | Mocha.Suite;
 export default _default;

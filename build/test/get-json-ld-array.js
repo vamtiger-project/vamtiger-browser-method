@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var get_json_ld_array_1 = require("../get-json-ld-array");
 var parse = JSON.parse;
 var selector = '[data-name="https://vamtiger-project.github.io/vamtiger-mental-health-botswana-json-ld/build/vamtiger-mental-health-botswana-2018-json-ld.js"]';
-exports.default = (function () { return describe('getJsonLdArray', function () {
+exports.default = (function () { return describe.skip('getJsonLdArray', function () {
     it('jsonLd arrray', function () {
         return __awaiter(this, void 0, void 0, function () {
             var head, script, jsonLd;
