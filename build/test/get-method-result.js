@@ -40,7 +40,7 @@ var relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
     'test/test-method.js' || 'vamtiger-browser-method/build/test/test-method.js';
 exports.default = (function () { return describe('getMethodResult', function () {
     before(setup);
-    it('no params', noParamsTest);
+    it('get result', noParamsTest);
 }); });
 function setup() {
     return __awaiter(this, void 0, void 0, function () {

@@ -6,7 +6,7 @@ const relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &
 export default () => describe('getMethodResult', function () {
     before(setup);
 
-    it('no params', noParamsTest);
+    it('get result', noParamsTest);
 });
 
 async function setup() {
