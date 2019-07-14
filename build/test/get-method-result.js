@@ -36,6 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
+var relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
+    'test/test-method.js' || 'vamtiger-browser-method/build/test/test-method.js';
 exports.default = (function () { return describe('getMethodResult', function () {
     before(setup);
     it('no params', noParamsTest);
@@ -49,7 +51,7 @@ function setup() {
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     loadMethod = VamtigerBrowserMethod.loadMethod;
                     return [4 /*yield*/, loadMethod({
-                            relativeUrl: 'test/test-method.js',
+                            relativeUrl: relativeUrl,
                             name: 'test'
                         })];
                 case 1:
