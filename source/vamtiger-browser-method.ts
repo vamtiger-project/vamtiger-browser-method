@@ -1,5 +1,6 @@
 import {
-    EventName
+    EventName,
+    ILoadMethod
 } from './types';
 export * from './load-ts-lib';
 import loadScript from './load-script';
@@ -19,12 +20,14 @@ import getJsonLdArray from './get-json-ld-array';
 import loadDependencies from './load-dependencies';
 import dispatchEvent from './dispatch-event';
 import setupServiceWorker from './setup-service-worker';
+import loadMethod from './load-method';
 
 const environment = getEnvironment();
 const vamtigerBrowserMethod = {
     loadScript,
     loadScripts,
     loadScriptsSequentially,
+    loadMethod: async (params: ILoadMethod) => Boolean(await loadMethod(params)),
     loadShadowStylesheet,
     defineCustomElement,
     pause,
@@ -34,7 +37,8 @@ const vamtigerBrowserMethod = {
     environment,
     messageQueue: new Map(),
     getMicrodataCaption,
-    getJsonLdArray
+    getJsonLdArray,
+    method: {}
 };
 
 main().catch(handleError);

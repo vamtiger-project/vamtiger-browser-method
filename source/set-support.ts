@@ -10,6 +10,7 @@ import isWorker from './is-worker';
 import sendMessage from './send-message';
 import getData from './get-indexed-db-data';
 import saveSupport from './save-support';
+import getCache from './get-cache';
 
 const { support: keyPath } = DbKeyPath;
 const { support: storeName } = DbStoreName
@@ -20,14 +21,16 @@ export default async function () {
         localStorage,
         indexedDB,
     } = self;
-    const [indexedDbIsAccessible] = await Promise.all([
-        indexDbAccessible()
+    const [indexedDbIsAccessible, cache] = await Promise.all([
+        indexDbAccessible(),
+        getCache()
     ]);
     const support: ISupport = {
-        localStorage: localStorage ? true : false,
-        indexedDb: indexedDB ? true : false,
+        cache: Boolean(cache),
+        localStorage: Boolean(localStorage),
+        indexedDb: Boolean(indexedDB),
         indexedDbIsAccessible,
-        worker: self.hasOwnProperty('Worker') ? true : false,
+        worker: self.hasOwnProperty('Worker'),
         sharedWorker: self.hasOwnProperty('SharedWorker'),
         textEncoder: self.hasOwnProperty('TextEncoder'),
         textDecoder: self.hasOwnProperty('TextDecoder')

@@ -1,0 +1,1 @@
+{"version":3,"file":"setup-worker.js","sourceRoot":"","sources":["../source/setup-worker.ts"],"names":[],"mappings":";;AAAA,iCAEgB;AAChB,mDAA6C;AAC7C,yCAAmC;AACnC,uEAAgE;AAEhE;IACI,mBAAQ,EAAE,IAAI,WAAW,EAAE,CAAC;AAChC,CAAC;AAFD,4BAEC;AAED,SAAS,WAAW;IAChB,gBAAgB,CAAC,SAAS,EAAE,wBAAa,CAAC,CAAC;IAE3C,OAAO,kCAAsB,CAAC;QAC1B,QAAQ,EAAE,gBAAQ,CAAC,gBAAgB;KACtC,CAAC,CAAC;AACP,CAAC"}

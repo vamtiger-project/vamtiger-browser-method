@@ -9,7 +9,7 @@ export default async function ({request}: IUpdateRequestCache) {
     const updateCache = response
         && (response.status === 200 || response.type === 'opaque');
 
-    if (updateCache && response) {
+    if (cache && updateCache && response) {
         await cache.put(request, response).catch(handleError);
     }
 }

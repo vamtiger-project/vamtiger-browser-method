@@ -18,7 +18,7 @@ export enum EventName {
 }
 
 export enum TimeoutDuration {
-    webComponent = 60000,
+    webComponent = 30000,
     indexDbIsAccessible = 100
 }
 
@@ -30,7 +30,9 @@ export enum Prefix {
     vamtigerBrowserMethod = 'vamtiger-browser-method',
     db = 'vamtiger-browser-method',
     messageIdWindow = 'vamtiger-browser-method-window',
-    messageIdWorker = 'vamtiger-browser-method-worker'
+    messageIdWorker = 'vamtiger-browser-method-worker',
+    messageIdServiceWorker = 'vamtiger-browser-method-service-worker',
+    messageIdUnknownEnvironment = 'vamtiger-browser-method-unknown-environment'
 }
 
 export enum ElementId {
@@ -79,7 +81,9 @@ export enum ErrorMessage {
     noTemplateForUrl = 'No Template for URL',
     noTemplate = 'No Template',
     noElementForSelector = 'No Element for Selector',
-    noJsonLdParameter = 'No "jsonLd" property set'
+    noJsonLdParameter = 'No "jsonLd" property set',
+    scriptLoadedButMethodNameNotFound = 'Failed to load method: Script loaded, but method name not found',
+    crossOriginMethodsNotAllowed = 'Cross-Origin methods are not allowed'
 }
 
 export enum StringConstant {
@@ -163,7 +167,10 @@ export enum MessageAction {
     saveSupport = 'saveSupport',
     saveCustomElementName = 'saveCustomElementName',
     getTextModeCss = 'getTextModeCss',
-    loadScript = 'loadScript'
+    loadScript = 'loadScript',
+    loadMethod = 'loadMethod',
+    updateMethod = 'updateMethod',
+    getMethodResult = 'getMethodResult'
 }
 
 export enum DbName {
@@ -271,6 +278,25 @@ export interface ILoadScript {
         | ILoadRemoteStylesheetScriptParams
         | ILoadJsonScriptParams;
     reject: (error: Error) => void
+}
+
+export interface IUpdateMthod {
+    name: string;
+}
+
+export interface IGetMethodResult {
+    messageId?: string;
+    name: string;
+    params: IAnyObject;
+}
+
+export interface IGetMethodResultWindow extends IGetMethodResult {
+    resolve: (result: any) => void;
+    reject: (error: Error) => void;
+}
+
+export interface IUpdateMthodWrapNamedMethod {
+    method: Function;
 }
 
 export interface ILoadScriptLoadJsJsonJs {
@@ -415,6 +441,7 @@ export interface IRemoveRedundantScriptsRemoveScriptsFromParent extends IRemoveR
 }
 
 export interface ISupport {
+    cache: boolean;
     localStorage: boolean;
     indexedDb: boolean;
     indexedDbIsAccessible: boolean;
@@ -422,6 +449,16 @@ export interface ISupport {
     sharedWorker: boolean;
     textEncoder: boolean;
     textDecoder: boolean;
+}
+
+export interface ILoadMethod {
+    name: string;
+    relativeUrl: string;
+}
+
+export interface ILoadMethodWindow extends ILoadMethod {
+    resolve: () => void;
+    reject: (error: Error) => void;
 }
 
 export interface ICustomElementName {
@@ -528,6 +565,10 @@ export interface IGetEmailLink {
     text: string;
 }
 
+export interface IVamtigerBrowserMethodLoadMethod {
+    [key: string]: Function;
+}
+
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 
 export type ErrorResolve = (error: Error) => void;
@@ -585,6 +626,7 @@ export type VamtigerBrowserMethod = {
     loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
     loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;
     loadScriptsSequentially: <P extends LoadScriptParams[][]>(params: P) => Promise<LoadedScriptsSequentially<P>>;
+    loadMethod: (params: ILoadMethod) => Promise<boolean>;
     loadShadowStylesheet: ({ css, element }: ILoadShadowStylesheet) => void;
     defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
     pause: ({ milliseconds }: IPause) => Promise<unknown>;
@@ -604,6 +646,7 @@ export type VamtigerBrowserMethod = {
     textMode?: boolean;
     intersectionObserver?: IntersectionObserver;
     messageChannel?: MessageChannel;
+    method: IVamtigerBrowserMethodLoadMethod;
 };
 
 export interface IAttributes {
@@ -666,7 +709,8 @@ declare global {
         EQCSS: IAnyObject;
         requestIdleCallback?: typeof requestIdleCallback;
         _: typeof lodash;
-        IntersectionObserver: typeof IntersectionObserver
+        IntersectionObserver: typeof IntersectionObserver;
+        importScripts?: (url: string) => void;
     }
 
     namespace NodeJS {

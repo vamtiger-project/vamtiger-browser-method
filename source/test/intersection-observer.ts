@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-export default () => describe('getData', function () {
+export default () => describe('intersectionObserver', function () {
     before(function () {
         const { VamtigerBrowserMethod } = window;
         const { intersectionObserver } = VamtigerBrowserMethod;

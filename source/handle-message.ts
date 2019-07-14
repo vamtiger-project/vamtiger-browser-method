@@ -15,6 +15,9 @@ import saveSupport from './save-support';
 import saveCustomElementName from './save-custom-element-name';
 import getTextModeCss from './get-text-mode-css';
 import loadScript from './handle-load-script';
+import loadMethod from './load-method';
+import updateMethod from './update-method';
+import getMethodResult from './get-method-result';
 
 const action = {
     [MessageAction.ignore]: ignoreMessage,
@@ -27,7 +30,10 @@ const action = {
     [MessageAction.saveSupport]: saveSupport,
     [MessageAction.saveCustomElementName]: saveCustomElementName,
     [MessageAction.getTextModeCss]: getTextModeCss,
-    [MessageAction.loadScript]: loadScript
+    [MessageAction.loadScript]: loadScript,
+    [MessageAction.loadMethod]: loadMethod,
+    [MessageAction.updateMethod]: updateMethod,
+    [MessageAction.getMethodResult]: getMethodResult
 }
 
 export default async function (event: MessageEvent) {

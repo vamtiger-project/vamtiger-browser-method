@@ -10,7 +10,7 @@ export default async function ({request}: FetchEvent) {
         && (response.status === 200 || response.type === 'opaque')
         && response.clone();
 
-    if (cacheResponse) {
+    if (cache && cacheResponse) {
         await cache.put(request, cacheResponse).catch(handleError);;
     }
 

@@ -9,8 +9,7 @@ export default () => describe('getJsonLdArray', function () {
         const { head } = document;
         const script = head.querySelector<HTMLScriptElement>(selector);
         const jsonLd = script && parse(script.innerHTML);
-        const jsonLdArray = jsonLd && await getJsonLdArray({ jsonLd });
 
-        expect(jsonLdArray).to.be.ok;
+        await getJsonLdArray({ jsonLd });
     });
 });

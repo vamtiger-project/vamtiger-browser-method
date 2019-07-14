@@ -7,6 +7,8 @@ import getElement from './get-element';
 import getData from './get-data';
 import getJsonLdArray from './get-json-ld-array';
 import intersectionObserver from './intersection-observer';
+import loadMethod from './load-method';
+import getMethodResult from './get-method-result';
 
 tslib;
 
@@ -19,5 +21,7 @@ getElement();
 getData();
 getJsonLdArray();
 intersectionObserver();
+loadMethod();
+getMethodResult();
 
 run();
