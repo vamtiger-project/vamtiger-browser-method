@@ -136,7 +136,9 @@ export enum Selector {
     jsonLdViewer = 'vamtiger-json-ld-viewer',
     transpiledJs = '[data-transpiled-js]',
     htmlTextMode = 'html[data-vamtiger-text-mode]',
-    customElementNameMetaElement = 'meta[data-custom-element-name]'
+    customElementNameMetaElement = 'meta[data-custom-element-name]',
+    dependencyUrlMetaElement = 'meta[data-dependency]',
+    urlMetaElement = 'meta[data-url]'
 }
 
 export enum TextModeElementName {
@@ -145,6 +147,12 @@ export enum TextModeElementName {
 
 export enum  MetaElementName {
     loadElementQueryCss = 'vamtiger-load-element-query-css'
+}
+
+export enum WorkerType {
+    all = 'all',
+    worker = 'worker',
+    serviceWorker = 'serviceWorker'
 }
 
 export enum ScriptNameSuffix {
@@ -170,7 +178,9 @@ export enum MessageAction {
     loadScript = 'loadScript',
     loadMethod = 'loadMethod',
     updateMethod = 'updateMethod',
-    getMethodResult = 'getMethodResult'
+    getMethodResult = 'getMethodResult',
+    importDependencies = 'importDependencies',
+    removeDependencyUrl = 'removeDependencyUrl'
 }
 
 export enum DbName {
@@ -196,8 +206,8 @@ export enum DbKeyPath {
 }
 
 export enum Dependency {
-    lodash = 'https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js',
-    jsonLdViewer = 'https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js.json.js'
+    lodash = 'https://cdn.jsdelivr.net/npm/lodash@4.17.11',
+    jsonLdViewer = 'https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js'
 }
 
 export interface IDequeue {
@@ -221,6 +231,10 @@ export interface IDbParams {
 
 export interface ILoadRemoteScriptParams {
     src: string;
+}
+
+export interface IRemoveDepencyUrl {
+    url: string;
 }
 
 export interface ILoadRemoteStylesheetScriptParams {
@@ -269,6 +283,10 @@ export interface IJsonJsonLd {
     fields: {
         [key: string]: string[];
     }
+}
+
+export interface IImportDependencies {
+    urls?: string[];
 }
 
 export interface ILoadScript {
@@ -425,6 +443,7 @@ export interface IMessageAction {
         messageId?: string;
         ports?: MessagePort[];
     };
+    workerType?: WorkerType;
 }
 
 export interface IRemoveRedundantScripts {
@@ -569,6 +588,14 @@ export interface IVamtigerBrowserMethodLoadMethod {
     [key: string]: Function;
 }
 
+export interface ISetDependencyUrl {
+    script: HTMLScriptElement
+}
+
+export interface ISetDependencyUrlWindow {
+    js: string;
+}
+
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 
 export type ErrorResolve = (error: Error) => void;
@@ -711,6 +738,7 @@ declare global {
         _: typeof lodash;
         IntersectionObserver: typeof IntersectionObserver;
         importScripts?: (url: string) => void;
+        'vamtiger-browser-method': HTMLMetaElement;
     }
 
     namespace NodeJS {

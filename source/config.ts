@@ -44,3 +44,7 @@ function getIntersectionObserverThreshold(length: number) {
 
     return threshold;
 }
+
+export const workerDependencies = [
+    Dependency.lodash
+]

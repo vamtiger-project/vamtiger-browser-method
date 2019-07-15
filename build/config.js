@@ -34,4 +34,7 @@ function getIntersectionObserverThreshold(length) {
         .map(function (value, index) { return index ? (index + 1) * step : index; });
     return threshold;
 }
+exports.workerDependencies = [
+    types_1.Dependency.lodash
+];
 //# sourceMappingURL=config.js.map

@@ -47,6 +47,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = require("./types");
+var config_1 = require("./config");
 var is_service_worker_1 = require("./is-service-worker");
 var send_message_1 = require("./send-message");
 function default_1(event) {
@@ -55,8 +56,9 @@ function default_1(event) {
 exports.default = default_1;
 function handleServiceWorkerActivation(event) {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, support, environment, indexedDbIsAccessible, params, message;
+        var importScripts, VamtigerBrowserMethod, support, environment, indexedDbIsAccessible, params, message;
         return __generator(this, function (_a) {
+            importScripts = self.importScripts;
             VamtigerBrowserMethod = self.VamtigerBrowserMethod;
             support = VamtigerBrowserMethod.support, environment = VamtigerBrowserMethod.environment;
             indexedDbIsAccessible = (support || {}).indexedDbIsAccessible;
@@ -66,6 +68,7 @@ function handleServiceWorkerActivation(event) {
                 params: params
             };
             send_message_1.default(message);
+            importScripts && config_1.workerDependencies.forEach(function (dependency) { return importScripts(dependency); });
             return [2 /*return*/];
         });
     });

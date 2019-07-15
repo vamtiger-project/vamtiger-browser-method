@@ -18,6 +18,8 @@ import loadScript from './handle-load-script';
 import loadMethod from './load-method';
 import updateMethod from './update-method';
 import getMethodResult from './get-method-result';
+import importDependencies from './import-dependencies';
+import removeDependencyUrl from './remove-dependency-url';
 
 const action = {
     [MessageAction.ignore]: ignoreMessage,
@@ -33,7 +35,9 @@ const action = {
     [MessageAction.loadScript]: loadScript,
     [MessageAction.loadMethod]: loadMethod,
     [MessageAction.updateMethod]: updateMethod,
-    [MessageAction.getMethodResult]: getMethodResult
+    [MessageAction.getMethodResult]: getMethodResult,
+    [MessageAction.importDependencies]: importDependencies,
+    [MessageAction.removeDependencyUrl]: removeDependencyUrl
 }
 
 export default async function (event: MessageEvent) {

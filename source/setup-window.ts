@@ -12,6 +12,10 @@ import getServiceWorkerRegistration from './get-service-worker-registration';
 import handleMessage from './handle-message';
 
 const { nothing } = StringConstant;
+const metaElementHtml = [
+    '<meta data-custom-element-name>',
+    '<meta data-dependency>'
+].join(nothing)
 
 export default function () {
     if (isWindow()) {
@@ -30,6 +34,7 @@ function setEventListeser() {
 async function setupWindow() {
     const { serviceWorker } = navigator;
     const { head } = document;
+    const firstMetaElement = head.querySelector('meta');
     const { VamtigerBrowserMethod } = self;
     const { metaElement = document.createElement('meta') } = VamtigerBrowserMethod;
     const customeElementMetaElement = document.createElement('meta');
@@ -42,9 +47,9 @@ async function setupWindow() {
 
     metaElement.id = ElementId.metaElement;
 
-    metaElement.appendChild(customeElementMetaElement);
+    metaElement.innerHTML = metaElementHtml;
 
-    head.appendChild(metaElement);
+    head.insertBefore(metaElement, firstMetaElement);
 
     VamtigerBrowserMethod.metaElement = metaElement;
 

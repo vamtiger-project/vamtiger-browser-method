@@ -38,27 +38,31 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var config_1 = require("./config");
 var load_script_1 = require("./load-script");
 var is_window_1 = require("./is-window");
+var is_worker_1 = require("./is-worker");
+var is_service_worker_1 = require("./is-service-worker");
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
-        var _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    _a = is_window_1.default();
-                    if (!_a) return [3 /*break*/, 2];
-                    return [4 /*yield*/, loadDependencies()];
+                    if (!is_window_1.default()) return [3 /*break*/, 2];
+                    return [4 /*yield*/, loadDependenciesWindow()];
                 case 1:
-                    _a = (_b.sent());
-                    _b.label = 2;
+                    _a.sent();
+                    return [3 /*break*/, 4];
                 case 2:
-                    _a;
-                    return [2 /*return*/];
+                    if (!(is_worker_1.default() || is_service_worker_1.default)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, loadDependenciesWorker()];
+                case 3:
+                    _a.sent();
+                    _a.label = 4;
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
 exports.default = default_1;
-function loadDependencies() {
+function loadDependenciesWindow() {
     return __awaiter(this, void 0, void 0, function () {
         var workerDependency, dependencies;
         return __generator(this, function (_a) {
@@ -69,7 +73,27 @@ function loadDependencies() {
                     return [4 /*yield*/, Promise.all(dependencies.map(function (src) { return load_script_1.default({ name: src, src: src, workerDependency: workerDependency }); }))];
                 case 1:
                     _a.sent();
-                    ;
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
+function loadDependenciesWorker() {
+    return __awaiter(this, void 0, void 0, function () {
+        var importScripts, dependencies, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    importScripts = self.importScripts;
+                    dependencies = config_1.getDependencies();
+                    _a = importScripts;
+                    if (!_a) return [3 /*break*/, 2];
+                    return [4 /*yield*/, Promise.all(dependencies.map(function (url) { return importScripts(url); }))];
+                case 1:
+                    _a = (_b.sent());
+                    _b.label = 2;
+                case 2:
+                    _a;
                     return [2 /*return*/];
             }
         });

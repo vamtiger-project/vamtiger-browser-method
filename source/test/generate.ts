@@ -52,7 +52,7 @@ describe('Generate', function () {
             }),
             createFile(emptyScript, `console.log('Empty Script');`),
             createFile(emptyStylesheet, ''),
-            Promise.all(dependencyParams.map(copyFile))
+            // Promise.all(dependencyParams.map(copyFile))
         ]);
     });
 

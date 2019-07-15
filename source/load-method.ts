@@ -73,30 +73,22 @@ async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMetho
     }
 }
 
-async function loadMethodWorker({relativeUrl: src, name}: ILoadMethod) {
-    const { VamtigerBrowserMethod, importScripts } = self;
-    const { createObjectURL } = URL;
-    const { method } = VamtigerBrowserMethod;
-    const cache = !method.hasOwnProperty(name) && await getCache();
-    const request = cache && new Request(src);
-    const response = cache && request && await cache.match(request);
-    const code = response && await response.text();
-    const blob = code && new Blob([code], blobParams);
-    const url = blob && createObjectURL(blob);
-    const importMethod = url && importScripts && await importScripts(url);
+async function loadMethodWorker({relativeUrl: url, name}: ILoadMethod) {
+    const { importScripts } = self;
+    const importMethod = url && importScripts && importScripts(url);
     const message = {
         action: MessageAction.dequeue,
         params: {
-            key: src,
+            key: url,
             data: {}
         }
     };
-    const removeRedundantMethodMessage = method.hasOwnProperty(name) && {
+    const updateMethodMessage = method.hasOwnProperty(name) && {
         action: MessageAction.updateMethod,
         params: {name}
     };
 
-    removeRedundantMethodMessage && sendMessage(removeRedundantMethodMessage);
+    updateMethodMessage && sendMessage(updateMethodMessage);
 
     return message;
 }

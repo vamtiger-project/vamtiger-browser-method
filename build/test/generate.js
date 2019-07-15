@@ -67,7 +67,6 @@ describe('Generate', function () {
                             }),
                             vamtiger_create_file_1.default(emptyScript, "console.log('Empty Script');"),
                             vamtiger_create_file_1.default(emptyStylesheet, ''),
-                            Promise.all(dependencyParams.map(vamtiger_copy_file_1.default))
                         ])];
                     case 1:
                         _a.sent();

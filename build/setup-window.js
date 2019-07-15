@@ -43,6 +43,10 @@ var get_intersection_observer_1 = require("./get-intersection-observer");
 var get_service_worker_registration_1 = require("./get-service-worker-registration");
 var handle_message_1 = require("./handle-message");
 var nothing = types_1.StringConstant.nothing;
+var metaElementHtml = [
+    '<meta data-custom-element-name>',
+    '<meta data-dependency>'
+].join(nothing);
 function default_1() {
     if (is_window_1.default()) {
         setEventListeser();
@@ -56,12 +60,13 @@ function setEventListeser() {
 }
 function setupWindow() {
     return __awaiter(this, void 0, void 0, function () {
-        var serviceWorker, head, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, serviceWorkerRegistration, messageChannel, port1, _b;
+        var serviceWorker, head, firstMetaElement, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, serviceWorkerRegistration, messageChannel, port1, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     serviceWorker = navigator.serviceWorker;
                     head = document.head;
+                    firstMetaElement = head.querySelector('meta');
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     _a = VamtigerBrowserMethod.metaElement, metaElement = _a === void 0 ? document.createElement('meta') : _a;
                     customeElementMetaElement = document.createElement('meta');
@@ -73,8 +78,8 @@ function setupWindow() {
                     port1 = messageChannel.port1;
                     customeElementMetaElement.dataset[types_1.DataAttribute.customElementName] = nothing;
                     metaElement.id = types_1.ElementId.metaElement;
-                    metaElement.appendChild(customeElementMetaElement);
-                    head.appendChild(metaElement);
+                    metaElement.innerHTML = metaElementHtml;
+                    head.insertBefore(metaElement, firstMetaElement);
                     VamtigerBrowserMethod.metaElement = metaElement;
                     _b = VamtigerBrowserMethod;
                     return [4 /*yield*/, get_worker_1.default()];

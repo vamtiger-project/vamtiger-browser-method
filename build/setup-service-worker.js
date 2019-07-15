@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var is_service_worker_1 = require("./is-service-worker");
 var handle_fetch_request_1 = require("./handle-fetch-request");
 var handle_service_worker_activation_1 = require("./handle-service-worker-activation");
+var handle_message_1 = require("./handle-message");
 function default_1() {
     is_service_worker_1.default() && setupServiceWorker();
 }
@@ -47,6 +48,7 @@ function setupServiceWorker() {
         return __generator(this, function (_a) {
             addEventListener('install', handle_service_worker_activation_1.default);
             addEventListener('activate', handle_service_worker_activation_1.default);
+            addEventListener('message', handle_message_1.default);
             addEventListener('fetch', function (event) { return handle_fetch_request_1.default(event); });
             return [2 /*return*/];
         });

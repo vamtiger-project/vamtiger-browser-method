@@ -2,7 +2,9 @@ import {
     ISupport,
     MessageAction
 } from './types';
-import getServiceWorkerClients from './get-service-worker-clients';
+import {
+    workerDependencies
+} from './config';
 import isServiceWorker from './is-service-worker';
 import sendMessage from './send-message';
 
@@ -11,6 +13,7 @@ export default function (event: Event) {
 }
 
 async function handleServiceWorkerActivation(event: Event) {
+    const { importScripts } = self;
     const { VamtigerBrowserMethod } = self;
     const { support, environment } = VamtigerBrowserMethod;
     const { indexedDbIsAccessible } = (support || {}) as ISupport;
@@ -24,4 +27,6 @@ async function handleServiceWorkerActivation(event: Event) {
     };
 
     sendMessage(message);
+
+    importScripts && workerDependencies.forEach(dependency => importScripts(dependency));
 }

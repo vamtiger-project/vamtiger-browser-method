@@ -53,6 +53,8 @@ var handle_load_script_1 = require("./handle-load-script");
 var load_method_1 = require("./load-method");
 var update_method_1 = require("./update-method");
 var get_method_result_1 = require("./get-method-result");
+var import_dependencies_1 = require("./import-dependencies");
+var remove_dependency_url_1 = require("./remove-dependency-url");
 var action = (_a = {},
     _a[types_1.MessageAction.ignore] = ignore_message_1.default,
     _a[types_1.MessageAction.removeRedundantScripts] = remove_redundant_scripts_1.default,
@@ -68,6 +70,8 @@ var action = (_a = {},
     _a[types_1.MessageAction.loadMethod] = load_method_1.default,
     _a[types_1.MessageAction.updateMethod] = update_method_1.default,
     _a[types_1.MessageAction.getMethodResult] = get_method_result_1.default,
+    _a[types_1.MessageAction.importDependencies] = import_dependencies_1.default,
+    _a[types_1.MessageAction.removeDependencyUrl] = remove_dependency_url_1.default,
     _a);
 function default_1(event) {
     return __awaiter(this, void 0, void 0, function () {

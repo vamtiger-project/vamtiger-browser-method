@@ -52,7 +52,6 @@ var is_window_1 = require("./is-window");
 var is_worker_1 = require("./is-worker");
 var send_message_1 = require("./send-message");
 var queue_1 = require("./queue");
-var get_cache_1 = require("./get-cache");
 var requestIdleCallback = self.requestIdleCallback;
 var nothing = types_1.StringConstant.nothing, slash = types_1.StringConstant.slash;
 var blobParams = {
@@ -131,64 +130,25 @@ function loadMethodWindow(_a) {
     });
 }
 function loadMethodWorker(_a) {
-    var src = _a.relativeUrl, name = _a.name;
+    var url = _a.relativeUrl, name = _a.name;
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, importScripts, createObjectURL, method, cache, _b, request, response, _c, code, _d, blob, url, importMethod, _e, message, removeRedundantMethodMessage;
-        return __generator(this, function (_f) {
-            switch (_f.label) {
-                case 0:
-                    VamtigerBrowserMethod = self.VamtigerBrowserMethod, importScripts = self.importScripts;
-                    createObjectURL = URL.createObjectURL;
-                    method = VamtigerBrowserMethod.method;
-                    _b = !method.hasOwnProperty(name);
-                    if (!_b) return [3 /*break*/, 2];
-                    return [4 /*yield*/, get_cache_1.default()];
-                case 1:
-                    _b = (_f.sent());
-                    _f.label = 2;
-                case 2:
-                    cache = _b;
-                    request = cache && new Request(src);
-                    _c = cache && request;
-                    if (!_c) return [3 /*break*/, 4];
-                    return [4 /*yield*/, cache.match(request)];
-                case 3:
-                    _c = (_f.sent());
-                    _f.label = 4;
-                case 4:
-                    response = _c;
-                    _d = response;
-                    if (!_d) return [3 /*break*/, 6];
-                    return [4 /*yield*/, response.text()];
-                case 5:
-                    _d = (_f.sent());
-                    _f.label = 6;
-                case 6:
-                    code = _d;
-                    blob = code && new Blob([code], blobParams);
-                    url = blob && createObjectURL(blob);
-                    _e = url && importScripts;
-                    if (!_e) return [3 /*break*/, 8];
-                    return [4 /*yield*/, importScripts(url)];
-                case 7:
-                    _e = (_f.sent());
-                    _f.label = 8;
-                case 8:
-                    importMethod = _e;
-                    message = {
-                        action: types_1.MessageAction.dequeue,
-                        params: {
-                            key: src,
-                            data: {}
-                        }
-                    };
-                    removeRedundantMethodMessage = method.hasOwnProperty(name) && {
-                        action: types_1.MessageAction.updateMethod,
-                        params: { name: name }
-                    };
-                    removeRedundantMethodMessage && send_message_1.default(removeRedundantMethodMessage);
-                    return [2 /*return*/, message];
-            }
+        var importScripts, importMethod, message, updateMethodMessage;
+        return __generator(this, function (_b) {
+            importScripts = self.importScripts;
+            importMethod = url && importScripts && importScripts(url);
+            message = {
+                action: types_1.MessageAction.dequeue,
+                params: {
+                    key: url,
+                    data: {}
+                }
+            };
+            updateMethodMessage = method.hasOwnProperty(name) && {
+                action: types_1.MessageAction.updateMethod,
+                params: { name: name }
+            };
+            updateMethodMessage && send_message_1.default(updateMethodMessage);
+            return [2 /*return*/, message];
         });
     });
 }

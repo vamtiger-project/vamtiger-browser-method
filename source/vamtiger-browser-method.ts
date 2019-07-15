@@ -52,8 +52,9 @@ async function main() {
 
             setupServiceWorker();
 
+            await loadDependencies();
+
             await Promise.all([
-                loadDependencies(),
                 setSupport(),
                 setupWindow(),
                 setupWorker()

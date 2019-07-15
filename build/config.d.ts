@@ -1,3 +1,4 @@
+import { Dependency } from './types';
 export declare const babel: {
     presets: string[];
 };
@@ -16,3 +17,4 @@ export declare const serviceWorker: {
 export declare const serviceWorkerClients: {
     includeUncontrolled: boolean;
 };
+export declare const workerDependencies: Dependency[];

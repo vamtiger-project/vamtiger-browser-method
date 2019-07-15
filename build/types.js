@@ -136,6 +136,8 @@ var Selector;
     Selector["transpiledJs"] = "[data-transpiled-js]";
     Selector["htmlTextMode"] = "html[data-vamtiger-text-mode]";
     Selector["customElementNameMetaElement"] = "meta[data-custom-element-name]";
+    Selector["dependencyUrlMetaElement"] = "meta[data-dependency]";
+    Selector["urlMetaElement"] = "meta[data-url]";
 })(Selector = exports.Selector || (exports.Selector = {}));
 var TextModeElementName;
 (function (TextModeElementName) {
@@ -145,6 +147,12 @@ var MetaElementName;
 (function (MetaElementName) {
     MetaElementName["loadElementQueryCss"] = "vamtiger-load-element-query-css";
 })(MetaElementName = exports.MetaElementName || (exports.MetaElementName = {}));
+var WorkerType;
+(function (WorkerType) {
+    WorkerType["all"] = "all";
+    WorkerType["worker"] = "worker";
+    WorkerType["serviceWorker"] = "serviceWorker";
+})(WorkerType = exports.WorkerType || (exports.WorkerType = {}));
 var ScriptNameSuffix;
 (function (ScriptNameSuffix) {
     ScriptNameSuffix["style"] = "style";
@@ -170,6 +178,8 @@ var MessageAction;
     MessageAction["loadMethod"] = "loadMethod";
     MessageAction["updateMethod"] = "updateMethod";
     MessageAction["getMethodResult"] = "getMethodResult";
+    MessageAction["importDependencies"] = "importDependencies";
+    MessageAction["removeDependencyUrl"] = "removeDependencyUrl";
 })(MessageAction = exports.MessageAction || (exports.MessageAction = {}));
 var DbName;
 (function (DbName) {
@@ -195,8 +205,8 @@ var DbKeyPath;
 })(DbKeyPath = exports.DbKeyPath || (exports.DbKeyPath = {}));
 var Dependency;
 (function (Dependency) {
-    Dependency["lodash"] = "https://vamtiger-project.github.io/vamtiger-browser-method/build/lodash.min.js.json.js";
-    Dependency["jsonLdViewer"] = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js.json.js";
+    Dependency["lodash"] = "https://cdn.jsdelivr.net/npm/lodash@4.17.11";
+    Dependency["jsonLdViewer"] = "https://vamtiger-project.github.io/vamtiger-json-ld-viewer/build/vamtiger-json-ld-viewer.js";
 })(Dependency = exports.Dependency || (exports.Dependency = {}));
 exports.regex = {
     showRootHost: /:{1,2}host/gm,
