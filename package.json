@@ -22,7 +22,7 @@
     "clean-install": "rm -rf package-lock.json node_modules && npm i",
     "postinstall": "vamtiger-postinstall --distTag source",
     "publish-preview": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages",
-    "publish-preview-debug": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages"
+    "publish-preview-debug": "npm run test-debug && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages"
   },
   "repository": {
     "type": "git",
