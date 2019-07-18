@@ -15,9 +15,6 @@ async function loadMethodTest() {
         name: 'test'
     });
     const namedMethod = VamtigerBrowserMethod.method.test;
-    const result = namedMethod && await namedMethod({param1: 1, param2: 2});
 
-    console.log(result);
-
-    expect(methodLoaded).to.be.true;
+    expect(namedMethod).to.be.true;
 }

@@ -43,9 +43,9 @@ exports.default = (function () { return describe('loadMethod', function () {
 }); });
 function loadMethodTest() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, loadMethod, methodLoaded, namedMethod, result, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var VamtigerBrowserMethod, loadMethod, methodLoaded, namedMethod;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     loadMethod = VamtigerBrowserMethod.loadMethod;
@@ -54,18 +54,9 @@ function loadMethodTest() {
                             name: 'test'
                         })];
                 case 1:
-                    methodLoaded = _b.sent();
+                    methodLoaded = _a.sent();
                     namedMethod = VamtigerBrowserMethod.method.test;
-                    _a = namedMethod;
-                    if (!_a) return [3 /*break*/, 3];
-                    return [4 /*yield*/, namedMethod({ param1: 1, param2: 2 })];
-                case 2:
-                    _a = (_b.sent());
-                    _b.label = 3;
-                case 3:
-                    result = _a;
-                    console.log(result);
-                    chai_1.expect(methodLoaded).to.be.true;
+                    chai_1.expect(namedMethod).to.be.true;
                     return [2 /*return*/];
             }
         });
