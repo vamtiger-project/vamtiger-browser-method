@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description" content="A collection of useful browser methods">
+        <meta name="google-site-verification" content="At82OtQRKnFtUXOcbngixaO0E3ed7t3S09BXf2IL5-U" />
+
+        <title>VAMTIGER Browser Method</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mocha@latest/mocha.css">
+
+        <style>
+            [data-intercetion-observer]
+            {
+                width: 60vh;
+                height: 100vh;
+                background-color: lightgray;
+            }
+        </style>
+
+        <script src="https://cdn.jsdelivr.net/npm/mocha@latest/mocha.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chai@latest/chai.js"></script>
+        <script
+            src="https://vamtiger-project.github.io/vamtiger-browser-support/build/vamtiger-browser-support.js"
+            data-es2015-support-primary
+            data-element-query-support
+            data-web-component-support
+            data-fetch-support
+            data-load="test/browser.js"
+        ></script>
+    </head>
+
+    <body id="mocha">
+        <header>
+            <h1>
+                VAMTIGER Browser Method
+            </h1>
+        </header>
+    </body>
+</html>
