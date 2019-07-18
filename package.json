@@ -5,12 +5,14 @@
   "main": "build/vamtiger-browser-method",
   "scripts": {
     "test": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source",
+    "test-debug": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source-debug",
     "mocha": "mocha build/test/node",
     "build": "tsc",
     "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish",
     "clean": "rm -rf build/*",
     "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.js(\\.map)?|(vamtiger-browser-method|types)\\.d\\.ts\"",
     "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
+    "bundle-source-debug": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
     "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
     "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
     "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
@@ -19,7 +21,8 @@
     "watch": "vamtiger-watch --folder source --extension ts --script test --extension html --script bundle-html",
     "clean-install": "rm -rf package-lock.json node_modules && npm i",
     "postinstall": "vamtiger-postinstall --distTag source",
-    "publish-preview": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages"
+    "publish-preview": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages",
+    "publish-preview-debug": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages"
   },
   "repository": {
     "type": "git",
