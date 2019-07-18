@@ -39,12 +39,19 @@ var types_1 = require("./types");
 var cacheName = types_1.CacheName.vamtigerBrowserMethod;
 function default_1() {
     return __awaiter(this, void 0, void 0, function () {
-        var cache;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, caches.open(cacheName).catch(handleError)];
+        var caches, cache, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    caches = self.caches;
+                    _a = caches;
+                    if (!_a) return [3 /*break*/, 2];
+                    return [4 /*yield*/, caches.open(cacheName).catch(handleError)];
                 case 1:
-                    cache = (_a.sent()) || undefined;
+                    _a = (_b.sent());
+                    _b.label = 2;
+                case 2:
+                    cache = _a || undefined;
                     return [2 /*return*/, cache];
             }
         });

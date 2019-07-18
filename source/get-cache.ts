@@ -5,7 +5,8 @@ import {
 const { vamtigerBrowserMethod: cacheName } = CacheName;
 
 export default async function () {
-    const cache = await caches.open(cacheName).catch(handleError) || undefined;
+    const { caches } = self;
+    const cache = caches && await caches.open(cacheName).catch(handleError) || undefined;
 
     return cache;
 }
