@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (function () { return describe('intersectionObserver', function () {
+exports.default = (function () { return describe.skip('intersectionObserver', function () {
     before(function () {
         var VamtigerBrowserMethod = window.VamtigerBrowserMethod;
         var intersectionObserver = VamtigerBrowserMethod.intersectionObserver;

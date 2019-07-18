@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
-exports.default = (function () { return describe('getData', function () {
+exports.default = (function () { return describe.skip('getData', function () {
     this.timeout(5000);
     before(function () {
         var documentElement = document.documentElement;

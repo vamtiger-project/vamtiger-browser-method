@@ -40,7 +40,6 @@ var chai_1 = require("chai");
 var vamtiger_copy_file_1 = require("vamtiger-copy-file");
 var vamtiger_get_directory_content_1 = require("vamtiger-get-directory-content");
 var vamtiger_create_file_1 = require("vamtiger-create-file");
-var config_1 = require("../config");
 var buildFolder = path_1.resolve(__dirname, '..');
 var testHtmlSource = path_1.resolve(__dirname, '../../source/test/html/test.html');
 var testHtmlDestination = path_1.resolve(__dirname, '../index.html');
@@ -48,9 +47,6 @@ var testTemplateSource = path_1.resolve(__dirname, '../../source/test/html/templ
 var testTemplateDestination = path_1.resolve(__dirname, '../template.html');
 var emptyScript = path_1.resolve(__dirname, 'empty-script.js');
 var emptyStylesheet = path_1.resolve(__dirname, 'empty-stylesheet.css');
-var dependencyParams = config_1.dependencyPaths
-    .map(function (dependency) { return path_1.resolve(__dirname, '../../node_modules', dependency); })
-    .map(function (source) { return ({ source: source, destination: path_1.resolve(__dirname, "../" + path_1.basename(source)) }); });
 describe('Generate', function () {
     before(function () {
         return __awaiter(this, void 0, void 0, function () {

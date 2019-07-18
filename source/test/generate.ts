@@ -35,9 +35,6 @@ const emptyStylesheet = resolvePath(
     __dirname,
     'empty-stylesheet.css'
 );
-const dependencyParams = dependencyPaths
-    .map(dependency => resolvePath(__dirname, '../../node_modules', dependency))
-    .map(source => ({source, destination: resolvePath(__dirname, `../${basename(source)}`)}));
 
 describe('Generate', function () {
     before(async function () {
@@ -51,8 +48,12 @@ describe('Generate', function () {
                 destination: testTemplateDestination
             }),
             createFile(emptyScript, `console.log('Empty Script');`),
+<<<<<<< HEAD
             createFile(emptyStylesheet, ''),
             // Promise.all(dependencyParams.map(copyFile))
+=======
+            createFile(emptyStylesheet, '')
+>>>>>>> source
         ]);
     });
 
