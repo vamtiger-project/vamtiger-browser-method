@@ -9,7 +9,7 @@ interface IData {
     jsonLd: IJsonLd[];
 }
 
-export default () => describe('getData', function () {
+export default () => describe.skip('getData', function () {
     this.timeout(5000);
     before(function () {
         const { documentElement } = document;
