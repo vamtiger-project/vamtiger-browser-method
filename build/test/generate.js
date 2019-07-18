@@ -62,7 +62,7 @@ describe('Generate', function () {
                                 destination: testTemplateDestination
                             }),
                             vamtiger_create_file_1.default(emptyScript, "console.log('Empty Script');"),
-                            vamtiger_create_file_1.default(emptyStylesheet, ''),
+                            vamtiger_create_file_1.default(emptyStylesheet, '')
                         ])];
                     case 1:
                         _a.sent();

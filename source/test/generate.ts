@@ -48,12 +48,7 @@ describe('Generate', function () {
                 destination: testTemplateDestination
             }),
             createFile(emptyScript, `console.log('Empty Script');`),
-<<<<<<< HEAD
-            createFile(emptyStylesheet, ''),
-            // Promise.all(dependencyParams.map(copyFile))
-=======
             createFile(emptyStylesheet, '')
->>>>>>> source
         ]);
     });
 
