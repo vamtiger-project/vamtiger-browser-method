@@ -12,7 +12,7 @@
     "clean": "rm -rf build/*",
     "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method)\\.js(\\.map)?|(vamtiger-browser-method|types)\\.d\\.ts\"",
     "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
-    "bundle-source-debug": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
+    "bundle-source-debug": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
     "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
     "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
     "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
