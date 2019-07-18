@@ -56,7 +56,7 @@ function loadMethodTest() {
                 case 1:
                     methodLoaded = _a.sent();
                     namedMethod = VamtigerBrowserMethod.method.test;
-                    chai_1.expect(namedMethod).to.be.true;
+                    chai_1.expect(namedMethod).to.be.ok;
                     return [2 /*return*/];
             }
         });

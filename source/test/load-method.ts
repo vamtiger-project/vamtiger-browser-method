@@ -16,5 +16,5 @@ async function loadMethodTest() {
     });
     const namedMethod = VamtigerBrowserMethod.method.test;
 
-    expect(namedMethod).to.be.true;
+    expect(namedMethod).to.be.ok;
 }
