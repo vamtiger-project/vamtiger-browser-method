@@ -1,65 +1,66 @@
 {
-  "name": "vamtiger-browser-method",
-  "version": "0.107.12",
-  "description": "Typescript browser methods",
-  "main": "build/vamtiger-browser-method",
-  "scripts": {
-    "test": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source",
-    "mocha": "mocha build/test/node",
-    "build": "tsc",
-    "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish",
-    "clean": "rm -rf build/*",
-    "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method|lodash.min)\\.js(\\.map)?|(vamtiger-browser-method|types)\\.d\\.ts\"",
-    "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js && vamtiger-export-to-browser-json --file build/lodash.min.js",
-    "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
-    "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
-    "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
-    "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
-    "serve": "npm run test && cd build && python -m SimpleHTTPServer",
-    "watch": "vamtiger-watch --folder source --extension ts --script test --extension html --script bundle-html",
-    "clean-install": "rm -rf package-lock.json node_modules && npm i",
-    "postinstall": "vamtiger-postinstall --distTag source",
-    "publish-preview": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
-  },
-  "keywords": [
-    "vamtiger",
-    "typescript",
-    "browser",
-    "method"
-  ],
-  "author": "Vamtiger Immortalles",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/vamtiger-project/vamtiger-typescript-browser-method/issues"
-  },
-  "homepage": "https://github.com/vamtiger-project/vamtiger-typescript-browser-method#readme",
-  "types": "build/vamtiger-browser-method.d.ts",
-  "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
-    "@types/node": "^10.14.7",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
-    "typescript": "^3.4.5",
-    "vamtiger-bundle-typescript": "0.0.27",
-    "vamtiger-copy-file": "0.0.9",
-    "vamtiger-create-file": "0.0.10",
-    "vamtiger-get-directory-content": "0.0.35",
-    "vamtiger-node-typescript-commit": "latest",
-    "vamtiger-remove": "0.0.5",
-    "vamtiger-watch": "^1.3.1"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.14.134",
-    "@types/requestidlecallback": "^0.1.1",
-    "lodash": "^4.17.11",
-    "tslib": "^1.9.3",
-    "vamtiger-bundle-html": "^0.2.8",
-    "vamtiger-export-to-browser-json": "0.0.5",
-    "vamtiger-postinstall": "^0.18.1"
-  }
+    "name": "vamtiger-browser-method",
+    "version": "0.107.13-0",
+    "description": "Typescript browser methods",
+    "main": "build/vamtiger-browser-method",
+    "scripts": {
+        "build": "tsc",
+        "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
+        "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
+        "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
+        "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
+        "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js && vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method-get-responsive-column-clip-paths.ts --bundleFilePath build/vamtiger-browser-method-get-responsive-column-clip-paths.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify",
+        "bundle-source-debug": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
+        "bundle-source-main": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
+        "clean": "rm -rf build/*",
+        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method((-\\w+){1,})?)\\.js(\\.map)?|(vamtiger-browser-method|types)\\.d\\.ts\"",
+        "clean-install": "rm -rf package-lock.json node_modules && npm i",
+        "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish",
+        "generate-bundle-script": "vamtiger-generate-bundle-script -s $PWD/source",
+        "mocha": "mocha build/test/node",
+        "postinstall": "vamtiger-postinstall --distTag source",
+        "publish-preview": "npm run test && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages",
+        "publish-preview-debug": "npm run test-debug && cd build && git add -A; git commit -m test -a; git push -u origin gh-pages",
+        "serve": "npm run test && cd build && python -m SimpleHTTPServer",
+        "test": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run generate-bundle-script && npm run bundle-source",
+        "test-debug": "npm run build && npm run bundle-node-test && npm run bundle-browser-test && npm run mocha && npm run bundle-source-debug",
+        "watch": "vamtiger-watch --folder source --extension ts --script test --extension html --script bundle-html"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
+    },
+    "keywords": ["vamtiger", "typescript", "browser", "method"],
+    "author": "Vamtiger Immortalles",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/vamtiger-project/vamtiger-typescript-browser-method/issues"
+    },
+    "homepage": "https://github.com/vamtiger-project/vamtiger-typescript-browser-method#readme",
+    "types": "build/vamtiger-browser-method.d.ts",
+    "devDependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/mocha": "^5.2.6",
+        "@types/node": "^10.14.7",
+        "chai": "^4.2.0",
+        "mocha": "^5.2.0",
+        "typescript": "^3.4.5",
+        "vamtiger-bundle-typescript": "0.0.27",
+        "vamtiger-copy-file": "0.0.9",
+        "vamtiger-create-file": "0.0.10",
+        "vamtiger-get-directory-content": "0.0.35",
+        "vamtiger-node-typescript-commit": "latest",
+        "vamtiger-remove": "0.0.5",
+        "vamtiger-watch": "^1.3.1"
+    },
+    "dependencies": {
+        "@types/lodash": "^4.14.134",
+        "@types/requestidlecallback": "^0.1.1",
+        "lodash": "^4.17.11",
+        "tslib": "^1.9.3",
+        "vamtiger-bundle-html": "^0.2.8",
+        "vamtiger-export-to-browser-json": "0.0.5",
+        "vamtiger-generate-bundle-script": "^0.6.1",
+        "vamtiger-postinstall": "^0.18.1"
+    }
 }
