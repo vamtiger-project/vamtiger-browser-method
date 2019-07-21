@@ -35,8 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
-    'vamtiger-browser-method-get-responsive-column-clip-paths.js' || 'vamtiger-browser-method/build/vamtiger-browser-method-get-responsive-column-clip-paths.js';
+var relativeUrl = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
 exports.default = (function () { return describe('loadMethod', function () {
     it('script', loadMethodTest);
 }); });

@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
-const relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
-    'vamtiger-browser-method-get-responsive-column-clip-paths.js' || 'vamtiger-browser-method/build/vamtiger-browser-method-get-responsive-column-clip-paths.js';
+const relativeUrl = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
 
 export default () => describe('getMethodResult', function () {
     before(setup);
