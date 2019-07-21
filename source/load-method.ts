@@ -36,14 +36,13 @@ export default async function (params: ILoadMethod) {return new Promise((resolve
 async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMethodWindow) {
     let scriptLoadError: Error | undefined = undefined;
 
-    const { origin } = location;
+    const { VamtigerBrowserMethod, _ } = self;
+    const { get } = _;
+    const { worker, workerSupport, origin } = VamtigerBrowserMethod;
     const src = [
         origin,
         relativeUrl
     ].join(slash);
-    const { VamtigerBrowserMethod, _ } = self;
-    const { worker, workerSupport } = VamtigerBrowserMethod;
-    const { get } = _;
     const script = await loadScript({src}).catch(error => scriptLoadError = error);
     const method: Function | undefined = get(VamtigerBrowserMethod.method, name);
     const message = workerSupport && workerSupport.cache && worker && typeof method === 'function' && {
@@ -62,8 +61,6 @@ async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMetho
 
     if (scriptLoadError) {
         reject(scriptLoadError);
-    } else if (!method) {
-        reject(new Error(`${ErrorMessage.scriptLoadedButMethodNameNotFound} - ${name}`));
     } else if (queueParams && message) {
         queue(queueParams);
 

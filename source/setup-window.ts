@@ -34,8 +34,15 @@ function setEventListeser() {
 async function setupWindow() {
     const { serviceWorker } = navigator;
     const { head } = document;
+    const { origin: defaultOrigin } = location;
     const vamtigerBrowserMethodScript = head.querySelector<HTMLScriptElement>(Selector.vamtigerBrowserMethodJsonJs);
-    const origin = vamtigerBrowserMethodScript && vamtigerBrowserMethodScript.src && new URL(vamtigerBrowserMethodScript.src).origin || undefined;
+    const originPaths = vamtigerBrowserMethodScript && vamtigerBrowserMethodScript
+        .src
+        .split(StringConstant.slash);
+    const origin = originPaths && originPaths
+        .slice(0, originPaths.length - 1)
+        .join(StringConstant.slash)
+        || defaultOrigin;
     const firstMetaElement = head.querySelector('meta');
     const { VamtigerBrowserMethod } = self;
     const { metaElement = document.createElement('meta') } = VamtigerBrowserMethod;

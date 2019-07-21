@@ -37,10 +37,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
-    'test/test-method.js' || 'vamtiger-browser-method/build/test/test-method.js';
+    'vamtiger-browser-method-get-responsive-column-clip-paths.js' || 'vamtiger-browser-method/build/vamtiger-browser-method-get-responsive-column-clip-paths.js';
 exports.default = (function () { return describe('getMethodResult', function () {
     before(setup);
-    it('get result', noParamsTest);
+    it('named method', noParamsTest);
 }); });
 function setup() {
     return __awaiter(this, void 0, void 0, function () {
@@ -63,22 +63,20 @@ function setup() {
 }
 function noParamsTest() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, namedMethod, result, _a;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var VamtigerBrowserMethod, namedMethod, clipPaths;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
-                    namedMethod = VamtigerBrowserMethod.method.test;
-                    _a = namedMethod;
-                    if (!_a) return [3 /*break*/, 2];
-                    return [4 /*yield*/, namedMethod({ param3: 3, param4: 4 })];
+                    namedMethod = VamtigerBrowserMethod.method.getResponsiveColumnClipPaths;
+                    return [4 /*yield*/, namedMethod({
+                            columns: 3,
+                            offset: 2
+                        })];
                 case 1:
-                    _a = (_b.sent());
-                    _b.label = 2;
-                case 2:
-                    result = _a;
-                    console.log(result);
-                    chai_1.expect(result).to.be.ok;
+                    clipPaths = _a.sent();
+                    chai_1.expect(clipPaths).to.be.ok;
+                    chai_1.expect(clipPaths.length).to.equal(3);
                     return [2 /*return*/];
             }
         });

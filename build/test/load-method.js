@@ -35,15 +35,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var chai_1 = require("chai");
 var relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
-    'test/test-method.js' || 'vamtiger-browser-method/build/test/test-method.js';
+    'vamtiger-browser-method-get-responsive-column-clip-paths.js' || 'vamtiger-browser-method/build/vamtiger-browser-method-get-responsive-column-clip-paths.js';
 exports.default = (function () { return describe('loadMethod', function () {
     it('script', loadMethodTest);
 }); });
 function loadMethodTest() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, loadMethod, methodLoaded, namedMethod;
+        var VamtigerBrowserMethod, loadMethod, methodLoaded;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -55,8 +54,6 @@ function loadMethodTest() {
                         })];
                 case 1:
                     methodLoaded = _a.sent();
-                    namedMethod = VamtigerBrowserMethod.method.test;
-                    chai_1.expect(namedMethod).to.be.ok;
                     return [2 /*return*/];
             }
         });

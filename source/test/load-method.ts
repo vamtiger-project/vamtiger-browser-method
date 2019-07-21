@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
 const relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
-    'test/test-method.js' || 'vamtiger-browser-method/build/test/test-method.js';
+    'vamtiger-browser-method-get-responsive-column-clip-paths.js' || 'vamtiger-browser-method/build/vamtiger-browser-method-get-responsive-column-clip-paths.js';
 
-export default () => describe('loadMethod', function () {
+    export default () => describe('loadMethod', function () {
     it('script', loadMethodTest);
 });
 
@@ -14,7 +14,4 @@ async function loadMethodTest() {
         relativeUrl,
         name: 'test'
     });
-    const namedMethod = VamtigerBrowserMethod.method.test;
-
-    expect(namedMethod).to.be.ok;
 }

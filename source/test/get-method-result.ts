@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
 const relativeUrl = location.origin.match(new RegExp('http://localhost', 'i')) &&
-    'test/test-method.js' || 'vamtiger-browser-method/build/test/test-method.js';
+    'vamtiger-browser-method-get-responsive-column-clip-paths.js' || 'vamtiger-browser-method/build/vamtiger-browser-method-get-responsive-column-clip-paths.js';
 
 export default () => describe('getMethodResult', function () {
     before(setup);
 
-    it('get result', noParamsTest);
+    it('named method', noParamsTest);
 });
 
 async function setup() {
@@ -21,10 +21,12 @@ async function setup() {
 
 async function noParamsTest() {
     const { VamtigerBrowserMethod } = self;
-    const namedMethod = VamtigerBrowserMethod.method.test;
-    const result = namedMethod && await namedMethod({param3: 3, param4: 4});
+    const namedMethod = VamtigerBrowserMethod.method.getResponsiveColumnClipPaths;
+    const clipPaths = await namedMethod({
+        columns: 3,
+        offset: 2
+    })
 
-    console.log(result);
-
-    expect(result).to.be.ok;
+    expect(clipPaths).to.be.ok;
+    expect(clipPaths.length).to.equal(3);
 }

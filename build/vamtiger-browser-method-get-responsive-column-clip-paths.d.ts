@@ -1,4 +1,4 @@
-interface IGetResponsiveColumnClipPaths {
+export interface IGetResponsiveColumnClipPaths {
     columns: number;
     offset: number;
 }
@@ -10,5 +10,5 @@ export default function getResponsiveColumnClipPaths({ columns, offset }: IGetRe
     bottomRightX: number;
     bottomRightY: number;
     bottomLeftX: number;
+    bottomLeftY: number;
 }[];
-export {};

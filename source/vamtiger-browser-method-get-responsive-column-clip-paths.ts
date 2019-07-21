@@ -1,4 +1,4 @@
-interface IGetResponsiveColumnClipPaths {
+export interface IGetResponsiveColumnClipPaths {
     columns: number;
     offset: number;
 }
@@ -23,6 +23,7 @@ export default function getResponsiveColumnClipPaths({columns, offset}: IGetResp
     const containerHeight = containerWidth;
     const columnWidth = containerWidth/columns;
     const clipPaths = new Array(columns)
+        .fill(undefined)
         .map((entry, index) => getClipPath({index, containerWidth, containerHeight, columnWidth, columns, offset}));
 
     return clipPaths;
@@ -35,14 +36,15 @@ function getClipPath({index, containerWidth, containerHeight, columnWidth, colum
         topLeftX: firstColumn ? index
             : (columnWidth * index) + offset,
         topLeftY: 0,
-        topRightX: firstColumn ? columnWidth
+        topRightX: firstColumn ? columnWidth + offset
             : lastColumn && containerWidth || (columnWidth * (index + 1)) + offset,
         topRightY: 0,
         bottomRightX: firstColumn ? columnWidth - offset
             : lastColumn && containerWidth || (columnWidth * (index + 1)) - offset,
         bottomRightY: containerHeight,
         bottomLeftX: firstColumn ? 0
-            :  (columnWidth * index) - offset
+            :  (columnWidth * index) - offset,
+        bottomLeftY: containerHeight
     };
 
     return clipPath;

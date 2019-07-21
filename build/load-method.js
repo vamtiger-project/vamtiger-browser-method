@@ -82,19 +82,18 @@ exports.default = default_1;
 function loadMethodWindow(_a) {
     var relativeUrl = _a.relativeUrl, name = _a.name, resolve = _a.resolve, reject = _a.reject;
     return __awaiter(this, void 0, void 0, function () {
-        var scriptLoadError, origin, src, VamtigerBrowserMethod, _, worker, workerSupport, get, script, method, message, queueParams;
+        var scriptLoadError, VamtigerBrowserMethod, _, get, worker, workerSupport, origin, src, script, method, message, queueParams;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     scriptLoadError = undefined;
-                    origin = location.origin;
+                    VamtigerBrowserMethod = self.VamtigerBrowserMethod, _ = self._;
+                    get = _.get;
+                    worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport, origin = VamtigerBrowserMethod.origin;
                     src = [
                         origin,
                         relativeUrl
                     ].join(slash);
-                    VamtigerBrowserMethod = self.VamtigerBrowserMethod, _ = self._;
-                    worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport;
-                    get = _.get;
                     return [4 /*yield*/, load_script_1.default({ src: src }).catch(function (error) { return scriptLoadError = error; })];
                 case 1:
                     script = _b.sent();
@@ -113,9 +112,6 @@ function loadMethodWindow(_a) {
                     }
                     if (scriptLoadError) {
                         reject(scriptLoadError);
-                    }
-                    else if (!method) {
-                        reject(new Error(types_1.ErrorMessage.scriptLoadedButMethodNameNotFound + " - " + name));
                     }
                     else if (queueParams && message) {
                         queue_1.default(queueParams);
