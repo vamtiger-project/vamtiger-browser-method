@@ -103,6 +103,7 @@ export declare enum Selector {
     webcomponentsjs = "script[src*=\"@webcomponents/webcomponentsjs\"]",
     style = "style",
     stylesheet = " link[rel=\"stylesheet\"]",
+    vamtigerBrowserMethodJs = "[src=\"vamtiger-browser-method.js\"]",
     vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
     worker = "[src$=\"js.json.js\"][data-worker]",
     workderDependency = "script[data-worker-dependency]",
@@ -511,6 +512,7 @@ export declare type LoadedScripts<P extends LoadScriptsParams> = P extends ILoad
 export declare type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> = P extends ILoadScriptParams[][] ? HTMLScriptElement[] : P extends ILoadStylesheetScriptParams[][] ? HTMLStyleElement[] : P extends ILoadRemoteScriptParams[][] ? HTMLScriptElement[] : P extends ILoadRemoteStylesheetScriptParams[][] ? HTMLLinkElement[] : never;
 export declare type GetElementParams = IGetElementTemplate | IGetElementUrl;
 export declare type VamtigerBrowserMethod = {
+    origin?: string;
     metaElement?: HTMLMetaElement;
     loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
     loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;

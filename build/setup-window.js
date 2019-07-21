@@ -60,12 +60,14 @@ function setEventListeser() {
 }
 function setupWindow() {
     return __awaiter(this, void 0, void 0, function () {
-        var serviceWorker, head, firstMetaElement, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, serviceWorkerRegistration, messageChannel, port1, _b;
+        var serviceWorker, head, vamtigerBrowserMethodScript, origin, firstMetaElement, VamtigerBrowserMethod, _a, metaElement, customeElementMetaElement, textMode, serviceWorkerRegistration, messageChannel, port1, _b;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     serviceWorker = navigator.serviceWorker;
                     head = document.head;
+                    vamtigerBrowserMethodScript = head.querySelector(types_1.Selector.vamtigerBrowserMethodJsonJs);
+                    origin = vamtigerBrowserMethodScript && vamtigerBrowserMethodScript.src && new URL(vamtigerBrowserMethodScript.src).origin || undefined;
                     firstMetaElement = head.querySelector('meta');
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     _a = VamtigerBrowserMethod.metaElement, metaElement = _a === void 0 ? document.createElement('meta') : _a;
@@ -80,6 +82,7 @@ function setupWindow() {
                     metaElement.id = types_1.ElementId.metaElement;
                     metaElement.innerHTML = metaElementHtml;
                     head.insertBefore(metaElement, firstMetaElement);
+                    VamtigerBrowserMethod.origin = origin;
                     VamtigerBrowserMethod.metaElement = metaElement;
                     _b = VamtigerBrowserMethod;
                     return [4 /*yield*/, get_worker_1.default()];

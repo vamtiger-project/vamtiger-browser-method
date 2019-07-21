@@ -122,6 +122,7 @@ export enum Selector {
     webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]',
     style = 'style',
     stylesheet = ' link[rel="stylesheet"]',
+    vamtigerBrowserMethodJs = '[src="vamtiger-browser-method.js"]',
     vamtigerBrowserMethodJsonJs = '[src$="vamtiger-browser-method.js.json.js"]',
     worker = '[src$="js.json.js"][data-worker]',
     workderDependency = 'script[data-worker-dependency]',
@@ -649,6 +650,7 @@ export type LoadedScriptsSequentially<P extends LoadScriptsSequentiallyParams> =
 export type GetElementParams = IGetElementTemplate | IGetElementUrl;
 
 export type VamtigerBrowserMethod = {
+    origin?: string;
     metaElement?: HTMLMetaElement;
     loadScript: <P extends LocalScriptParams | LocalStylesheetScriptParams | ILoadRemoteScriptParams | ILoadRemoteStylesheetScriptParams>(params: P) => Promise<LoadedScript<P>>;
     loadScripts: <P extends LoadScriptParams[]>(params: P) => Promise<LoadedScripts<P>>;

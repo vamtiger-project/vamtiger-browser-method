@@ -2,7 +2,7 @@ import {
     ElementId,
     DataAttribute,
     StringConstant,
-    MessageAction
+    Selector
 } from './types';
 import getWorker from './get-worker';
 import isWindow from './is-window';
@@ -34,6 +34,8 @@ function setEventListeser() {
 async function setupWindow() {
     const { serviceWorker } = navigator;
     const { head } = document;
+    const vamtigerBrowserMethodScript = head.querySelector<HTMLScriptElement>(Selector.vamtigerBrowserMethodJsonJs);
+    const origin = vamtigerBrowserMethodScript && vamtigerBrowserMethodScript.src && new URL(vamtigerBrowserMethodScript.src).origin || undefined;
     const firstMetaElement = head.querySelector('meta');
     const { VamtigerBrowserMethod } = self;
     const { metaElement = document.createElement('meta') } = VamtigerBrowserMethod;
@@ -50,6 +52,8 @@ async function setupWindow() {
     metaElement.innerHTML = metaElementHtml;
 
     head.insertBefore(metaElement, firstMetaElement);
+
+    VamtigerBrowserMethod.origin = origin;
 
     VamtigerBrowserMethod.metaElement = metaElement;
 
