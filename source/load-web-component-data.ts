@@ -23,7 +23,8 @@ export default async function (params: ILoadData) {
 }
 
 async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
-    const { VamtigerBrowserMethod } = self;
+    const { VamtigerBrowserMethod, _ } = self;
+    const { has, get, set } = _;
     const { worker } = VamtigerBrowserMethod;
     const { head } = document;
     const jsonLdSelector = `script[type="application/ld+json"][data-json-ld="${url}"]`;
@@ -42,8 +43,8 @@ async function loadWebComponentData({ url, loadJsonJsonLd }: ILoadData) {
 
     if (jsonJsonLdData) {
         jsonJsonLdData.forEach(currentJsonJsonLdData => currentJsonJsonLdData.forEach(({index, key, jsonLd: data}) => {
-            if (jsonLd && Array.isArray(jsonLd) && jsonLd[index] && key && jsonLd[index][key] === true && data) {
-                jsonLd[index][key] = data;
+            if (jsonLd && Array.isArray(jsonLd) && has(jsonLd, index) && key && get(jsonLd, index)[key] === true && data) {
+                set(jsonLd, `${index}.${[key]}`, data);
             }
         }));
 
