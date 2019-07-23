@@ -71,11 +71,12 @@ exports.default = default_1;
 function loadWebComponentData(_a) {
     var url = _a.url, loadJsonJsonLd = _a.loadJsonJsonLd;
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, worker, head, jsonLdSelector, _b, jsonLd, json, jsonJsonLdData, _c, params, jsonLdScript, removeScriptParams;
+        var VamtigerBrowserMethod, _, has, get, set, worker, head, jsonLdSelector, _b, jsonLd, json, jsonJsonLdData, _c, params, jsonLdScript, removeScriptParams;
         return __generator(this, function (_d) {
             switch (_d.label) {
                 case 0:
-                    VamtigerBrowserMethod = self.VamtigerBrowserMethod;
+                    VamtigerBrowserMethod = self.VamtigerBrowserMethod, _ = self._;
+                    has = _.has, get = _.get, set = _.set;
                     worker = VamtigerBrowserMethod.worker;
                     head = document.head;
                     jsonLdSelector = "script[type=\"application/ld+json\"][data-json-ld=\"" + url + "\"]";
@@ -103,8 +104,8 @@ function loadWebComponentData(_a) {
                     if (!jsonJsonLdData) return [3 /*break*/, 6];
                     jsonJsonLdData.forEach(function (currentJsonJsonLdData) { return currentJsonJsonLdData.forEach(function (_a) {
                         var index = _a.index, key = _a.key, data = _a.jsonLd;
-                        if (jsonLd && Array.isArray(jsonLd) && jsonLd[index] && key && jsonLd[index][key] === true && data) {
-                            jsonLd[index][key] = data;
+                        if (jsonLd && Array.isArray(jsonLd) && has(jsonLd, index) && key && get(jsonLd, index)[key] === true && data) {
+                            set(jsonLd, index + "." + [key], data);
                         }
                     }); });
                     if (!(jsonLdScript && jsonLd)) return [3 /*break*/, 6];
