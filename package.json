@@ -1,6 +1,6 @@
 {
     "name": "vamtiger-browser-method",
-    "version": "0.107.15-0",
+    "version": "0.107.15",
     "description": "Typescript browser methods",
     "main": "build/vamtiger-browser-method",
     "scripts": {
@@ -30,7 +30,12 @@
         "type": "git",
         "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
     },
-    "keywords": ["vamtiger", "typescript", "browser", "method"],
+    "keywords": [
+        "vamtiger",
+        "typescript",
+        "browser",
+        "method"
+    ],
     "author": "Vamtiger Immortalles",
     "license": "MIT",
     "bugs": {
