@@ -27,7 +27,7 @@ async function jsojsonLdDatanTest() {
     const { VamtigerBrowserMethod } = window;
     const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
-        json: 'http://127.0.0.1:8000/test/json-data/json-ld.js'
+        json: 'test/json-data/json-ld.js'
     });
 
     expect(data).to.be.ok;

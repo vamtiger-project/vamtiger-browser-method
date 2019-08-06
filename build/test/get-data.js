@@ -55,7 +55,7 @@ function jsojsonLdDatanTest() {
                     VamtigerBrowserMethod = window.VamtigerBrowserMethod;
                     getData = VamtigerBrowserMethod.getData;
                     return [4 /*yield*/, getData({
-                            json: 'http://127.0.0.1:8000/test/json-data/json-ld.js'
+                            json: 'test/json-data/json-ld.js'
                         })];
                 case 1:
                     data = _a.sent();
