@@ -26,8 +26,10 @@ export default function (params: IGetMethodResult) {return new Promise((resolve,
 })}
 
 async function getMethodResultWindow({messageId = getMessageId(), name, params, resolve, reject}: IGetMethodResultWindow) {
+    const { messageQueue } = VamtigerBrowserMethod;
     const queueParams = {
         key: messageId,
+        queue: messageQueue,
         resolve,
         reject
     };

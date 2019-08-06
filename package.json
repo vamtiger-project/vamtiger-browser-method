@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc",
         "bundle": "npm test && npm run build && npm run bundle-source && npm run clean-bundle",
-        "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify",
+        "bundle-browser-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/browser.ts --bundleFilePath build/test/browser.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-bundle-typescript --relativePath --entryFilePath source/test/json-data/json-ld-thing.ts --bundleFilePath build/test/json-data/json-ld-thing.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-bundle-typescript --relativePath --entryFilePath source/test/json-data/json-ld.ts --bundleFilePath build/test/json-data/json-ld.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-bundle-typescript --relativePath --entryFilePath source/test/json-data/json.ts --bundleFilePath build/test/json-data/json.js --format iife --sourcemap true --copySourceMap --minify",
         "bundle-html": "vamtiger-bundle-html --relativePath --entryFilePath source/html/index.html --bundleFilePath --bundleFilePath source/html/index.ts --bundleFilePath source/html/index.ts --ignore source/test/.*.html$",
         "bundle-node-test": "vamtiger-bundle-typescript --relativePath --entryFilePath source/test/node.ts --bundleFilePath build/test/node.js --format cjs --sourcemap true --copySourceMap --minify",
         "bundle-source": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js && vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method-get-responsive-column-clip-paths.ts --bundleFilePath build/vamtiger-browser-method-get-responsive-column-clip-paths.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify",
@@ -30,12 +30,7 @@
         "type": "git",
         "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
     },
-    "keywords": [
-        "vamtiger",
-        "typescript",
-        "browser",
-        "method"
-    ],
+    "keywords": ["vamtiger", "typescript", "browser", "method"],
     "author": "Vamtiger Immortalles",
     "license": "MIT",
     "bugs": {
@@ -49,12 +44,12 @@
         "@types/node": "^10.14.7",
         "chai": "^4.2.0",
         "mocha": "^5.2.0",
-        "typescript": "^3.4.5",
+        "typescript": "^3.5.3",
         "vamtiger-bundle-typescript": "0.0.27",
         "vamtiger-copy-file": "0.0.9",
         "vamtiger-create-file": "0.0.10",
         "vamtiger-get-directory-content": "0.0.35",
-        "vamtiger-node-typescript-commit": "latest",
+        "vamtiger-node-typescript-commit": "^0.9.1",
         "vamtiger-remove": "0.0.5",
         "vamtiger-watch": "^1.3.1"
     },

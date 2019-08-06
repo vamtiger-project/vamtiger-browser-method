@@ -1,6 +1,8 @@
-import * as tslib from 'tslib/tslib';
+import * as tslib from '../node_modules/tslib/tslib';
 import { requestIdleCallback } from 'requestidlecallback';
 import * as lodash from 'lodash';
+
+tslib;
 
 export enum Environment {
     window = 'window',
@@ -184,6 +186,14 @@ export enum MessageAction {
     removeDependencyUrl = 'removeDependencyUrl'
 }
 
+export enum CustomEventName {
+    vamtigerBrowserMethod = 'vamtiger-browser-method'
+}
+
+export enum HandleJsonLdAction {
+    dequeue = 'vamtiger-browser-method-dequeue'
+}
+
 export enum DbName {
     vamtigerBrowserSupport = 'vamtiger-browser-support'
 }
@@ -214,6 +224,7 @@ export enum Dependency {
 export interface IDequeue {
     key: string;
     data: IAnyObject;
+    queue: Map<string, Set<IQueueEntry>>;
 }
 
 export interface IGetDbParams {
@@ -256,13 +267,14 @@ export interface ILoadLocalScriptParams {
 export interface ILoadScriptParams {
     js: string;
     jsonld?: boolean;
+    jsonLd?: boolean;
 }
 
 export interface ISaveCustomeElementName {
     name: string;
 }
 
-export interface ILoadJsonScriptParams {
+export interface ILoadJsonScriptParams extends ILoadLocalScriptParams {
     json: string;
 }
 
@@ -403,8 +415,42 @@ export interface ILoadContainerStylesheets {
 }
 
 export interface IGetData {
-    jsonLd: string;
+    json?: string;
+    jsonLd?: string;
     textMode?: boolean;
+    dependency?: boolean;
+}
+
+export interface IGetJson {
+    json: string;
+    dependency?: boolean;
+}
+
+export interface IGetJsonFromUrl {
+    json: string;
+    resolve: (json?: IJsonDataFromUrl) => void;
+    reject: (error: Error) => void
+}
+
+export interface IGetJsonData {
+    url: string;
+    json?: IJsonDataFromUrl;
+    dependency?: boolean;
+}
+
+export interface IGetJsonDataWindow extends IGetJsonData {
+    resolve: (data: IJsonDataFromUrl) => void;
+    reject: (error: Error) => void;
+}
+
+export interface IJsonDataFromUrl {
+    jsonLd: IAnyObject;
+    json: IAnyObject;
+}
+
+export interface IGetJsonDataWindow extends IGetJsonData {
+    resolve: (json: IJsonDataFromUrl) => void;
+    reject: (error: Error) => void
 }
 
 export interface IGetDataResolve extends IGetData {
@@ -491,6 +537,17 @@ export interface ISaveSupport extends ISupport {
 
 export interface ISaveWebComponentData extends IWebComponentData {}
 
+export interface ISaveJsonLd {
+    url: string;
+    data: IJsonDataFromUrl;
+    dependency?: boolean;
+}
+
+export interface ISaveJsonLdWindow extends ISaveJsonLd {
+    resolve: () => void;
+    reject: (error: Error) => void;
+}
+
 export interface IGetWebComponentData {
     key: string;
 }
@@ -525,24 +582,26 @@ export interface IWebComponentData {
     url: string;
     created?: number;
     messageId?: string;
-    jsonLd: IAnyObject[];
+    jsonLd: IAnyObject | IAnyObject[];
     json: IAnyObject;
 }
 
 export interface ISaveWebComponentDataWorker extends ISaveWebComponentData {}
 
-export interface IMessageQueueEntry {
+export interface IQueueEntry {
     resolve: (result: any) => void;
     reject: (reason: Error) => void;
 }
 
-export interface IQueue extends NonNullable<Pick<IMessageQueueEntry, 'resolve' | 'reject'>> {
+export interface IQueue extends NonNullable<Pick<IQueueEntry, 'resolve' | 'reject'>> {
     key: string;
+    queue: Map<string, Set<IQueueEntry>>;
 }
 
 export interface IQueueHandleExpiredQueueEntry {
     key: string;
-    queueEntry: IMessageQueueEntry;
+    queue: IQueue['queue'];
+    queueEntry: IQueueEntry;
 }
 
 export interface ILoadData {
@@ -595,6 +654,15 @@ export interface ISetDependencyUrl {
 
 export interface ISetDependencyUrlWindow {
     js: string;
+}
+
+export interface IHandleJsonLd extends CustomEvent {
+    detail: IHandleJsonLdDetail;
+}
+
+export interface IHandleJsonLdDetail {
+    action: HandleJsonLdAction;
+    params: IJsonDataFromUrl;
 }
 
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
@@ -660,11 +728,12 @@ export type VamtigerBrowserMethod = {
     defineCustomElement: ({ name, constructor, ignore }: IDefineCustomElement) => void;
     pause: ({ milliseconds }: IPause) => Promise<unknown>;
     getElement: <P extends GetElementParams>(params: P) => Promise<HTMLElement>;
-    getData: ({ jsonLd }: IGetData) => Promise<IJsonData>;
+    getData: <P extends IGetData>(params: P) => Promise<GetDataResult<P>>;
     getEnvironment: () => Environment;
     environment: Environment;
-    getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined
-    messageQueue: Map<string, Set<IMessageQueueEntry>>;
+    getMicrodataCaption: (params: IGetMicrodataCaption) => HTMLElement | null | undefined;
+    queue: Map<string, Set<IQueueEntry>>;
+    messageQueue: Map<string, Set<IQueueEntry>>;
     worker?: Worker;
     serviceWorker?: ServiceWorker;
     serviceWorkerRegistration?: ServiceWorkerRegistration;
@@ -705,6 +774,14 @@ export interface IUpdateRequestCache {
     request: Request;
 }
 
+export type JsonLdActionParams<A extends HandleJsonLdAction> =
+    A extends HandleJsonLdAction.dequeue ? IDequeue :
+    unknown;
+
+export type JsonLdActionMethod<A extends HandleJsonLdAction> =
+    A extends HandleJsonLdAction.dequeue ? (params: IDequeue) => void :
+    unknown;
+
 export type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
 
 export type JsonDataResolve = (data: IJsonData) => void;
@@ -718,6 +795,11 @@ export type GetIndexedDbData<P extends IGetIndexedDbData> =
     P['keyPath'] extends DbKeyPath.support ? ISaveSupport :
     P['keyPath'] extends DbKeyPath.customElementName ? ICustomElementName[] :
     never;
+
+export type GetDataResult<P extends IGetData> =
+    P['json'] extends string ? IJsonDataFromUrl :
+    P['jsonLd'] extends string ? IJsonData :
+    unknown;
 
 export type DbKeyPathName = keyof typeof DbKeyPath;
 

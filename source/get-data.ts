@@ -1,26 +1,30 @@
 import {
     IGetData,
     ErrorMessage,
-    IJsonData
+    GetDataResult
 } from './types';
 import getJsonLd from './get-json-ld';
-import viewJsonLd from './view-json-ld';
+import getJson from './get-json';
 
 const { noJsonLdParameter } = ErrorMessage;
 
-export default function(params: IGetData) { return new Promise(async (resolve: (data: IJsonData) => void, reject) => {
+export default function <P extends IGetData>(params: P) { return new Promise(async (resolve: (data: GetDataResult<P>) => void, reject) => {
     const { requestIdleCallback } = self;
-    const { textMode, jsonLd } = params;
+    const { textMode, jsonLd, json, dependency = false } = params;
+    const jsonLdParams = jsonLd && { jsonLd };
+    const jsonParams = json && { json, textMode, dependency};
 
-    if (jsonLd) {
-        if (textMode) {
-            await viewJsonLd(params);
-        }
-
+    if (jsonParams) {
         if (requestIdleCallback) {
-            requestIdleCallback(() => getJsonLd(params).then(resolve).catch(reject));
+            requestIdleCallback(() => getJson(jsonParams).then((data) => resolve(data as GetDataResult<P>)).catch(reject));
         } else {
-            setTimeout(() => getJsonLd(params).then(resolve).catch(reject), 0);
+            setTimeout(() => getJson(jsonParams).then((data) => resolve(data as GetDataResult<P>)).catch(reject), 0);
+        }
+    } else if (jsonLdParams) {
+        if (requestIdleCallback) {
+            requestIdleCallback(() => getJsonLd(jsonLdParams).then((data) => resolve(data as GetDataResult<P>)).catch(reject));
+        } else {
+            setTimeout(() => getJsonLd(jsonLdParams).then((data) => resolve(data as GetDataResult<P>)).catch(reject), 0);
         }
     } else {
         reject(new Error(noJsonLdParameter));

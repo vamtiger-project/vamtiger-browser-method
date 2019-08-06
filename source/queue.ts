@@ -1,39 +1,35 @@
 import {
     IQueue,
-    IMessageQueueEntry,
+    IQueueEntry,
     IQueueHandleExpiredQueueEntry,
     TimeoutDuration
 } from './types';
 
 const { webComponent: timeout } = TimeoutDuration;
 
-export default function ({key, resolve, reject }: IQueue) {
-    const { VamtigerBrowserMethod } = self;
+export default function ({key, resolve, reject, queue: currentQueue }: IQueue) {
     const queueEntry = {
         resolve,
         reject
     };
-    const { messageQueue } = VamtigerBrowserMethod;
 
-    let queue: Set<IMessageQueueEntry> | undefined;
+    let queue: Set<IQueueEntry> | undefined;
 
-    !messageQueue.has(key) && messageQueue.set(key, new Set());
+    !currentQueue.has(key) && currentQueue.set(key, new Set());
 
-    queue = messageQueue.get(key);
+    queue = currentQueue.get(key);
 
     queue && queue.add(queueEntry);
 
-    setTimeout(() => handleExpiredQueueEntry({ key, queueEntry }), timeout)
+    setTimeout(() => handleExpiredQueueEntry({ key, queueEntry, queue: currentQueue }), timeout)
 }
 
-function handleExpiredQueueEntry({ key, queueEntry }: IQueueHandleExpiredQueueEntry) {
-    const { VamtigerBrowserMethod } = self;
-    const { messageQueue } = VamtigerBrowserMethod;
-    const queue = messageQueue.get(key);
+function handleExpiredQueueEntry({ key, queueEntry, queue: currentQueue }: IQueueHandleExpiredQueueEntry) {
+    const queue = currentQueue.get(key);
 
     if (queue) {
         queue.has(queueEntry) && queue.delete(queueEntry);
 
-        !queue.size && messageQueue.delete(key);
+        !queue.size && currentQueue.delete(key);
     }
 }

@@ -1,8 +1,10 @@
 import {
+    IHandleJsonLd,
     ElementId,
     DataAttribute,
     StringConstant,
-    Selector
+    Selector,
+    CustomEventName
 } from './types';
 import getWorker from './get-worker';
 import isWindow from './is-window';
@@ -10,12 +12,13 @@ import isTextMode from './is-text-mode';
 import getIntersectionObserver from './get-intersection-observer';
 import getServiceWorkerRegistration from './get-service-worker-registration';
 import handleMessage from './handle-message';
+import handleJsonLd from './handle-json-ld';
 
 const { nothing } = StringConstant;
 const metaElementHtml = [
     '<meta data-custom-element-name>',
     '<meta data-dependency>'
-].join(nothing)
+].join(nothing);
 
 export default function () {
     if (isWindow()) {
@@ -75,6 +78,8 @@ async function setupWindow() {
     VamtigerBrowserMethod.serviceWorker = serviceWorker && serviceWorker.controller || undefined;
 
     VamtigerBrowserMethod.messageChannel = messageChannel;
+
+    addEventListener(CustomEventName.vamtigerBrowserMethod, event => handleJsonLd(event as IHandleJsonLd));
 
     port1.addEventListener('message', handleMessage);
 }

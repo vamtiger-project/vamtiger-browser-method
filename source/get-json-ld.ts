@@ -8,8 +8,10 @@ import loadWebComponentData from './load-web-component-data';
 import getWebComponentData from './get-web-component-data';
 
 export default function ({ jsonLd: url, loadJsonJsonLd = true }: IGetJsonLd) {return new Promise(async (resolve: WebComponentDataResolve, reject: ErrorResolve) => {
+    const { messageQueue } = VamtigerBrowserMethod;
     const queueParams = {
         key: url,
+        queue: messageQueue,
         resolve,
         reject
     };

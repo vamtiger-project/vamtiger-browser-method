@@ -9,7 +9,7 @@ interface IData {
     jsonLd: IJsonLd[];
 }
 
-export default () => describe.skip('getData', function () {
+export default () => describe('getData', function () {
     this.timeout(5000);
     before(function () {
         const { documentElement } = document;
@@ -18,8 +18,23 @@ export default () => describe.skip('getData', function () {
         dataset.vamtigerTextMode = '';
     });
 
-    it('json-ld', jsonLdTest);
+    it.skip('json-ld', jsonLdTest);
+
+    it('json-ld-data', jsojsonLdDatanTest);
 });
+
+async function jsojsonLdDatanTest() {
+    const { VamtigerBrowserMethod } = window;
+    const { getData  } = VamtigerBrowserMethod;
+    const data = await getData({
+        json: 'http://127.0.0.1:8000/test/json-data/json-ld.js'
+    });
+
+    expect(data).to.be.ok;
+    expect(data.jsonLd).to.be.ok;
+    expect(data.jsonLd['@context']).to.be.ok;
+    expect(data.json).to.be.ok;
+}
 
 async function jsonLdTest() {
     const { VamtigerBrowserMethod } = window;

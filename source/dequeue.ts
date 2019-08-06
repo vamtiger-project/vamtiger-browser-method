@@ -2,10 +2,10 @@ import {
     IDequeue
 } from './types';
 
-export default function ({ key, data }: IDequeue) {
+export default function ({ key, data, queue: currentQueue }: IDequeue) {
     const { VamtigerBrowserMethod } = self;
     const { messageQueue } = VamtigerBrowserMethod;
-    const queue = messageQueue.get(key) || new Set();
+    const queue = (currentQueue || messageQueue).get(key) || new Set();
 
     Array.from(queue).forEach((queueEntry) => {
         queueEntry.resolve(data);

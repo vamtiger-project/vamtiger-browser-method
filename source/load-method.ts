@@ -38,7 +38,7 @@ async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMetho
 
     const { VamtigerBrowserMethod, _ } = self;
     const { get } = _;
-    const { worker, workerSupport, origin } = VamtigerBrowserMethod;
+    const { worker, workerSupport, origin, messageQueue } = VamtigerBrowserMethod;
     const src = [
         origin,
         relativeUrl
@@ -51,6 +51,7 @@ async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMetho
     };
     const queueParams = message && {
         key: src,
+        queue: messageQueue,
         resolve,
         reject
     };

@@ -46,7 +46,7 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
     const { href } = params as ILoadRemoteStylesheetScriptParams;
     const { json } = params as ILoadJsonScriptParams;
     const remoteScript = params.hasOwnProperty('src') || params.hasOwnProperty('href');
-    const element = (js || json|| src) && scriptElement
+    const element = (js || json || src) && scriptElement
         || css && style
         || href && link;
     const selector = src && `script[src="${src}"]`
@@ -92,10 +92,12 @@ function loadScript<P extends ILoadScript['params']>(params: P) {return new Prom
     if (existingScript) {
         resolve(existingScript);
     } else if (script) {
-        script.addEventListener('load', handleLoad);
-        script.addEventListener('error', handleLoadError);
-
         head.appendChild(script);
+
+        if (remoteScript) {
+            script.addEventListener('load', handleLoad);
+            script.addEventListener('error', handleLoadError);
+        }
 
         if (workerDependency) {
             script.dataset.workerDependency = nothing;
