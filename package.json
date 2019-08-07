@@ -1,6 +1,6 @@
 {
     "name": "vamtiger-browser-method",
-    "version": "0.107.15",
+    "version": "0.107.16-0",
     "description": "Typescript browser methods",
     "main": "build/vamtiger-browser-method",
     "scripts": {
@@ -13,7 +13,7 @@
         "bundle-source-debug": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
         "bundle-source-main": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
         "clean": "rm -rf build/*",
-        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method((-\\w+){0,}))\\.js(\\.map)?|((vamtiger-browser-method((-\\w+){0,}))|types)\\.d\\.ts\"",
+        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method|types((-\\w+){0,}))\\.js(\\.map)?|((vamtiger-browser-method((-\\w+){0,}))|types)\\.d\\.ts\"",
         "clean-install": "rm -rf package-lock.json node_modules && npm i",
         "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish",
         "generate-bundle-script": "vamtiger-generate-bundle-script -s $PWD/source",
@@ -30,12 +30,7 @@
         "type": "git",
         "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
     },
-    "keywords": [
-        "vamtiger",
-        "typescript",
-        "browser",
-        "method"
-    ],
+    "keywords": ["vamtiger", "typescript", "browser", "method"],
     "author": "Vamtiger Immortalles",
     "license": "MIT",
     "bugs": {
