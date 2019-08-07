@@ -13,7 +13,7 @@
         "bundle-source-debug": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
         "bundle-source-main": "vamtiger-bundle-typescript --relativePath --entryFilePath source/vamtiger-browser-method.ts --bundleFilePath build/vamtiger-browser-method.js --format iife --sourcemap true --copySourceMap --minify && vamtiger-export-to-browser-json --file build/vamtiger-browser-method.js",
         "clean": "rm -rf build/*",
-        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method((-\\w+){0,}))\\.js(\\.map)?|((vamtiger-browser-method((-\\w+){0,}))|types)\\.d\\.ts\"",
+        "clean-bundle": "vamtiger-remove -d build -p \"(vamtiger-browser-method|types((-\\w+){0,}))\\.js(\\.map)?|((vamtiger-browser-method((-\\w+){0,}))|types)\\.d\\.ts\"",
         "clean-install": "rm -rf package-lock.json node_modules && npm i",
         "commit": "npm test && vamtiger-node-typescript-commit --buildScript bundle --push --publish",
         "generate-bundle-script": "vamtiger-generate-bundle-script -s $PWD/source",

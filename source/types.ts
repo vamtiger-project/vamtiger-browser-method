@@ -223,6 +223,7 @@ export enum Dependency {
 
 export interface IDequeue {
     key: string;
+    match?: boolean;
     data: IAnyObject;
     queue: Map<string, Set<IQueueEntry>>;
 }

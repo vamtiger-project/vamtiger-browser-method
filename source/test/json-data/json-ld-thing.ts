@@ -2,6 +2,7 @@ import {
     CustomEventName,
     HandleJsonLdAction
 } from '../../types';
+import json from './json';
 
 const { vamtigerBrowserMethod: eventName } = CustomEventName;
 const { dequeue: action } = HandleJsonLdAction;
@@ -21,7 +22,7 @@ export default async function load() {
     };
     const data = {
         jsonLd,
-        json: {}
+        json
     };
     const event = new CustomEvent(eventName, {
         detail: {
