@@ -21,6 +21,7 @@ import dispatchEvent from './dispatch-event';
 import setupServiceWorker from './setup-service-worker';
 import loadMethod from './load-method';
 
+const { VamtigerBrowserMethod } = self;
 const environment = getEnvironment();
 const vamtigerBrowserMethod = {
     loadScript,
@@ -41,30 +42,19 @@ const vamtigerBrowserMethod = {
     method: {}
 };
 
-main().catch(handleError);
+if (!VamtigerBrowserMethod) {
+    self.VamtigerBrowserMethod = vamtigerBrowserMethod;
 
-async function main() {
-    try {
-        const { VamtigerBrowserMethod } = self;
-
-        if (!VamtigerBrowserMethod) {
-            self.VamtigerBrowserMethod = vamtigerBrowserMethod;
-
-            setupServiceWorker();
-
-            await loadDependencies();
-
-            await Promise.all([
-                setSupport(),
-                setupWindow(),
-                setupWorker()
-            ]);
-
-            dispatchEvent({eventName: EventName.vamtigerBrowserMethodReady})
-        }
-    } catch(error) {
-        handleError(error);
-    }
+    Promise
+        .resolve(() => setupServiceWorker())
+        .then(loadDependencies)
+        .then(() => Promise.all([
+            setSupport(),
+            setupWindow(),
+            setupWorker()
+        ]))
+        .then(() => dispatchEvent({eventName: EventName.vamtigerBrowserMethodReady}))
+        .catch(handleError);
 }
 
 function handleError(error: Error) {
