@@ -5,7 +5,7 @@ import {
 export default function ({ key, match = false, data, queue: currentQueue }: IDequeue) {
     const { VamtigerBrowserMethod } = self;
     const { messageQueue } = VamtigerBrowserMethod;
-    const keyRegex = match && new RegExp(`^${key}`);
+    const keyRegex = match && new RegExp(key);
     const queueKey = keyRegex && Array
         .from((currentQueue || messageQueue).keys())
         .find(key => key.match(keyRegex))

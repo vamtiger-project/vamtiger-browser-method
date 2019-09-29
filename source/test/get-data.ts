@@ -20,15 +20,16 @@ export default () => describe('getData', function () {
 
     it.skip('json-ld', jsonLdTest);
 
-    it('json-ld-data', jsojsonLdDatanTest);
+    it('json-ld-data', jsonJsonLdDataTest);
 });
 
-async function jsojsonLdDatanTest() {
+async function jsonJsonLdDataTest() {
     const { VamtigerBrowserMethod } = window;
     const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
-        json: 'test/json-data/json-ld.js'
+        json: 'https://cdn.jsdelivr.net/npm/vamtiger-json-ld-image-infers-group-botswana-mental-health@0.0.11'
     });
+    console.log(data);
 
     expect(data).to.be.ok;
     expect(data.jsonLd).to.be.ok;
