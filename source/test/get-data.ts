@@ -29,7 +29,6 @@ async function jsonJsonLdDataTest() {
     const data = await getData({
         json: 'https://cdn.jsdelivr.net/npm/vamtiger-json-ld-image-infers-group-botswana-mental-health@0.0.11'
     });
-    console.log(data);
 
     expect(data).to.be.ok;
     expect(data.jsonLd).to.be.ok;
