@@ -1,5 +1,4 @@
 import handleMessage from './handle-message';
-import getLocalHostWorkerUrl from './get-local-host-worker-url';
 import getWorkerUrl from './get-worker-url';
 
 const { stringify } = JSON;
@@ -7,9 +6,8 @@ const { stringify } = JSON;
 let worker: Worker;
 
 export default async function () {
-    const localHostWorkerUrl = await getLocalHostWorkerUrl();
     const workerUrl = getWorkerUrl();
-    const currentWorker = workerUrl && new Worker(localHostWorkerUrl || workerUrl);
+    const currentWorker = workerUrl && new Worker(workerUrl);
 
     if (currentWorker) {
         currentWorker.addEventListener('message', handleMessage);
