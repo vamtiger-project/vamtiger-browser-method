@@ -45,16 +45,21 @@ const vamtigerBrowserMethod = {
 if (!VamtigerBrowserMethod) {
     self.VamtigerBrowserMethod = vamtigerBrowserMethod;
 
-    Promise
-        .resolve(() => setupServiceWorker())
-        .then(loadDependencies)
-        .then(() => Promise.all([
-            setSupport(),
-            setupWindow(),
-            setupWorker()
-        ]))
-        .then(() => dispatchEvent({eventName: EventName.vamtigerBrowserMethodReady}))
-        .catch(handleError);
+    main().catch(handleError);
+}
+
+async function main() {
+    await setupServiceWorker();
+
+    await loadDependencies();
+
+    await Promise.all([
+        setSupport(),
+        setupWindow(),
+        setupWorker()
+    ]);
+
+    dispatchEvent({eventName: EventName.vamtigerBrowserMethodReady})
 }
 
 function handleError(error: Error) {

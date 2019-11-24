@@ -31,12 +31,7 @@
         "type": "git",
         "url": "git+https://vamtiger-project@github.com/vamtiger-project/vamtiger-typescript-browser-method.git"
     },
-    "keywords": [
-        "vamtiger",
-        "typescript",
-        "browser",
-        "method"
-    ],
+    "keywords": ["vamtiger", "typescript", "browser", "method"],
     "author": "Vamtiger Immortalles",
     "license": "MIT",
     "bugs": {

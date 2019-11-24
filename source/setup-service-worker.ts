@@ -6,7 +6,7 @@ import handleFetchRequest from './handle-fetch-request';
 import handleServiceWorkerActivation from './handle-service-worker-activation';
 import handeMessage from './handle-message';
 
-export default function () {
+export default async function () {
     isServiceWorker() && setupServiceWorker();
 }
 
