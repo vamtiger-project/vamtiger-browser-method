@@ -14,7 +14,7 @@ export declare enum EventName {
     vamtigerBrowserMethodReady = "vamtigerBrowserMethodReady"
 }
 export declare enum TimeoutDuration {
-    webComponent = 30000,
+    webComponent = 5000,
     indexDbIsAccessible = 100
 }
 export declare enum MessageQueueName {
@@ -103,12 +103,12 @@ export declare enum Selector {
     webcomponentsjs = "script[src*=\"@webcomponents/webcomponentsjs\"]",
     style = "style",
     stylesheet = " link[rel=\"stylesheet\"]",
-    vamtigerBrowserMethodJs = "[src=\"vamtiger-browser-method.js\"]",
+    vamtigerBrowserMethodJs = "[src$=\"vamtiger-browser-method.js\"]",
     vamtigerBrowserMethodJsonJs = "[src$=\"vamtiger-browser-method.js.json.js\"]",
     worker = "[src$=\"js.json.js\"][data-worker]",
     workderDependency = "script[data-worker-dependency]",
     vamtigerBrowserMethodJson = "[data-name$=\"vamtiger-browser-method.js.json\"]",
-    vamtigerBrowserMethod = "[data-name$=\"vamtiger-browser-method.js\"]",
+    vamtigerBrowserMethod = "[src$=\"vamtiger-browser-method.js\"]",
     script = "script",
     jsonScript = "script[type=\"application/json\"]",
     jsonLdScript = "script[type=\"application/ld+json\"]",
@@ -162,7 +162,7 @@ export declare enum CustomEventName {
     vamtigerBrowserMethod = "vamtiger-browser-method"
 }
 export declare enum HandleJsonLdAction {
-    dequeue = "vamtiger-browser-method-dequeue"
+    handleJsonLdLoaded = "vamtiger-browser-method-handle-json-ld-loaded"
 }
 export declare enum DbName {
     vamtigerBrowserSupport = "vamtiger-browser-support"
@@ -418,6 +418,7 @@ export interface IRemoveRedundantScriptsRemoveScriptsFromParent extends IRemoveR
     reject?: (error: Error) => void;
 }
 export interface ISupport {
+    environment: Environment;
     cache: boolean;
     localStorage: boolean;
     indexedDb: boolean;
@@ -439,7 +440,6 @@ export interface ICustomElementName {
     name: string;
 }
 export interface ISaveSupport extends ISupport {
-    environment: Environment;
 }
 export interface ISaveWebComponentData extends IWebComponentData {
 }
@@ -546,7 +546,12 @@ export interface IHandleJsonLd extends CustomEvent {
 }
 export interface IHandleJsonLdDetail {
     action: HandleJsonLdAction;
-    params: IJsonDataFromUrl;
+    params: IJsonDataFromUrl & {
+        key: string;
+    };
+}
+export interface IGetUrlFromQueue {
+    url: string;
 }
 export declare type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
 export declare type ErrorResolve = (error: Error) => void;
@@ -617,8 +622,10 @@ export interface FetchEvent extends Event {
 export interface IUpdateRequestCache {
     request: Request;
 }
-export declare type JsonLdActionParams<A extends HandleJsonLdAction> = A extends HandleJsonLdAction.dequeue ? IDequeue : unknown;
-export declare type JsonLdActionMethod<A extends HandleJsonLdAction> = A extends HandleJsonLdAction.dequeue ? (params: IDequeue) => void : unknown;
+export interface IHandleJsonLdLoaded extends IHandleJsonLdDetail {
+}
+export declare type JsonLdActionParams<A extends HandleJsonLdAction> = A extends HandleJsonLdAction.handleJsonLdLoaded ? IHandleJsonLdLoaded : unknown;
+export declare type JsonLdActionMethod<A extends HandleJsonLdAction> = A extends HandleJsonLdAction.handleJsonLdLoaded ? (params: IHandleJsonLdLoaded) => void : unknown;
 export declare type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
 export declare type JsonDataResolve = (data: IJsonData) => void;
 export declare type WorkerPostMessage = (message: string | Uint8Array) => void;
@@ -628,6 +635,7 @@ export declare type GetDataResult<P extends IGetData> = P['json'] extends string
 export declare type DbKeyPathName = keyof typeof DbKeyPath;
 export declare type DbStoreNameKey = keyof typeof DbStoreName;
 export declare type AttributesKey = keyof IAttributes;
+export declare type HandleJsonLdActionKey = keyof typeof HandleJsonLdAction;
 export declare type GetTemplate<P extends IGetTemplate> = P['selector'] extends Selector.a ? HTMLAnchorElement : P['selector'] extends Selector.linkedDataCaptionElement ? HTMLSpanElement : P['selector'] extends Selector.linkedDataCaption ? HTMLElement : null;
 declare global {
     interface Window extends TsLib {

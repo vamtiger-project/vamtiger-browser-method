@@ -19,7 +19,7 @@ var EventName;
 })(EventName = exports.EventName || (exports.EventName = {}));
 var TimeoutDuration;
 (function (TimeoutDuration) {
-    TimeoutDuration[TimeoutDuration["webComponent"] = 30000] = "webComponent";
+    TimeoutDuration[TimeoutDuration["webComponent"] = 5000] = "webComponent";
     TimeoutDuration[TimeoutDuration["indexDbIsAccessible"] = 100] = "indexDbIsAccessible";
 })(TimeoutDuration = exports.TimeoutDuration || (exports.TimeoutDuration = {}));
 var MessageQueueName;
@@ -123,12 +123,12 @@ var Selector;
     Selector["webcomponentsjs"] = "script[src*=\"@webcomponents/webcomponentsjs\"]";
     Selector["style"] = "style";
     Selector["stylesheet"] = " link[rel=\"stylesheet\"]";
-    Selector["vamtigerBrowserMethodJs"] = "[src=\"vamtiger-browser-method.js\"]";
+    Selector["vamtigerBrowserMethodJs"] = "[src$=\"vamtiger-browser-method.js\"]";
     Selector["vamtigerBrowserMethodJsonJs"] = "[src$=\"vamtiger-browser-method.js.json.js\"]";
     Selector["worker"] = "[src$=\"js.json.js\"][data-worker]";
     Selector["workderDependency"] = "script[data-worker-dependency]";
     Selector["vamtigerBrowserMethodJson"] = "[data-name$=\"vamtiger-browser-method.js.json\"]";
-    Selector["vamtigerBrowserMethod"] = "[data-name$=\"vamtiger-browser-method.js\"]";
+    Selector["vamtigerBrowserMethod"] = "[src$=\"vamtiger-browser-method.js\"]";
     Selector["script"] = "script";
     Selector["jsonScript"] = "script[type=\"application/json\"]";
     Selector["jsonLdScript"] = "script[type=\"application/ld+json\"]";
@@ -190,7 +190,7 @@ var CustomEventName;
 })(CustomEventName = exports.CustomEventName || (exports.CustomEventName = {}));
 var HandleJsonLdAction;
 (function (HandleJsonLdAction) {
-    HandleJsonLdAction["dequeue"] = "vamtiger-browser-method-dequeue";
+    HandleJsonLdAction["handleJsonLdLoaded"] = "vamtiger-browser-method-handle-json-ld-loaded";
 })(HandleJsonLdAction = exports.HandleJsonLdAction || (exports.HandleJsonLdAction = {}));
 var DbName;
 (function (DbName) {
