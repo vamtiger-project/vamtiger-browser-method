@@ -124,7 +124,7 @@ export enum Selector {
     webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]',
     style = 'style',
     stylesheet = ' link[rel="stylesheet"]',
-    vamtigerBrowserMethodJs = '[src$="vamtiger-browser-method.js"]',
+    vamtigerBrowserMethodJs = '[src$="vamtiger-browser-method.js"], [data-name$="vamtiger-browser-method.js"]',
     vamtigerBrowserMethodJsonJs = '[src$="vamtiger-browser-method.js.json.js"]',
     worker = '[src$="js.json.js"][data-worker]',
     workderDependency = 'script[data-worker-dependency]',
