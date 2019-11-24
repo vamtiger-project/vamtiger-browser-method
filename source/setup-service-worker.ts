@@ -2,7 +2,7 @@ import {
     FetchEvent
 } from './types';
 import isServiceWorker from './is-service-worker';
-import handleFetchRequest from './handle-fetch-request';
+import { default as handleFetchRequest, isValidProtocol } from './handle-fetch-request';
 import handleServiceWorkerActivation from './handle-service-worker-activation';
 import handeMessage from './handle-message';
 
@@ -17,5 +17,5 @@ async function setupServiceWorker() {
 
     addEventListener('message', handeMessage);
 
-    addEventListener('fetch', event => handleFetchRequest(event as FetchEvent));
+    addEventListener('fetch', event => isValidProtocol(event as FetchEvent) && (event as FetchEvent).respondWith(handleFetchRequest(event as FetchEvent)));
 }
