@@ -123,7 +123,7 @@ var Selector;
     Selector["webcomponentsjs"] = "script[src*=\"@webcomponents/webcomponentsjs\"]";
     Selector["style"] = "style";
     Selector["stylesheet"] = " link[rel=\"stylesheet\"]";
-    Selector["vamtigerBrowserMethodJs"] = "[src$=\"vamtiger-browser-method.js\"]";
+    Selector["vamtigerBrowserMethodJs"] = "[src$=\"vamtiger-browser-method.js\"], [data-name$=\"vamtiger-browser-method.js\"]";
     Selector["vamtigerBrowserMethodJsonJs"] = "[src$=\"vamtiger-browser-method.js.json.js\"]";
     Selector["worker"] = "[src$=\"js.json.js\"][data-worker]";
     Selector["workderDependency"] = "script[data-worker-dependency]";
