@@ -19,13 +19,12 @@ export default async function (params: ISaveSupport) {
     (isWorker() || isServiceWorker()) && saveSupportDataWorker(params);
 }
 
-function saveSupportDataWindow(params: ISaveSupport) {
+function saveSupportDataWindow(support: ISaveSupport) {
     const { VamtigerBrowserMethod } = self;
-    const { environment, ...support } = params;
-    const { workerSupport } = VamtigerBrowserMethod;
+    const { environment, workerSupport } = VamtigerBrowserMethod;
     const message = workerSupport && workerSupport.indexedDbIsAccessible && {
         action: MessageAction.saveSupport,
-        params
+        params: support
     };
 
     if (environment === Environment.serviceWorker) {
@@ -37,7 +36,7 @@ function saveSupportDataWindow(params: ISaveSupport) {
     if (message) {
         sendMessage(message);
     } else {
-        saveSupportDataIndexDb(params);
+        saveSupportDataIndexDb(support);
     }
 }
 

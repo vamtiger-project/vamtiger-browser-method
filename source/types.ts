@@ -20,7 +20,7 @@ export enum EventName {
 }
 
 export enum TimeoutDuration {
-    webComponent = 30000,
+    webComponent = 5000,
     indexDbIsAccessible = 100
 }
 
@@ -124,12 +124,12 @@ export enum Selector {
     webcomponentsjs = 'script[src*="@webcomponents\/webcomponentsjs"]',
     style = 'style',
     stylesheet = ' link[rel="stylesheet"]',
-    vamtigerBrowserMethodJs = '[src="vamtiger-browser-method.js"]',
+    vamtigerBrowserMethodJs = '[src$="vamtiger-browser-method.js"]',
     vamtigerBrowserMethodJsonJs = '[src$="vamtiger-browser-method.js.json.js"]',
     worker = '[src$="js.json.js"][data-worker]',
     workderDependency = 'script[data-worker-dependency]',
     vamtigerBrowserMethodJson = '[data-name$="vamtiger-browser-method.js.json"]',
-    vamtigerBrowserMethod = '[data-name$="vamtiger-browser-method.js"]',
+    vamtigerBrowserMethod = '[src$="vamtiger-browser-method.js"]',
     script = 'script',
     jsonScript = 'script[type="application/json"]',
     jsonLdScript = 'script[type="application/ld+json"]',
@@ -191,7 +191,7 @@ export enum CustomEventName {
 }
 
 export enum HandleJsonLdAction {
-    dequeue = 'vamtiger-browser-method-dequeue'
+    handleJsonLdLoaded = 'vamtiger-browser-method-handle-json-ld-loaded'
 }
 
 export enum DbName {
@@ -508,6 +508,7 @@ export interface IRemoveRedundantScriptsRemoveScriptsFromParent extends IRemoveR
 }
 
 export interface ISupport {
+    environment: Environment;
     cache: boolean;
     localStorage: boolean;
     indexedDb: boolean;
@@ -532,9 +533,7 @@ export interface ICustomElementName {
     name: string;
 }
 
-export interface ISaveSupport extends ISupport {
-    environment: Environment;
-}
+export interface ISaveSupport extends ISupport {}
 
 export interface ISaveWebComponentData extends IWebComponentData {}
 
@@ -663,7 +662,11 @@ export interface IHandleJsonLd extends CustomEvent {
 
 export interface IHandleJsonLdDetail {
     action: HandleJsonLdAction;
-    params: IJsonDataFromUrl;
+    params: IJsonDataFromUrl & {key: string};
+}
+
+export interface IGetUrlFromQueue {
+    url: string;
 }
 
 export type WebComponentDataResolve = (webComponent: IJsonData | undefined) => void;
@@ -775,12 +778,14 @@ export interface IUpdateRequestCache {
     request: Request;
 }
 
+export interface IHandleJsonLdLoaded extends IHandleJsonLdDetail {}
+
 export type JsonLdActionParams<A extends HandleJsonLdAction> =
-    A extends HandleJsonLdAction.dequeue ? IDequeue :
+    A extends HandleJsonLdAction.handleJsonLdLoaded ? IHandleJsonLdLoaded :
     unknown;
 
 export type JsonLdActionMethod<A extends HandleJsonLdAction> =
-    A extends HandleJsonLdAction.dequeue ? (params: IDequeue) => void :
+    A extends HandleJsonLdAction.handleJsonLdLoaded ? (params: IHandleJsonLdLoaded) => void :
     unknown;
 
 export type ServiceWorkerClient = 'window' | 'worker' | 'sharedworker' | 'all';
@@ -807,6 +812,8 @@ export type DbKeyPathName = keyof typeof DbKeyPath;
 export type DbStoreNameKey = keyof typeof DbStoreName;
 
 export type AttributesKey = keyof IAttributes;
+
+export type HandleJsonLdActionKey = keyof typeof HandleJsonLdAction;
 
 export type GetTemplate<P extends IGetTemplate> =
     P['selector'] extends Selector.a ? HTMLAnchorElement :

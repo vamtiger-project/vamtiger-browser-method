@@ -5,28 +5,18 @@ import {
 import {
     workerDependencies
 } from './config';
-import isServiceWorker from './is-service-worker';
 import sendMessage from './send-message';
 
-export default function (event: Event) {
-    isServiceWorker() && handleServiceWorkerActivation(event);
-}
-
-async function handleServiceWorkerActivation(event: Event) {
-    const { importScripts } = self;
+export default async function handleServiceWorkerActivation(event: Event) {
     const { VamtigerBrowserMethod } = self;
-    const { support, environment } = VamtigerBrowserMethod;
+    const { support } = VamtigerBrowserMethod;
     const { indexedDbIsAccessible } = (support || {}) as ISupport;
-    const params = indexedDbIsAccessible && support && {
-        environment,
-        ...support
-    } || {};
-    const message = {
+    const params = indexedDbIsAccessible && support
+        || {};
+    const message = Object.keys(params).length && {
         action: MessageAction.saveSupport,
         params
     };
 
-    sendMessage(message);
-
-    importScripts && workerDependencies.forEach(dependency => importScripts(dependency));
+    message && sendMessage(message);
 }

@@ -27,11 +27,12 @@ function getJsonFromUrl(params: IGetJson) {return new Promise((resolve: IGetJson
 function loadJsonFromUrl({json: url, resolve, reject}: IGetJsonFromUrl) {
     const { head } = document;
     const { VamtigerBrowserMethod } = self;
+    const { queue: currentQueue } = VamtigerBrowserMethod
     const selector = `script[src="${url}"]`;
     const existingScript = head.querySelector(selector);
     const queueParams = !existingScript && {
         key: url,
-        queue: VamtigerBrowserMethod.queue,
+        queue: currentQueue,
         resolve,
         reject
     };

@@ -21,7 +21,7 @@ export default function (params: IGetWebComponentData) {
     if (isWindow()) {
         if (worker && workerSupport && workerSupport.indexedDbIsAccessible) {
             return getWebComponentDataWindowWorker(params);
-        } else if (worker && support && support.indexedDbIsAccessible) {
+        } else if (support && support.indexedDbIsAccessible) {
             getWebComponentDataWindow(params);
         } else {
             getWebComponentDataHead(params);
@@ -33,12 +33,12 @@ export default function (params: IGetWebComponentData) {
 
 export async function getWebComponentDataWindow({ key }: IGetWebComponentData) {
     const { VamtigerBrowserMethod } = self;
-    const { messageQueue } = VamtigerBrowserMethod;
+    const { queue: currentQueue } = VamtigerBrowserMethod;
     const data = await getWebComponentData({ key });
     const dequeueParams = data && {
         key,
         data,
-        queue: messageQueue
+        queue: currentQueue
     };
 
     if (dequeueParams) {
@@ -86,7 +86,7 @@ export async function getWebComponentData({ key }: IGetWebComponentData) {
 function getWebComponentDataHead({ key }: IGetWebComponentData) {
     const { head } = document;
     const { VamtigerBrowserMethod } = self;
-    const { messageQueue } = VamtigerBrowserMethod;
+    const { queue } = VamtigerBrowserMethod;
     const jsonLdSelector = `script[data-json-ld="${key}"][type="${ScriptType.jsonld}"]`;
     const jsonSelector = `script[data-json-ld="${key}"][type="${ScriptType.json}"]`;
     const jsonLdScripts = Array.from(head.querySelectorAll<HTMLScriptElement>(jsonLdSelector));
@@ -98,7 +98,7 @@ function getWebComponentDataHead({ key }: IGetWebComponentData) {
     const dequeueParams = data && {
         key,
         data,
-        queue: messageQueue
+        queue
     };
 
     dequeueParams && dequeue(dequeueParams);

@@ -24,10 +24,10 @@ export default function (params: IGetJsonData) {return new Promise((resolve: IGe
 
 async function handleJsonFromUrlWindow({url, json: data, dependency = false, resolve, reject}: IGetJsonDataWindow) {
     const { VamtigerBrowserMethod } = self;
-    const { messageQueue } = VamtigerBrowserMethod;
+    const { queue: currentQueue } = VamtigerBrowserMethod;
     const queueParams = {
         key: url,
-        queue: messageQueue,
+        queue: currentQueue,
         resolve,
         reject
     };

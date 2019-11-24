@@ -7,6 +7,8 @@ import {
     Environment
 } from './types';
 import isWorker from './is-worker';
+import isWindow from './is-window';
+import isServiceWorker from './is-service-worker';
 import sendMessage from './send-message';
 import getData from './get-indexed-db-data';
 import saveSupport from './save-support';
@@ -26,6 +28,10 @@ export default async function () {
         getCache()
     ]);
     const support: ISupport = {
+        environment: isWindow() && Environment.window
+            || isWorker() && Environment.worker
+            || isServiceWorker() && Environment.serviceWorker
+            || Environment.unknown,
         cache: Boolean(cache),
         localStorage: Boolean(localStorage),
         indexedDb: Boolean(indexedDB),
@@ -38,7 +44,11 @@ export default async function () {
 
     VamtigerBrowserMethod.support = support;
 
-    isWorker() && sendWorkerSupport();
+    if (isWindow()) {
+        saveSupport(support);
+    } else {
+        sendWorkerSupport();
+    }
 }
 
 export function indexDbAccessible() {return new Promise(async (resolve: (indexDbAccessible: boolean) => void, reject) => {
@@ -59,21 +69,17 @@ export function indexDbAccessible() {return new Promise(async (resolve: (indexDb
     resolve(indexedDbIsAccessible);
 })}
 
-export async function setWorkerSupport(workerSupport: ISupport) {
+export async function setWorkerSupport(currentSupport: ISupport) {
     const { VamtigerBrowserMethod } = self;
-    const { support, environment } = VamtigerBrowserMethod;
+    const { environment } = currentSupport;
 
-    VamtigerBrowserMethod.workerSupport = workerSupport;
+    if (environment === Environment.worker) {
+        VamtigerBrowserMethod.workerSupport = currentSupport;
+    } else if (environment === Environment.serviceWorker) {
+        VamtigerBrowserMethod.serviceWorkerSupport = currentSupport;
+    }
 
-    support && saveSupport({
-        environment,
-        ...support
-    });
-
-    workerSupport && saveSupport({
-        environment: Environment.worker,
-        ...workerSupport
-    });
+    saveSupport(currentSupport);
 }
 
 function sendWorkerSupport() {

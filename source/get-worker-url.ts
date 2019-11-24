@@ -21,7 +21,8 @@ export default function () {
         workderScript && workderScript.innerHTML || ''
     ].filter(script => script).join(newline.repeat(2));
     const workerBlob = workerScripts && workerScripts.length && new Blob([workerScripts], params);
-    const workerUrl = workerBlob && createObjectURL && createObjectURL(workerBlob);
+    const workerUrl = workerBlob && createObjectURL && createObjectURL(workerBlob)
+        || workderScript && workderScript.src;
 
     return workerUrl;
 }

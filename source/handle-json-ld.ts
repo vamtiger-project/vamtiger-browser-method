@@ -1,41 +1,22 @@
 import {
     HandleJsonLdAction,
-    JsonLdActionParams,
-    JsonLdActionMethod,
     IHandleJsonLd
 } from './types';
-import dequeue from './dequeue';
-
-const actionMethod = {
-    [HandleJsonLdAction.dequeue]: dequeue
-}
+import {
+    handleJsonLdAction
+} from './config';
+import getUrlFromQueue from './get-url-from-queue';
+import saveWebComponentData from './save-web-component-data';
 
 export default function (currentParams: IHandleJsonLd) {
     const { detail } = currentParams;
     const { action: actionName, params } = detail;
-    const action = getAction(actionName);
-    const actionParams = {
+    const { key } = params;
+    const url = getUrlFromQueue({url: key});
+    const saveParams = handleJsonLdAction.has(actionName) && url && {
         ...params,
-        ...getParams(actionName)
+        url
     };
-    const result = action(actionParams);
 
-    return result;
-}
-
-function getParams<A extends HandleJsonLdAction>(action: A) {
-    const { VamtigerBrowserMethod } = self;
-    const { queue } = VamtigerBrowserMethod;
-    const params = {
-        [HandleJsonLdAction.dequeue]: {queue}
-    };
-    const currentParams = params[action] as JsonLdActionParams<A>;
-
-    return currentParams;
-}
-
-function getAction<A extends HandleJsonLdAction>(actionName: A) {
-    const action = actionMethod[actionName] as JsonLdActionMethod<A>;
-
-    return action;
+    saveParams && saveWebComponentData(saveParams);
 }

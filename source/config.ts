@@ -1,5 +1,7 @@
 import {
-    Dependency
+    Dependency,
+    HandleJsonLdAction,
+    HandleJsonLdActionKey
 } from './types';
 
 export const babel = {
@@ -48,3 +50,8 @@ function getIntersectionObserverThreshold(length: number) {
 export const workerDependencies = [
     Dependency.lodash
 ]
+
+export const handleJsonLdAction = new Set(
+    (Object.keys(HandleJsonLdAction) as HandleJsonLdActionKey[])
+        .map(key => HandleJsonLdAction[key])
+);

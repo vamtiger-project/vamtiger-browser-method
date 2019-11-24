@@ -4,7 +4,7 @@ import {
 } from '../../types';
 
 const { vamtigerBrowserMethod: eventName } = CustomEventName;
-const { dequeue: action } = HandleJsonLdAction;
+const { handleJsonLdLoaded: action } = HandleJsonLdAction;
 const params = {
     key: 'test/json-data/json-ld.js',
     match: true

@@ -18,16 +18,14 @@ export default () => describe('getData', function () {
         dataset.vamtigerTextMode = '';
     });
 
-    it.skip('json-ld', jsonLdTest);
-
-    it('json-ld-data', jsonJsonLdDataTest);
+    it('json-ld', jsonJsonLdDataTest);
 });
 
 async function jsonJsonLdDataTest() {
     const { VamtigerBrowserMethod } = window;
     const { getData  } = VamtigerBrowserMethod;
     const data = await getData({
-        json: 'https://cdn.jsdelivr.net/npm/vamtiger-json-ld-image-infers-group-botswana-mental-health@0.0.11'
+        json: 'https://cdn.jsdelivr.net/npm/vamtiger-json-ld-image-infers-group-botswana-mental-health@0.0.13/build/vamtiger-json-ld-image-infers-group-botswana-mental-health.js'
     });
 
     expect(data).to.be.ok;
