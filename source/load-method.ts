@@ -30,15 +30,14 @@ export default async function (params: ILoadMethod) {return new Promise((resolve
 async function loadMethodWindow({url: currentUrl, name, resolve, reject}: ILoadMethodWindow) {
     let scriptLoadError: Error | undefined = undefined;
 
-    const { origin } = location;
     const { VamtigerBrowserMethod, _ } = self;
+    const { worker, workerSupport, messageQueue, origin } = VamtigerBrowserMethod;
     const { get } = _;
     const url = currentUrl.match(regex.remoteUrl) && currentUrl
         ||
         [origin, currentUrl].join(StringConstant.slash);
     const { origin: urlOrigin } = new URL(url);
     const src = urlOrigin === origin && url;
-    const { worker, workerSupport, messageQueue } = VamtigerBrowserMethod;
     const script = src && await loadScript({src})
         .catch(error => scriptLoadError = error);
     const method: Function = script && get(VamtigerBrowserMethod.method, name);

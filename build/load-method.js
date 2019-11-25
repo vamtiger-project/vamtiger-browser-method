@@ -78,20 +78,19 @@ exports.default = default_1;
 function loadMethodWindow(_a) {
     var currentUrl = _a.url, name = _a.name, resolve = _a.resolve, reject = _a.reject;
     return __awaiter(this, void 0, void 0, function () {
-        var scriptLoadError, origin, VamtigerBrowserMethod, _, get, url, urlOrigin, src, worker, workerSupport, messageQueue, script, _b, method, message, queueParams;
+        var scriptLoadError, VamtigerBrowserMethod, _, worker, workerSupport, messageQueue, origin, get, url, urlOrigin, src, script, _b, method, message, queueParams;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
                     scriptLoadError = undefined;
-                    origin = location.origin;
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod, _ = self._;
+                    worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport, messageQueue = VamtigerBrowserMethod.messageQueue, origin = VamtigerBrowserMethod.origin;
                     get = _.get;
                     url = currentUrl.match(types_1.regex.remoteUrl) && currentUrl
                         ||
                             [origin, currentUrl].join(types_1.StringConstant.slash);
                     urlOrigin = new URL(url).origin;
                     src = urlOrigin === origin && url;
-                    worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport, messageQueue = VamtigerBrowserMethod.messageQueue;
                     _b = src;
                     if (!_b) return [3 /*break*/, 2];
                     return [4 /*yield*/, load_script_1.default({ src: src })
