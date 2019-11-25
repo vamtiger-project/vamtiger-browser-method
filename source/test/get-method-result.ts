@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-const relativeUrl = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
+const url = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
 
 export default () => describe('getMethodResult', function () {
     before(setup);
@@ -13,7 +13,7 @@ async function setup() {
     const { loadMethod } = VamtigerBrowserMethod;
 
     await loadMethod({
-        relativeUrl,
+        url,
         name: 'test'
     });
 }

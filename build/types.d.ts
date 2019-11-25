@@ -430,7 +430,7 @@ export interface ISupport {
 }
 export interface ILoadMethod {
     name: string;
-    relativeUrl: string;
+    url: string;
 }
 export interface ILoadMethodWindow extends ILoadMethod {
     resolve: () => void;

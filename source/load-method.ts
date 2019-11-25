@@ -2,22 +2,16 @@ import {
     ILoadMethod,
     ILoadMethodWindow,
     MessageAction,
-    ErrorMessage,
-    ScriptType,
-    StringConstant
+    StringConstant,
+    regex
 } from './types';
 import loadScript from './load-script';
 import isWindow from './is-window';
 import isWorker from './is-worker';
 import sendMessage from './send-message';
 import queue from './queue';
-import getCache from './get-cache';
 
 const { requestIdleCallback } = self;
-const { nothing, slash } = StringConstant;
-const blobParams = {
-    type: ScriptType.js
-}
 
 export default async function (params: ILoadMethod) {return new Promise((resolve, reject) => {
     if (isWindow()) {
@@ -33,23 +27,26 @@ export default async function (params: ILoadMethod) {return new Promise((resolve
     }
 })}
 
-async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMethodWindow) {
+async function loadMethodWindow({url: currentUrl, name, resolve, reject}: ILoadMethodWindow) {
     let scriptLoadError: Error | undefined = undefined;
 
+    const { origin } = location;
     const { VamtigerBrowserMethod, _ } = self;
     const { get } = _;
-    const { worker, workerSupport, origin, messageQueue } = VamtigerBrowserMethod;
-    const src = [
-        origin,
-        relativeUrl
-    ].join(slash);
-    const script = await loadScript({src}).catch(error => scriptLoadError = error);
-    const method: Function | undefined = get(VamtigerBrowserMethod.method, name);
-    const message = workerSupport && workerSupport.cache && worker && typeof method === 'function' && {
+    const url = currentUrl.match(regex.remoteUrl) && currentUrl
+        ||
+        [origin, currentUrl].join(StringConstant.slash);
+    const { origin: urlOrigin } = new URL(url);
+    const src = urlOrigin === origin && url;
+    const { worker, workerSupport, messageQueue } = VamtigerBrowserMethod;
+    const script = src && await loadScript({src})
+        .catch(error => scriptLoadError = error);
+    const method: Function = script && get(VamtigerBrowserMethod.method, name);
+    const message = src && workerSupport && workerSupport.cache && worker && typeof method === 'function' && {
         action: MessageAction.loadMethod,
         params: {relativeUrl: src, name}
     };
-    const queueParams = message && {
+    const queueParams = src && message && {
         key: src,
         queue: messageQueue,
         resolve,
@@ -71,7 +68,7 @@ async function loadMethodWindow({relativeUrl, name, resolve, reject}: ILoadMetho
     }
 }
 
-async function loadMethodWorker({relativeUrl: url, name}: ILoadMethod) {
+async function loadMethodWorker({url, name}: ILoadMethod) {
     const { importScripts } = self;
     const importMethod = url && importScripts && importScripts(url);
     const message = {

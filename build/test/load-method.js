@@ -35,24 +35,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var relativeUrl = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
+var url = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
 exports.default = (function () { return describe('loadMethod', function () {
     it('script', loadMethodTest);
 }); });
 function loadMethodTest() {
     return __awaiter(this, void 0, void 0, function () {
-        var VamtigerBrowserMethod, loadMethod, methodLoaded;
+        var VamtigerBrowserMethod, loadMethod;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     loadMethod = VamtigerBrowserMethod.loadMethod;
                     return [4 /*yield*/, loadMethod({
-                            relativeUrl: relativeUrl,
+                            url: url,
                             name: 'test'
                         })];
                 case 1:
-                    methodLoaded = _a.sent();
+                    _a.sent();
                     return [2 /*return*/];
             }
         });

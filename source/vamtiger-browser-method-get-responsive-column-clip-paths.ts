@@ -13,7 +13,7 @@ interface IGetClipPath {
 }
 
 try {
-    VamtigerBrowserMethod.method.getResponsiveColumnClipPaths = getResponsiveColumnClipPaths;
+    VamtigerBrowserMethod.method.getResponsiveColumnClipPaths = getResponsiveColumnClipPaths
 } catch(error) {
     console.warn(error);
 }

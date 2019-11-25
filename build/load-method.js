@@ -53,10 +53,6 @@ var is_worker_1 = require("./is-worker");
 var send_message_1 = require("./send-message");
 var queue_1 = require("./queue");
 var requestIdleCallback = self.requestIdleCallback;
-var nothing = types_1.StringConstant.nothing, slash = types_1.StringConstant.slash;
-var blobParams = {
-    type: types_1.ScriptType.js
-};
 function default_1(params) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -80,29 +76,37 @@ function default_1(params) {
 }
 exports.default = default_1;
 function loadMethodWindow(_a) {
-    var relativeUrl = _a.relativeUrl, name = _a.name, resolve = _a.resolve, reject = _a.reject;
+    var currentUrl = _a.url, name = _a.name, resolve = _a.resolve, reject = _a.reject;
     return __awaiter(this, void 0, void 0, function () {
-        var scriptLoadError, VamtigerBrowserMethod, _, get, worker, workerSupport, origin, messageQueue, src, script, method, message, queueParams;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+        var scriptLoadError, origin, VamtigerBrowserMethod, _, get, url, urlOrigin, src, worker, workerSupport, messageQueue, script, _b, method, message, queueParams;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
                 case 0:
                     scriptLoadError = undefined;
+                    origin = location.origin;
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod, _ = self._;
                     get = _.get;
-                    worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport, origin = VamtigerBrowserMethod.origin, messageQueue = VamtigerBrowserMethod.messageQueue;
-                    src = [
-                        origin,
-                        relativeUrl
-                    ].join(slash);
-                    return [4 /*yield*/, load_script_1.default({ src: src }).catch(function (error) { return scriptLoadError = error; })];
+                    url = currentUrl.match(types_1.regex.remoteUrl) && currentUrl
+                        ||
+                            [origin, currentUrl].join(types_1.StringConstant.slash);
+                    urlOrigin = new URL(url).origin;
+                    src = urlOrigin === origin && url;
+                    worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport, messageQueue = VamtigerBrowserMethod.messageQueue;
+                    _b = src;
+                    if (!_b) return [3 /*break*/, 2];
+                    return [4 /*yield*/, load_script_1.default({ src: src })
+                            .catch(function (error) { return scriptLoadError = error; })];
                 case 1:
-                    script = _b.sent();
-                    method = get(VamtigerBrowserMethod.method, name);
-                    message = workerSupport && workerSupport.cache && worker && typeof method === 'function' && {
+                    _b = (_c.sent());
+                    _c.label = 2;
+                case 2:
+                    script = _b;
+                    method = script && get(VamtigerBrowserMethod.method, name);
+                    message = src && workerSupport && workerSupport.cache && worker && typeof method === 'function' && {
                         action: types_1.MessageAction.loadMethod,
                         params: { relativeUrl: src, name: name }
                     };
-                    queueParams = message && {
+                    queueParams = src && message && {
                         key: src,
                         queue: messageQueue,
                         resolve: resolve,
@@ -127,7 +131,7 @@ function loadMethodWindow(_a) {
     });
 }
 function loadMethodWorker(_a) {
-    var url = _a.relativeUrl, name = _a.name;
+    var url = _a.url, name = _a.name;
     return __awaiter(this, void 0, void 0, function () {
         var importScripts, importMethod, message, updateMethodMessage;
         return __generator(this, function (_b) {

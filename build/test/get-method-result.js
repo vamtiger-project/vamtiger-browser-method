@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
-var relativeUrl = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
+var url = 'vamtiger-browser-method-get-responsive-column-clip-paths.js';
 exports.default = (function () { return describe('getMethodResult', function () {
     before(setup);
     it('named method', noParamsTest);
@@ -50,7 +50,7 @@ function setup() {
                     VamtigerBrowserMethod = self.VamtigerBrowserMethod;
                     loadMethod = VamtigerBrowserMethod.loadMethod;
                     return [4 /*yield*/, loadMethod({
-                            relativeUrl: relativeUrl,
+                            url: url,
                             name: 'test'
                         })];
                 case 1:
