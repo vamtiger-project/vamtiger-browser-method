@@ -239,11 +239,13 @@ exports.regex = {
 };
 exports.selector = {
     redundantScripts: [
-        Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,
-        Selector.vamtigerBrowserMethod,
         Selector.transpiledJs
-    ].concat(Object.keys(Dependency).map(function (key) { return "[src=\"" + Dependency[key] + "\"]"; })).join(StringConstant.comma)
+    ].concat(Object.keys(Dependency).map(function (key) { return "[src=\"" + Dependency[key] + "\"]"; })).join(StringConstant.comma),
+    vamtigerBrowserMethod: [
+        Selector.vamtigerBrowserMethod,
+        Selector.vamtigerBrowserMethodJsonJs
+    ].join(StringConstant.comma)
 };
 exports.sendMessageFromWorker = getPostMessage();
 exports.ignore = function () { };

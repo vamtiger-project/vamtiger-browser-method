@@ -430,7 +430,7 @@ export interface ISupport {
 }
 export interface ILoadMethod {
     name: string;
-    relativeUrl: string;
+    url: string;
 }
 export interface ILoadMethodWindow extends ILoadMethod {
     resolve: () => void;
@@ -672,6 +672,7 @@ export declare const regex: {
 };
 export declare const selector: {
     redundantScripts: string;
+    vamtigerBrowserMethod: string;
 };
 export declare const sendMessageFromWorker: WorkerPostMessage | undefined;
 export declare const ignore: () => void;
