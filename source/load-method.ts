@@ -35,10 +35,9 @@ async function loadMethodWindow({url: currentUrl, name, resolve, reject}: ILoadM
     const { worker, workerSupport, messageQueue, origin } = VamtigerBrowserMethod;
     const { get } = _;
     const parentUrl = getParentUrl();
-    console.log({parentUrl});
     const url = currentUrl.match(regex.remoteUrl) && currentUrl
         ||
-        [origin, currentUrl].join(StringConstant.slash);
+        [parentUrl, currentUrl].join(StringConstant.slash);
     const { origin: urlOrigin } = new URL(url);
     const src = urlOrigin === origin && url;
     const script = src && await loadScript({src})

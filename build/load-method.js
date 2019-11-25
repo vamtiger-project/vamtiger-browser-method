@@ -88,10 +88,9 @@ function loadMethodWindow(_a) {
                     worker = VamtigerBrowserMethod.worker, workerSupport = VamtigerBrowserMethod.workerSupport, messageQueue = VamtigerBrowserMethod.messageQueue, origin = VamtigerBrowserMethod.origin;
                     get = _.get;
                     parentUrl = get_parent_url_1.default();
-                    console.log({ parentUrl: parentUrl });
                     url = currentUrl.match(types_1.regex.remoteUrl) && currentUrl
                         ||
-                            [origin, currentUrl].join(types_1.StringConstant.slash);
+                            [parentUrl, currentUrl].join(types_1.StringConstant.slash);
                     urlOrigin = new URL(url).origin;
                     src = urlOrigin === origin && url;
                     _b = src;
