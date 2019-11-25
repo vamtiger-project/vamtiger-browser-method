@@ -10,6 +10,7 @@ import isWindow from './is-window';
 import isWorker from './is-worker';
 import sendMessage from './send-message';
 import queue from './queue';
+import getParentUrl from './get-parent-url';
 
 const { requestIdleCallback } = self;
 
@@ -33,6 +34,8 @@ async function loadMethodWindow({url: currentUrl, name, resolve, reject}: ILoadM
     const { VamtigerBrowserMethod, _ } = self;
     const { worker, workerSupport, messageQueue, origin } = VamtigerBrowserMethod;
     const { get } = _;
+    const parentUrl = getParentUrl();
+    console.log({parentUrl});
     const url = currentUrl.match(regex.remoteUrl) && currentUrl
         ||
         [origin, currentUrl].join(StringConstant.slash);

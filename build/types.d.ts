@@ -672,6 +672,7 @@ export declare const regex: {
 };
 export declare const selector: {
     redundantScripts: string;
+    vamtigerBrowserMethod: string;
 };
 export declare const sendMessageFromWorker: WorkerPostMessage | undefined;
 export declare const ignore: () => void;

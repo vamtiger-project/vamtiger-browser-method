@@ -864,11 +864,13 @@ export const regex = {
 
 export const selector = {
     redundantScripts: [
-        Selector.vamtigerBrowserMethodJsonJs,
         Selector.vamtigerBrowserMethodJson,
-        Selector.vamtigerBrowserMethod,
         Selector.transpiledJs,
         ...(Object.keys(Dependency) as DependencyKey[]).map(key => `[src="${Dependency[key]}"]`)
+    ].join(StringConstant.comma),
+    vamtigerBrowserMethod: [
+        Selector.vamtigerBrowserMethod,
+        Selector.vamtigerBrowserMethodJsonJs
     ].join(StringConstant.comma)
 }
 
